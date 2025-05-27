@@ -4,6 +4,7 @@ class CreatePharmacyProducts < ActiveRecord::Migration[7.1]
       t.references :pharmacy, null: false, foreign_key: true
       t.references :product, null: false, foreign_key: true
       t.integer :quantity
+      t.integer :price
 
       t.timestamps
     end
