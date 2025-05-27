@@ -14,6 +14,7 @@ User.destroy_all
 Pharmacy.destroy_all
 Product.destroy_all
 PharmacyProduct.destroy_all
+Basket.destroy_all
 
 puts "creating users"
 
@@ -74,6 +75,16 @@ PharmacyProduct.create!(
   product_id: Product.last.id,
   quantity: 50,
   price: 10
+)
+
+puts "creating baskets"
+
+Basket.create!(
+  user: alice,
+  pharmacy: Pharmacy.first,
+  product: Product.first,
+  quantity: 2,
+  total_price: 10
 )
 
 puts "seeding complete"
