@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
 
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.boolean "delivered"
+    t.boolean "delivered?", default: false
     t.bigint "basket_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -105,7 +105,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
     t.string "name"
     t.string "address"
     t.bigint "payment_id", null: false
-    t.boolean "pharmacy"
+    t.boolean "pharmacist?", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["payment_id"], name: "index_users_on_payment_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
