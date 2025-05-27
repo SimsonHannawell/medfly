@@ -17,14 +17,15 @@ PharmacyProduct.destroy_all
 
 puts "creating users"
 
-User.create!(
+  bob = User.create!(
   name: "Bob Smith",
   email: "bob@gmail.com",
   password: "password",
   address: "123 Main St, Springfield",
   pharmacist?: true
 )
-User.create!(
+
+  alice = User.create!(
   name: "Alice Johnson",
   email: "alice@gmail.com",
   password: "password",
@@ -37,12 +38,14 @@ puts "creating pharmacies"
 Pharmacy.create!(
   name: "Springfield Pharmacy",
   location: "789 Oak St, Springfield",
-  description: "Your one-stop shop for all your pharmaceutical needs."
+  description: "Your one-stop shop for all your pharmaceutical needs.",
+  user: bob
 )
 Pharmacy.create!(
   name: "Downtown Pharmacy",
   location: "101 Pine St, Springfield",
-  description: "Conveniently located downtown for all your medication needs."
+  description: "Conveniently located downtown for all your medication needs.",
+  user: bob
 )
 
 puts "creating products"
@@ -50,13 +53,11 @@ puts "creating products"
 Product.create!(
   name: "Aspirin",
   description: "Pain reliever and anti-inflammatory.",
-  price: 5
 )
 
 Product.create!(
   name: "Cough Syrup",
   description: "Relieves cough and soothes throat.",
-  price: 10
 )
 
 puts "creating pharmacy products"
@@ -64,13 +65,15 @@ puts "creating pharmacy products"
 PharmacyProduct.create!(
   pharmacy_id: Pharmacy.first.id,
   product_id: Product.first.id,
-  quantity: 100
+  quantity: 100,
+  price: 5
 )
 
 PharmacyProduct.create!(
   pharmacy_id: Pharmacy.last.id,
   product_id: Product.last.id,
-  quantity: 50
+  quantity: 50,
+  price: 10
 )
 
 puts "seeding complete"

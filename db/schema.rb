@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_27_145630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,12 +63,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_pharmacies_on_user_id"
   end
 
   create_table "pharmacy_products", force: :cascade do |t|
     t.bigint "pharmacy_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
+    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pharmacy_id"], name: "index_pharmacy_products_on_pharmacy_id"
@@ -78,7 +81,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -104,7 +106,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "address"
-    t.bigint "payment_id", null: false
+    t.bigint "payment_id"
     t.boolean "pharmacist?", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["payment_id"], name: "index_users_on_payment_id"
@@ -118,6 +120,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_105152) do
   add_foreign_key "favourites", "users"
   add_foreign_key "orders", "baskets"
   add_foreign_key "orders", "users"
+  add_foreign_key "pharmacies", "users"
   add_foreign_key "pharmacy_products", "pharmacies"
   add_foreign_key "pharmacy_products", "products"
   add_foreign_key "reviews", "pharmacies"
