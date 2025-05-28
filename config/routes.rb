@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # Devise user authentication
   devise_for :users
 
@@ -14,6 +15,7 @@ Rails.application.routes.draw do
   # Regular user-facing features
   resources :pharmacies, only: [:index, :show] do
     resources :basket_items, only: [:create, :update, :destroy]
+     resources :reviews, only: [:new, :create]
   end
 
   resources :baskets, only: [:create, :update, :show, :destroy] do
