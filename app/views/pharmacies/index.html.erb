@@ -1,0 +1,70 @@
+<h2><%= pluralize(@pharmacies.count, "Result") %></h2>
+
+<div class="pharmacy-grid">
+  <% @pharmacies.each do |pharmacy| %>
+    <div class="pharmacy-card">
+      <!-- Cloudinary image placeholder -->
+      <div class="pharmacy-image">
+        <!-- Later replace this with cl_image_tag if using Cloudinary -->
+        <img src="https://via.placeholder.com/120" alt="<%= pharmacy.name %> logo">
+      </div>
+
+      <div class="pharmacy-details">
+        <div class="pharmacy-header">
+          <h3><%= pharmacy.name %></h3>
+          <p class="delivery-time"><%= estimate_time(pharmacy) %></p>
+        </div>
+
+        <div class="pharmacy-rating">
+          <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
+          <span>(<%= pharmacy.reviews.count %> reviews)</span>
+        </div>
+
+        <p class="pharmacy-description"><%= pharmacy.description.truncate(90) %></p>
+
+        <div class="pharmacy-actions">
+          <%= link_to "Continue", pharmacy_path(pharmacy), class: "continue-btn" %>
+          <button class="review-btn" data-pharmacy-id="<%= pharmacy.id %>">Write a Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="review-modal-<%= pharmacy.id %>" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" data-pharmacy-id="<%= pharmacy.id %>">&times;</span>
+        <h3>Leave a Review for <%= pharmacy.name %></h3>
+
+        <%= form_with(model: [pharmacy, pharmacy.reviews.new], local: true, html: { class: 'review-form' }) do |form| %>
+          <div class="star-rating">
+            <% 5.times do |i| %>
+              <%= radio_button_tag :rating, i + 1, false, id: "star#{pharmacy.id}-#{i + 1}", name: "review[rating]" %>
+              <%= label_tag "star#{pharmacy.id}-#{i + 1}", "★", class: "star" %>
+            <% end %>
+          </div>
+          <%= form.text_area :description, placeholder: "Write your review..." %><br>
+          <%= form.submit "Submit Review" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- JS to open/close modal -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".review-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        const pharmacyId = button.getAttribute("data-pharmacy-id");
+        document.getElementById(`review-modal-${pharmacyId}`).style.display = "flex";
+      });
+    });
+
+    document.querySelectorAll(".close").forEach(closeBtn => {
+      closeBtn.addEventListener("click", () => {
+        const pharmacyId = closeBtn.getAttribute("data-pharmacy-id");
+        document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
+      });
+    });
+  });
+</script>
