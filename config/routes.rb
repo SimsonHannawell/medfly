@@ -12,7 +12,26 @@ Rails.application.routes.draw do
   # User account page
   get "/users/my_account", to: "users#account", as: :my_account
 
+
+
+
+ # config/routes.rb
+
+  get "pharmacy/menu", to: "pharmacy#menu"
+  get "pharmacy/item", to: "pharmacy#item"
+  get "pharmacy/discount", to: "pharmacy#discount"
+  get "pharmacy/search", to: "pharmacy#search"
+  get "pharmacy/my_profile", to: "pharmacy#my_profile"
+  get "pharmacy/recieved_orders", to: "pharmacy#recieved_orders"
+  get "pharmacy/warnings", to: "pharmacy#warnings"
+
+
+  resources :pharmacy_items, only: [:new, :edit, :destroy]
+
+
+
   # Regular user-facing features
+
   resources :pharmacies, only: [:index, :show] do
     resources :basket_items, only: [:create, :update, :destroy]
      resources :reviews, only: [:new, :create]
