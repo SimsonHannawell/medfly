@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+  # Devise user authentication
   devise_for :users
+
+  # Root path
   root to: "pages#home"
 
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Health check
+  get "up", to: "rails/health#show", as: :rails_health_check
 
-  # Frontend routes for regular users
+  # User account page
+  get "/users/my_account", to: "users#account", as: :my_account
+
+  # Regular user-facing features
   resources :pharmacies, only: [:index, :show] do
     resources :basket_items, only: [:create, :update, :destroy]
   end
@@ -13,16 +20,21 @@ Rails.application.routes.draw do
     resources :orders, only: [:create, :show]
   end
 
-  resources :orders, only: [:index]
+  resources :orders, only: [:index] do
+    member do
+      get :confirm   # /orders/:id/confirm
+    end
+  end
+
   resources :users, only: [:edit, :update]
   resources :favourites, only: [:create, :index]
 
   # Pharmacist backend namespace
   namespace :pharmacist do
     root to: "dashboard#index"
+
     resources :pharmacies, only: [:new, :edit, :create, :update, :destroy] do
       resources :pharmacy_products, only: [:create, :update, :destroy]
     end
   end
 end
-
