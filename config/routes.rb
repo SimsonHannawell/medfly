@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reviews/new'
+  get 'reviews/create'
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :pharmacies, only: [:index, :show] do
     resources :basket_items, only: [:create, :update, :destroy]
+     resources :reviews, only: [:new, :create]
   end
 
   resources :baskets, only: [:create, :update, :show, :destroy] do

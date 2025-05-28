@@ -1,0 +1,8 @@
+<% rounded_rating = rating.to_f.round %>
+<% 1.upto(5) do |i| %>
+  <% if i <= rounded_rating %>
+    <span style="color: gold;">★</span>
+  <% else %>
+    <span style="color: lightgray;">★</span>
+  <% end %>
+<% end %>
