@@ -26,6 +26,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -50,6 +51,7 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "devise"
+gem "geocoder"
 
 group :development, :test do
   gem "dotenv-rails"
@@ -57,8 +59,6 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
 end
 
-gem "cloudinary"
-gem "geocoder"
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
