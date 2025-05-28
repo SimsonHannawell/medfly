@@ -1,20 +1,6 @@
+<%= render "shared/navbar" %>
 
 <h1>Pharmacies Near You</h1>
-
-<%= form_with url: pharmacies_path, method: :get, local: true do %>
-  <%= text_field_tag :search, params[:search], placeholder: "Enter your address" %>
-  <%= submit_tag "Search" %>
-<% end %>
-
-<ul>
-  <% @pharmacies.each do |pharmacy| %>
-    <li>
-      <strong><%= pharmacy.name %></strong><br>
-      <%= pharmacy.location %><br>
-      <%= pharmacy.description %>
-    </li>
-  <% end %>
-</ul>
 
 <h2><%= pluralize(@pharmacies.count, "Result") %></h2>
 

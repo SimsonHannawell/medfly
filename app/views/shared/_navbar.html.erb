@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>MedFly</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag 'application', defer: true %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+  <!-- Top bar with logo and user icon -->
+  <header class="top-header">
+    <img src="<%= asset_path('medfly_logo.jpg') %>" alt="MedFly Logo" class="logo">
+    <div class="user-icon"></div>
+  </header>
+
+  <!-- Homepage Hero Section -->
+  <section class="hero">
+    <h1>MedFly – Fast Relief,<br> Right to Your Door.</h1>
+    <!-- Search bar -->
+    <div class="search-bar">
+        <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
+        <input type="text" placeholder="Enter your location..." />
+        <button class="search-btn">Search</button>
+    </div>
+
+  </section>
