@@ -3,6 +3,8 @@ class OrdersController < ApplicationController
 
   def index
     @orders = current_user.orders.includes(:order_items)
+    base_scope = current_user.orders.includes(basket: { basket_items: :product })
+    @orders = OrderFilterSorter.new(base_scope, params).call
   end
 
   def show
