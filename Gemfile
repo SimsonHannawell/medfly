@@ -53,6 +53,9 @@ gem "sassc-rails"
 gem "devise"
 gem "geocoder"
 
+gem "cloudinary", "~> 1.27"
+gem "activestorage-cloudinary-service", "~> 0.2.0"
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

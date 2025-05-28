@@ -40,7 +40,7 @@
         <span class="close" data-pharmacy-id="<%= pharmacy.id %>">&times;</span>
         <h3>Leave a Review for <%= pharmacy.name %></h3>
 
-        <%= form_with(model: [pharmacy, pharmacy.reviews.new], remote: true, html: { class: 'review-form', data: { turbo: false }, id: "review-form-#{pharmacy.id}" }) do |form| %>
+        <%= form_with(model: [pharmacy, pharmacy.reviews.new], remote: true, html: { class: 'review-form js-review-form', data: { pharmacy_id: pharmacy.id }, id: "review-form-#{pharmacy.id}" }) do |form| %>
           <div class="star-rating">
             <% 5.times do |i| %>
               <%= radio_button_tag :rating, i + 1, false, id: "star#{pharmacy.id}-#{i + 1}", name: "review[rating]" %>
@@ -58,6 +58,7 @@
 <!-- Modal JS -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Modal handling (already works)
     document.querySelectorAll(".review-btn").forEach(button => {
       button.addEventListener("click", () => {
         const pharmacyId = button.getAttribute("data-pharmacy-id");
@@ -69,6 +70,20 @@
       closeBtn.addEventListener("click", () => {
         const pharmacyId = closeBtn.getAttribute("data-pharmacy-id");
         document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
+      });
+    });
+
+    // Handle form submissions
+    document.querySelectorAll(".js-review-form").forEach(form => {
+      form.addEventListener("ajax:success", (event) => {
+        const pharmacyId = form.dataset.pharmacy_id;
+        document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
+        alert("Thank you! Your review was submitted.");
+        // Optional: Refresh ratings via AJAX
+      });
+
+      form.addEventListener("ajax:error", () => {
+        alert("Something went wrong while submitting your review.");
       });
     });
   });
