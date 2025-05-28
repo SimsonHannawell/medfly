@@ -1,0 +1,27 @@
+<!-- app/views/pharmacy/warnings.html.erb -->
+<div class="container">
+  <h1>Warnings</h1>
+
+  <!-- Button to Open Modal -->
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#warningsModal">
+    View Out-of-Stock Items
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="warningsModal" tabindex="-1" aria-labelledby="warningsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="warningsModalLabel">Out-of-Stock Items</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <% @medications.where(stock: 0).each do |medication| %>
+              <li><%= medication.name %> - <%= medication.client_complaints.count %> complaints</li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn">
+::contentReference[oaicite:0]{index=0}

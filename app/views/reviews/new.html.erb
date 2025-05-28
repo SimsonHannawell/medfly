@@ -1,0 +1,42 @@
+<h2>Leave a Review</h2>
+
+<%= form_with(model: [@pharmacy, @review], local: true) do |form| %>
+  <div class="star-rating">
+    <% 5.times do |i| %>
+      <%= radio_button_tag :rating, i + 1, false, id: "star#{i + 1}" %>
+      <%= label_tag "star#{i + 1}", "★", class: "star" %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+  </div>
+
+  <%= form.submit "Submit Review" %>
+<% end %>
+
+<style>
+  .star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 2rem;
+    user-select: none;
+  }
+
+  .star-rating input[type="radio"] {
+    display: none;
+  }
+
+  .star {
+    color: #ccc;
+    cursor: pointer;
+    padding: 0 5px;
+  }
+
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: gold;
+  }
+</style>

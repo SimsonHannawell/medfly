@@ -1,0 +1,9 @@
+<nav>
+  <% if current_user&.pharmacist? %>
+    <%= link_to "Dashboard", pharmacist_root_path %>
+    <%= link_to "Manage Pharmacies", pharmacist_pharmacies_path %>
+  <% else %>
+    <%= link_to "Pharmacies", pharmacies_path %>
+    <%= link_to "My Orders", orders_path %>
+  <% end %>
+</nav>

@@ -1,0 +1,179 @@
+<!-- Add Google Fonts -->
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+</head>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h1, h2 {
+    color: #333;
+  }
+
+  .basket-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+
+  thead th {
+    text-align: left;
+    color: #555;
+    font-weight: 600;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ddd;
+  }
+
+  tbody tr {
+    background-color: #fefefe;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
+  }
+
+  tbody tr:hover {
+    background-color: #f0f7ff;
+  }
+
+  tbody td {
+    padding: 14px 12px;
+    color: #444;
+  }
+
+  tfoot td {
+    font-weight: 700;
+    font-size: 1.15em;
+    padding-top: 16px;
+    border-top: 2px solid #ddd;
+    text-align: right;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  input[readonly], textarea[readonly] {
+    width: 100%;
+    padding: 10px 14px;
+    background-color: #f3f4f6;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #555;
+    resize: none;
+    font-size: 1em;
+  }
+
+  textarea[readonly] {
+    min-height: 80px;
+  }
+
+  form .form-group {
+    margin-bottom: 20px;
+  }
+
+  .btn-primary {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+  }
+
+  .order-section {
+    text-align: center;
+    margin-top: 30px;
+  }
+</style>
+
+<div class="container">
+  <h1>Your Basket</h1>
+
+  <% if @basket_items.empty? %>
+    <p>Your basket is empty.</p>
+  <% else %>
+    <div class="basket-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th style="text-align:center;">Quantity</th>
+            <th style="text-align:right;">Price (each)</th>
+            <th style="text-align:right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @basket_items.each do |item| %>
+            <% price = PharmacyProduct.find_by(pharmacy_id: @basket.pharmacy_id, product_id: item.product_id)&.price || 0 %>
+            <tr>
+              <td><%= item.product.name %></td>
+              <td style="text-align:center;"><%= item.quantity || 1 %></td>
+              <td style="text-align:right;">£<%= price %></td>
+              <td style="text-align:right;">£<%= price * (item.quantity || 1) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right;">Drone Delivery Charge:</td>
+            <td style="text-align:right;">£10.00</td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align:right;">Total:</td>
+            <td style="text-align:right;">£<%= '%.2f' % (@total_price + 10) %></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <h2>Your Details</h2>
+    <%= form_with url: orders_path, method: :post do |f| %>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" value="<%= current_user.name %>" readonly />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" value="<%= current_user.email %>" readonly />
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <textarea readonly><%= current_user.address %></textarea>
+      </div>
+
+      <%= hidden_field_tag :basket_id, @basket.id %>
+
+      <div class="order-section">
+        <%= f.submit "Place Order", class: "btn-primary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
