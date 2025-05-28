@@ -1,7 +1,15 @@
 class PharmaciesController < ApplicationController
+  # app/controllers/pharmacies_controller.rb
+
   def index
-    @pharmacies = Pharmacy.all
+    if params[:search].present?
+      # Simple case-insensitive search for pharmacies whose location includes the search string
+      @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%")
+    else
+      @pharmacies = Pharmacy.all
+    end
   end
+
 
   def show
     @pharmacy = Pharmacy.find(params[:id])
