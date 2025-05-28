@@ -10,11 +10,12 @@
 
 puts "clearing database"
 
-User.destroy_all
-Pharmacy.destroy_all
-Product.destroy_all
-PharmacyProduct.destroy_all
 Basket.destroy_all
+PharmacyProduct.destroy_all
+Product.destroy_all
+Pharmacy.destroy_all
+User.destroy_all
+
 
 puts "creating users"
 
@@ -79,12 +80,16 @@ PharmacyProduct.create!(
 
 puts "creating baskets"
 
-Basket.create!(
-  user: alice,
-  pharmacy: Pharmacy.first,
-  product: Product.first,
-  quantity: 2,
-  total_price: 10
+basket = Basket.create!(pharmacy: Pharmacy.first)
+BasketItem.create!(basket: basket, product: Product.first, quantity: 2)
+
+
+puts "creating orders"
+
+Order.create!(
+  user: alice,          # link basket to Bob, for example
+  basket: basket,
+  delivered?: false
 )
 
 puts "seeding complete"

@@ -1,4 +1,10 @@
 class PharmacyProductsController < ApplicationController
+  before_action :authorize_regular_user!
+
+  def authorize_regular_user!
+    redirect_to pharmacist_dashboard_path if current_user&.pharmacist?
+  end
+
 def create
   @pharmacy = Pharmacy.find(params[:pharmacy_id])
   @product = Product.find(params[:product_id])
