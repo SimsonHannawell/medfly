@@ -1,15 +1,22 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
+  # Show the current user's account page
+  def account
+    @user = current_user
+  end
+
+  # Edit form for current user
   def edit
     @user = current_user
     @payment = current_user.payment || Payment.new
   end
 
+  # Update user info
   def update
     @user = current_user
     if @user.update(user_params)
-      redirect_to edit_user_path, notice: "Account updated successfully."
+      redirect_to my_account_path, notice: "Account updated successfully."
     else
       flash.now[:alert] = "Failed to update account."
       render :edit
