@@ -1,4 +1,7 @@
 class PharmaciesController < ApplicationController
+
+  # app/controllers/pharmacies_controller.rb
+
   before_action :authorize_regular_user!
 
   def authorize_regular_user!
@@ -6,8 +9,14 @@ class PharmaciesController < ApplicationController
   end
 
   def index
-    @pharmacies = Pharmacy.all
+    if params[:search].present?
+      # Simple case-insensitive search for pharmacies whose location includes the search string
+      @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%")
+    else
+      @pharmacies = Pharmacy.all
+    end
   end
+
 
   def show
   end

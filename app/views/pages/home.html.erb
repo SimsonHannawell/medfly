@@ -1,9 +1,48 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-<% if user_signed_in? %>
-  <p>Signed in as <%= current_user.email %></p>
-  <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-secondary' %>
-<% else %>
-  <%= link_to 'Sign In', new_user_session_path, class: 'btn btn-primary' %>
-  <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-outline-primary' %>
-<% end %>
+
+<!-- <p>Find me in app/views/pages/home.html.erb</p> -->
+
+<html>
+<head>
+  <title>MedFly</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application', defer: true %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+  <!-- Top bar with logo and user icon -->
+  <header class="top-header">
+    <img src="<%= asset_path('medfly_logo.jpg') %>" alt="MedFly Logo" class="logo">
+    <div class="user-icon"></div>
+  </header>
+
+  <!-- Homepage Hero Section -->
+  <section class="hero">
+    <h1>MedFly – Fast Relief,<br> Right to Your Door.</h1>
+    <!-- Search bar -->
+    <div class="search-bar">
+        <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
+        <input type="text" placeholder="Enter your location..." />
+        <button class="search-btn">Search</button>
+    </div>
+
+
+
+  </section>
+
+  <section class="trusted">
+    <p>Trusted by pharmacies and clinics<br>for fast, secure medication delivery</p>
+  </section>
+
+  <section class="card-list">
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+  </section>
+
+  <%= yield %>
+
+</body>
+</html>

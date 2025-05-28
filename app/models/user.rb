@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :favourites, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :reviews, dependent: :destroy
+
+  has_many :pharmacies, dependent: :destroy
+
   has_one :basket, through: :order
 
   validates :name, presence: true
