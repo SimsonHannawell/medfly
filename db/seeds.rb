@@ -19,34 +19,40 @@ User.destroy_all
 
 puts "creating users"
 
-  bob = User.create!(
+bob = User.create!(
   name: "Bob Smith",
   email: "bob@gmail.com",
   password: "password",
-  address: "123 Main St, Springfield",
+  address: "Oxford Street, London",
   pharmacist?: true
 )
 
-  alice = User.create!(
+alice = User.create!(
   name: "Alice Johnson",
   email: "alice@gmail.com",
   password: "password",
-  address: "456 Elm St, Springfield",
+  address: "456 Elm St, Manchester",
   pharmacist?: false
 )
 
 puts "creating pharmacies"
 
 Pharmacy.create!(
-  name: "Springfield Pharmacy",
-  location: "789 Oak St, Springfield",
+  name: "London Pharmacy",
+  location: "789 King St, London",
   description: "Your one-stop shop for all your pharmaceutical needs.",
   user: bob
 )
 Pharmacy.create!(
-  name: "Downtown Pharmacy",
-  location: "101 Pine St, Springfield",
-  description: "Conveniently located downtown for all your medication needs.",
+  name: "Manchester Pharmacy",
+  location: "101 Queen St, Manchester",
+  description: "Conveniently located in the heart of Manchester for all your medication needs.",
+  user: bob
+)
+Pharmacy.create!(
+  name: "Birmingham Health",
+  location: "55 High St, Birmingham",
+  description: "Trusted pharmacy in Birmingham for your health needs.",
   user: bob
 )
 
@@ -54,12 +60,12 @@ puts "creating products"
 
 Product.create!(
   name: "Aspirin",
-  description: "Pain reliever and anti-inflammatory.",
+  description: "Pain reliever and anti-inflammatory."
 )
 
 Product.create!(
   name: "Cough Syrup",
-  description: "Relieves cough and soothes throat.",
+  description: "Relieves cough and soothes throat."
 )
 
 puts "creating pharmacy products"
@@ -87,9 +93,10 @@ BasketItem.create!(basket: basket, product: Product.first, quantity: 2)
 puts "creating orders"
 
 Order.create!(
-  user: alice,          # link basket to Bob, for example
+  user: alice,
   basket: basket,
   delivered?: false
 )
 
 puts "seeding complete"
+
