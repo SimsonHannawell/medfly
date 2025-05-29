@@ -1,4 +1,4 @@
-Geocoder.configure(
+#Geocoder.configure(
   # Geocoding options
   # timeout: 3,                 # geocoding service timeout (secs)
   # lookup: :nominatim,         # name of geocoding service (symbol)
@@ -25,9 +25,9 @@ Geocoder.configure(
   #   prefix: 'geocoder:'
   # }
    # [...]
-  timeout: 5, # seconds
-  lookup: :mapbox, # Defaults to :nominatim, which is less reliable but free
-  api_key: ENV['MAPBOX_API_KEY'],
-  units: :km, # Defaults to miles (:mi)
-  # [...]
-)
+  #timeout: 5, # seconds
+  #lookup: :mapbox, # Defaults to :nominatim, which is less reliable but free
+  #api_key: ENV['MAPBOX_API_KEY'],
+  #units: :km, # Defaults to miles (:mi)
+  ## [...]
+#)

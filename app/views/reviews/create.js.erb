@@ -1,0 +1,12 @@
+// Hide the modal
+document.getElementById("review-modal-<%= @pharmacy.id %>").style.display = "none";
+
+// Reset the form
+document.querySelector("#review-modal-<%= @pharmacy.id %> form.review-form").reset();
+
+// Update the review count and average rating dynamically
+document.getElementById("review-count-<%= @pharmacy.id %>").textContent =
+  "(<%= @pharmacy.reviews.count %> reviews)";
+
+document.getElementById("pharmacy-rating-<%= @pharmacy.id %>").innerHTML =
+  `<%= j(render 'shared/star_rating', rating: average_rating(@pharmacy)) %>`;
