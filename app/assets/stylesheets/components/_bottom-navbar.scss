@@ -1,0 +1,38 @@
+
+/* Bottom Navbar - modernized gradient, icons, and layout */
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw; /* Ensure full width */
+  height: 64px;
+  background: linear-gradient(to top, #72a2ae, #b7d4dc);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10;
+  border-top: 1px solid #d0e2e5;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  padding: 0 12px;
+}
+
+/* Bottom Navbar Icons (Phosphor or similar font icons) */
+.bottom-navbar a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: #000000;
+  font-size: 12px;
+}
+
+.bottom-navbar a:hover {
+  color: #343844;
+}
+
+.bottom-navbar i {
+  font-size: 22px;
+  margin-bottom: 4px;
+  color: #000; /* Black */
+
+}

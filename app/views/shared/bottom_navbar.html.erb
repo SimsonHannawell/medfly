@@ -1,0 +1,21 @@
+<nav class="bottom-navbar">
+  <%= link_to root_path, class: "nav-item" do %>
+    <i class="ph ph-house-simple ph-bold"></i>
+    <span>Home</span>
+  <% end %>
+
+  <%= link_to pharmacies_path, class: "nav-item" do %>
+    <i class="ph ph-magnifying-glass ph-bold"></i>
+    <span>Search</span>
+  <% end %>
+
+  <%= link_to favorites_path, class: "nav-item" do %>
+    <i class="ph ph-heart ph-bold"></i>
+    <span>Favorites</span>
+  <% end %>
+
+  <%= link_to profile_path, class: "nav-item" do %>
+    <i class="ph ph-user-circle ph-bold"></i>
+    <span>Profile</span>
+  <% end %>
+</nav>
