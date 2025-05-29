@@ -1,5 +1,8 @@
-
 <h1>Your Orders</h1>
+
+<div class="my-account-link" style="margin-bottom: 1em;">
+  <%= link_to "Go to My Account", my_account_path, class: "btn btn-secondary" %>
+</div>
 
 <%= form_with url: orders_path, method: :get, local: true, class: "filter-form" do %>
   <div>

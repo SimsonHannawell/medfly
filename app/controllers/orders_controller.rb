@@ -1,9 +1,17 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :show, :new, :create, :confirm]
+  before_action :authenticate_user!, only: [:index, :show, :new, :create, :confirm, :my_orders]
 
   def index
-    @orders = current_user.orders.includes(:order_items)
     base_scope = current_user.orders.includes(basket: { basket_items: :product })
+    @orders = OrderFilterSorter.new(base_scope, params).call
+  end
+
+  def my_orders
+    @user = current_user
+    @active_order = @user.orders.find_by(status: 'active')
+    @previous_orders = @user.orders.where.not(status: 'active').order(created_at: :desc)
+    # Exclude active order from previous orders
+    base_scope = @user.orders.where.not(id: @active_order&.id).includes(basket: { basket_items: :product })
     @orders = OrderFilterSorter.new(base_scope, params).call
   end
 
