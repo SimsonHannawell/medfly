@@ -28,6 +28,8 @@ class PharmaciesController < ApplicationController
 
   def show
     # no changes here
+    @pharmacy = Pharmacy.find(params[:id])
+    @products = @pharmacy.products
   end
 
   private
