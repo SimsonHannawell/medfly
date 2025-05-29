@@ -4,5 +4,5 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 
-import Rails from "@rails/ujs"
-Rails.start()
+// import Rails from "@rails/ujs"
+// Rails.start()
