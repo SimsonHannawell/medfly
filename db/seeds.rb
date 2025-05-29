@@ -27,6 +27,9 @@ bob = User.create!(
   pharmacist?: true
 )
 
+file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+bob.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
 alice = User.create!(
   name: "Alice Johnson",
   email: "alice@gmail.com",
@@ -35,38 +38,60 @@ alice = User.create!(
   pharmacist?: false
 )
 
+file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+alice.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
 puts "creating pharmacies"
 
-Pharmacy.create!(
+p1 = Pharmacy.create!(
   name: "London Pharmacy",
   location: "789 King St, London",
   description: "Your one-stop shop for all your pharmaceutical needs.",
   user: bob
 )
-Pharmacy.create!(
+
+file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+p1.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+p2 = Pharmacy.create!(
   name: "Manchester Pharmacy",
   location: "101 Queen St, Manchester",
   description: "Conveniently located in the heart of Manchester for all your medication needs.",
   user: bob
 )
-Pharmacy.create!(
+
+file = URI.parse("https://moodsigns.co.uk/wp-content/uploads/2019/12/JD_Rapeed_AR-Chemist_Front-Elevation_A01.jpg").open
+p2.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+
+p3 = Pharmacy.create!(
   name: "Birmingham Health",
   location: "55 High St, Birmingham",
   description: "Trusted pharmacy in Birmingham for your health needs.",
   user: bob
 )
 
+file = URI.parse("https://visionshopfitters.co.uk/wp-content/uploads/2019/11/Clarks-Pharmacy-Signage-And-Shopfront-design-1800x1200.jpg").open
+p3.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+
 puts "creating products"
 
-Product.create!(
+pr1 = Product.create!(
   name: "Aspirin",
   description: "Pain reliever and anti-inflammatory."
 )
 
-Product.create!(
+file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+pr1.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr2 = Product.create!(
   name: "Cough Syrup",
   description: "Relieves cough and soothes throat."
 )
+
+file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+pr2.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 
 puts "creating pharmacy products"
 
@@ -99,4 +124,3 @@ Order.create!(
 )
 
 puts "seeding complete"
-

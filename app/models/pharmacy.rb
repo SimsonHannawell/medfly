@@ -1,5 +1,5 @@
 class Pharmacy < ApplicationRecord
-  has_many_attached :photo
+  has_many_attached :images, dependent: :destroy
   has_many :pharmacy_products, dependent: :destroy
   has_many :products, through: :pharmacy_products
   has_many :reviews, dependent: :destroy
