@@ -39,16 +39,19 @@ class BasketsController < ApplicationController
     end
   end
 
-  def create
-    # You need to create basket with pharmacy and order linking basket & user
-    @basket = Basket.new(pharmacy: Pharmacy.first) # Example pharmacy, adjust as needed
-    if @basket.save
-      Order.create!(user: current_user, basket: @basket, delivered?: false)
-      redirect_to basket_path(@basket), notice: 'Basket created successfully.'
-    else
-      redirect_to pharmacies_path, alert: 'Failed to create basket.'
-    end
-  end
+def create
+  @pharmacy = Pharmacy.find(params[:pharmacy_id])
+  pharmacy_product = PharmacyProduct.find(params[:pharmacy_product_id])
+
+  basket = current_user.basket || current_user.create_basket(pharmacy: @pharmacy)
+
+  item = basket.basket_items.find_or_initialize_by(product_id: pharmacy_product.product_id)
+  item.quantity += params[:quantity].to_i
+  item.save!
+
+  redirect_to pharmacy_path(@pharmacy), notice: "Item added to basket!"
+end
+
 
   private
 
@@ -62,4 +65,3 @@ class BasketsController < ApplicationController
     params.require(:basket).permit(:pharmacy_id)
   end
 end
-
