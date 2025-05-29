@@ -1,30 +1,31 @@
-<%= render "shared/navbar" %>
+<%= render 'shared/navbar' %>
 
 <h1>Pharmacies Near You</h1>
-
 <h2><%= pluralize(@pharmacies.count, "Result") %></h2>
 
 <div class="pharmacy-grid">
   <% @pharmacies.each do |pharmacy| %>
-    <div class="pharmacy-card">
-      <!-- Cloudinary image placeholder -->
-      <div class="pharmacy-image">
-        <!-- Later replace this with cl_image_tag if using Cloudinary -->
-        <img src="https://via.placeholder.com/120" alt="<%= pharmacy.name %> logo">
+    <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
+      <div class="pharmacy-image-wrapper">
+        <img src="https://via.placeholder.com/350x200" alt="<%= pharmacy.name %>" class="pharmacy-image">
+        <div class="delivery-badge"><%= estimate_time(pharmacy) %></div>
       </div>
 
       <div class="pharmacy-details">
-        <div class="pharmacy-header">
-          <h3><%= pharmacy.name %></h3>
-          <p class="delivery-time"><%= estimate_time(pharmacy) %></p>
+        <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
+
+        <div class="pharmacy-meta">
+          <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
+            <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
+          </span>
+          <span class="review-count" id="review-count-<%= pharmacy.id %>">
+            (<%= pharmacy.reviews.count %> reviews)
+          </span>
         </div>
 
-        <div class="pharmacy-rating">
-          <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
-          <span>(<%= pharmacy.reviews.count %> reviews)</span>
-        </div>
-
-        <p class="pharmacy-description"><%= pharmacy.description.truncate(90) %></p>
+        <p class="pharmacy-description">
+          <%= pharmacy.description.truncate(90) %>
+        </p>
 
         <div class="pharmacy-actions">
           <%= link_to "Continue", pharmacy_path(pharmacy), class: "continue-btn" %>
@@ -39,7 +40,7 @@
         <span class="close" data-pharmacy-id="<%= pharmacy.id %>">&times;</span>
         <h3>Leave a Review for <%= pharmacy.name %></h3>
 
-        <%= form_with(model: [pharmacy, pharmacy.reviews.new], local: true, html: { class: 'review-form' }) do |form| %>
+        <%= form_with(model: [pharmacy, pharmacy.reviews.new], remote: true, html: { class: 'review-form js-review-form', data: { pharmacy_id: pharmacy.id }, id: "review-form-#{pharmacy.id}" }) do |form| %>
           <div class="star-rating">
             <% 5.times do |i| %>
               <%= radio_button_tag :rating, i + 1, false, id: "star#{pharmacy.id}-#{i + 1}", name: "review[rating]" %>
@@ -54,9 +55,10 @@
   <% end %>
 </div>
 
-<!-- JS to open/close modal -->
+<!-- Modal JS -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Modal handling (already works)
     document.querySelectorAll(".review-btn").forEach(button => {
       button.addEventListener("click", () => {
         const pharmacyId = button.getAttribute("data-pharmacy-id");
@@ -68,6 +70,20 @@
       closeBtn.addEventListener("click", () => {
         const pharmacyId = closeBtn.getAttribute("data-pharmacy-id");
         document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
+      });
+    });
+
+    // Handle form submissions
+    document.querySelectorAll(".js-review-form").forEach(form => {
+      form.addEventListener("ajax:success", (event) => {
+        const pharmacyId = form.dataset.pharmacy_id;
+        document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
+        alert("Thank you! Your review was submitted.");
+        // Optional: Refresh ratings via AJAX
+      });
+
+      form.addEventListener("ajax:error", () => {
+        alert("Something went wrong while submitting your review.");
       });
     });
   });
