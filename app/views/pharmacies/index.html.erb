@@ -1,10 +1,8 @@
 
-<h1>Pharmacies Near You</h1>
-
 <!-- 🚀 Added city search form below the heading -->
 <div class="search-bar">
   <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
-  <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form" } do %>
+  <%= form_with url: pharmacies_path, method: :get, html: { class: "search-form" } do %>
     <%= text_field_tag :search, params[:search], placeholder: "Enter city...", class: "search-input" %>
     <%= submit_tag "Search", class: "search-btn" %>
   <% end %>
@@ -16,9 +14,9 @@
 <!-- ✅ Added notice for when no pharmacies are found -->
 <% if @pharmacies.empty? %>
   <p>No pharmacies found in this area. Please try another city.</p>
-<% end %>
+<% else %>
 
-<%= render 'shared/navbar' %>
+
 
 <h1>Pharmacies Near You</h1>
 <h2><%= pluralize(@pharmacies.count, "Result") %></h2>
@@ -39,7 +37,7 @@
             <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
           </span>
           <span class="review-count" id="review-count-<%= pharmacy.id %>">
-            (<%= pharmacy.reviews.count %> reviews)
+            <%= pharmacy.reviews.count %> reviews)
           </span>
         </div>
 
@@ -74,7 +72,7 @@
     </div>
   <% end %>
 </div>
-
+<% end %>
 <!-- Modal JS -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {

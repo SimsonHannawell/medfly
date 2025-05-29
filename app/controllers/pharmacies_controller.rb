@@ -16,10 +16,10 @@ class PharmaciesController < ApplicationController
 
       if city_coords
         # Find pharmacies within 1 mile of the city coordinates
-        @pharmacies = Pharmacy.near(city_coords, 20)
+        @pharmacies = Pharmacy.near(city_coords, 20).to_a
       else
         # If geocoding fails, fallback to text-based search
-        @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%")
+        @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%").to_a
       end
     else
       @pharmacies = Pharmacy.all
