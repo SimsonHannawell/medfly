@@ -1,0 +1,36 @@
+<h1>Your Orders</h1>
+
+<div class="my-account-link" style="margin-bottom: 1em;">
+  <%= link_to "Go to My Account", my_account_path, class: "btn btn-secondary" %>
+</div>
+
+<%= form_with url: orders_path, method: :get, local: true, class: "filter-form" do %>
+  <div>
+    <label>Status:</label>
+    <%= select_tag :status, options_for_select(["All", "Delivered", "Pending"], params[:status]), include_blank: false %>
+  </div>
+
+  <div>
+    <label>Sort by:</label>
+    <%= select_tag :sort, options_for_select([
+      ["Newest First", "newest"],
+      ["Oldest First", "oldest"]
+    ], params[:sort]) %>
+  </div>
+
+  <%= submit_tag "Apply", class: "btn" %>
+<% end %>
+
+<!-- List the orders -->
+<% @orders.each do |order| %>
+  <div class="order-card">
+    <p><strong>Order #<%= order.id %></strong></p>
+    <p>Status: <%= order.delivered? ? "Delivered" : "Pending" %></p>
+
+    <% order.basket.basket_items.each do |item| %>
+      <div class="item">
+        <p><%= item.product.name %> – Qty: <%= item.quantity %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

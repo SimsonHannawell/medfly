@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get "pharmacy/my_profile", to: "pharmacy#my_profile"
   get "pharmacy/recieved_orders", to: "pharmacy#recieved_orders"
   get "pharmacy/warnings", to: "pharmacy#warnings"
+  get 'orders/my_orders', to: 'orders#my_orders', as: 'my_orders'
 
 
   resources :pharmacy_items, only: [:new, :edit, :destroy]
