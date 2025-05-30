@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  has_many_attached :photo
+  has_many_attached :images, dependent: :destroy
   has_many :pharmacy_products
   has_many :pharmacies, through: :pharmacy_products
 

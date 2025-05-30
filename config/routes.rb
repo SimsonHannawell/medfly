@@ -17,7 +17,6 @@ Rails.application.routes.draw do
 
  # config/routes.rb
 
-
   resources :pharmacy_items, only: [:new, :edit, :destroy]
 
 

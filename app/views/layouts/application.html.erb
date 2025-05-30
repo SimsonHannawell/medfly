@@ -9,9 +9,10 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload", media: "all" %>
     <%= javascript_importmap_tags %>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </head>
 
-  <body>
+  <body class="min-vh-100 d-flex flex-column">
     <%= yield %>
   </body>
 </html>
