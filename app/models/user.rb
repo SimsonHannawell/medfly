@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :payments
   has_many :favourites, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_many :baskets, through: :orders
   has_many :reviews, dependent: :destroy
   has_many_attached :images, dependent: :destroy
   has_many :pharmacies, dependent: :destroy
@@ -15,4 +16,5 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :address, presence: true
+
 end

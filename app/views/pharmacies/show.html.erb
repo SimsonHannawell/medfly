@@ -1,4 +1,7 @@
-<div class="container py-5" style="background-color: #f0f8ff;"> <!-- AliceBlue (skyish white) -->
+<%= render "shared/bottom_navbar" %>
+
+<div class="container py-5" style="background-color: #f0f8ff;"> <!-- AliceBlue -->
+
   <div class="text-center mb-5">
     <h1 class="display-5 fw-bold text-primary"><%= @pharmacy.name %></h1>
     <p class="lead text-muted"><%= @pharmacy.description %></p>
@@ -14,16 +17,42 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <% @products.each do |product| %>
         <div class="col d-flex">
-          <div class="card shadow-sm w-100">
+          <div class="card shadow-sm w-100 d-flex flex-column">
             <div class="card-image">
-            <%= cl_image_tag product.images.first.key, height: 300, width: 400, crop: :fill %>
-          </div>
-            <div class="card-body d-flex flex-column text-center">
-              <h5 class="card-title text-primary"><%= product.name %></h5>
-              <% if product.price.present? %>
-                <p class="card-text text-muted">Price: $<%= product.price %></p>
+              <% if product.images.any? %>
+                <%= cl_image_tag product.images.first.key, height: 300, width: 400, crop: :fill, class: "card-img-top" %>
+              <% else %>
+                <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class="card-img-top">
               <% end %>
+            </div>
+
+            <div class="card-body text-center flex-grow-1 d-flex flex-column">
+              <h5 class="card-title text-primary"><%= product.name %></h5>
+
+              <% # Find price from pharmacy_products for this pharmacy and product %>
+              <% pharmacy_product = PharmacyProduct.find_by(pharmacy_id: @pharmacy.id, product_id: product.id) %>
+              <% if pharmacy_product.present? %>
+                <p class="card-text text-muted">Price: £<%= number_with_precision(pharmacy_product.price, precision: 2) %></p>
+              <% else %>
+                <p class="card-text text-muted">Price: Not available</p>
+              <% end %>
+
               <p class="card-text"><%= product.description %></p>
+
+              <!-- Quantity and Add to Basket -->
+              <div class="mt-auto d-flex justify-content-center align-items-center gap-2">
+                <input type="number" min="1" value="1"
+                       class="form-control form-control-sm quantity-input"
+                       style="width: 70px;"
+                       id="quantity_<%= product.id %>">
+
+                <button type="button"
+                        class="btn btn-success btn-sm add-to-basket-btn"
+                        data-product-id="<%= product.id %>"
+                        data-pharmacy-id="<%= @pharmacy.id %>">
+                  Add to Basket
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -34,18 +63,91 @@
       No products available for this pharmacy.
     </div>
   <% end %>
+
 </div>
-<h1><%= @pharmacy.name %></h1>
-<h2>Products</h2>
-<% if @products.any? %>
-  <ul>
-    <% @products.each do |product| %>
-      <li>
-        <strong><%= product.name %></strong><br>
-        Description: <%= product.description %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No products available for this pharmacy.</p>
-<% end %>
+
+<!-- Sticky Basket: Always render, start hidden -->
+<div id="sticky-basket-summary"
+     class="fixed-bottom bg-white border-top shadow-lg py-3 px-4 d-flex justify-content-between align-items-center"
+     style="z-index: 9999; bottom: 64px; display: none;">
+  <div>
+    <p class="mb-0 fw-semibold">
+      Delivery + Basket Total: <span id="sticky-basket-total">£0.00</span> (includes £10 drone delivery 🚁)
+    </p>
+  </div>
+  <a id="go-to-basket-link" href="#" class="btn btn-dark">Go to Basket</a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const csrfToken = document.querySelector("meta[name='csrf-token']").content;
+    const stickyBasketTotalElem = document.getElementById("sticky-basket-total");
+
+    document.querySelectorAll(".add-to-basket-btn").forEach(button => {
+      button.addEventListener("click", async () => {
+        const productId = button.dataset.productId;
+        const pharmacyId = button.dataset.pharmacyId;
+        const quantityInput = document.getElementById(`quantity_${productId}`);
+        let quantity = parseInt(quantityInput?.value, 10);
+        if (!quantity || quantity < 1) quantity = 1;
+
+        try {
+          const response = await fetch(`/pharmacies/${pharmacyId}/basket_items`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-Token": csrfToken
+            },
+            body: JSON.stringify({
+              product_id: productId,
+              quantity: quantity
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            alert("Item added to basket!");
+            quantityInput.value = 1;
+
+            if (stickyBasketTotalElem && data.total_price !== undefined) {
+              stickyBasketTotalElem.textContent = `£${(parseFloat(data.total_price) + 10).toFixed(2)}`;
+            }
+
+            // Show sticky basket and update link
+            const stickyBasket = document.getElementById("sticky-basket-summary");
+            stickyBasket.style.display = "flex";
+
+            const basketLink = document.getElementById("go-to-basket-link");
+            if (basketLink && data.basket_id) {
+              basketLink.href = `/baskets/${data.basket_id}`;
+            }
+
+          } else {
+            const errorData = await response.json();
+            alert("Failed to add item to basket: " + (errorData.error || "Unknown error"));
+          }
+        } catch (error) {
+          alert("Error adding item to basket.");
+          console.error(error);
+        }
+      });
+    });
+  });
+</script>
+
+<!-- CSS -->
+<style>
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  #sticky-basket-summary {
+    backdrop-filter: blur(6px);
+  }
+</style>
