@@ -1,19 +1,9 @@
 <h2>Leave a Review</h2>
 
-<%= form_with(model: [@pharmacy, @review], local: true) do |form| %>
-  <div class="star-rating">
-    <% 5.times do |i| %>
-      <%= radio_button_tag :rating, i + 1, false, id: "star#{i + 1}" %>
-      <%= label_tag "star#{i + 1}", "★", class: "star" %>
-    <% end %>
-  </div>
-
-  <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </div>
-
-  <%= form.submit "Submit Review" %>
+<%= simple_form_for [@pharmacy, @review], html: {class: "review-form"} do |f| %>
+		<%= f.input :rating %>
+		<%= f.input :description %>
+       <%= f.button :submit %>
 <% end %>
 
 <style>
