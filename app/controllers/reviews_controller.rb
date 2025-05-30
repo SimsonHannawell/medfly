@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   def new
+    @review = Review.new
     @pharmacy = Pharmacy.find(params[:pharmacy_id])
-    @review = @pharmacy.reviews.new
   end
 
   def create
