@@ -1,151 +1,51 @@
-<%= render "shared/navbar" %>
-<style>
-  body {
-    background-color: #f9fafb;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding-bottom: 120px;
-  }
-
-  .pharmacy-header {
-    text-align: center;
-    padding: 2rem 1rem;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  }
-
-  .pharmacy-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #111827;
-  }
-
-  .products-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-  }
-
-  .product-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .product-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .product-description {
-    font-size: 0.95rem;
-    color: #4b5563;
-    margin-bottom: 0.8rem;
-  }
-
-  .product-price {
-    font-weight: bold;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-  }
-
-  .qty-form {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .qty-form input {
-    width: 60px;
-    padding: 0.4rem;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    text-align: center;
-  }
-
-  .add-btn {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 0.75rem 0;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-    width: 100%;
-  }
-
-  .add-btn:hover {
-    background-color: #1e40af;
-  }
-
-  .basket-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #111827;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    z-index: 1000;
-  }
-
-  .basket-bar a {
-    background: #2563eb;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-
-  .basket-bar a:hover {
-    background: #1e40af;
-  }
-</style>
-
-<div class="pharmacy-header">
-  <h1><%= @pharmacy.name %></h1>
-  <p><%= @pharmacy.location %></p>
-  <p><%= @pharmacy.description %></p>
-</div>
-
-<div class="products-container">
-  <% @pharmacy.pharmacy_products.includes(:product).each do |pp| %>
-    <div class="product-card">
-      <div>
-        <div class="product-name"><%= pp.product.name %></div>
-        <div class="product-description"><%= pp.product.description %></div>
-        <div class="product-price">£<%= sprintf('%.2f', pp.price.to_f) %></div>
-        <p>Available: <%= pp.quantity %> in stock</p>
-      </div>
-
-<%= form_with url: baskets_path, method: :post, local: true do |f| %>
-  <div class="qty-form">
-    <%= number_field_tag :quantity, 1, min: 1, max: pp.quantity, class: "qty-input" %>
-    <%= hidden_field_tag :pharmacy_product_id, pp.id %>
-    <%= hidden_field_tag :pharmacy_id, @pharmacy.id %>
+<div class="container py-5" style="background-color: #f0f8ff;"> <!-- AliceBlue (skyish white) -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary"><%= @pharmacy.name %></h1>
+    <p class="lead text-muted"><%= @pharmacy.description %></p>
   </div>
-  <%= f.submit "Add to Basket", class: "add-btn" %>
-<% end %>
 
+  <div class="text-center mb-4">
+    <%= link_to "Write a Review", new_pharmacy_review_path(@pharmacy), class: "btn btn-outline-primary" %>
+  </div>
+
+  <h2 class="text-center text-primary mb-4">Available Products</h2>
+
+  <% if @products.any? %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% @products.each do |product| %>
+        <div class="col d-flex">
+          <div class="card shadow-sm w-100">
+            <div class="card-image">
+            <%= cl_image_tag product.images.first.key, height: 300, width: 400, crop: :fill %>
+          </div>
+            <div class="card-body d-flex flex-column text-center">
+              <h5 class="card-title text-primary"><%= product.name %></h5>
+              <% if product.price.present? %>
+                <p class="card-text text-muted">Price: $<%= product.price %></p>
+              <% end %>
+              <p class="card-text"><%= product.description %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info text-center mt-4">
+      No products available for this pharmacy.
     </div>
   <% end %>
 </div>
-
-    <%= link_to "Go to Basket", basket_path, class: "btn" %>
-  </div>
+<h1><%= @pharmacy.name %></h1>
+<h2>Products</h2>
+<% if @products.any? %>
+  <ul>
+    <% @products.each do |product| %>
+      <li>
+        <strong><%= product.name %></strong><br>
+        Description: <%= product.description %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products available for this pharmacy.</p>
+<% end %>

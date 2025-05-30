@@ -7,12 +7,13 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   background: #f5f5f5;
+  padding-bottom: 60px; /* Space for fixed bottom navbar */
 }
 
 /* Container holding both header and hero for the gradient background */
 .top-section {
   background: linear-gradient(0deg, rgba(173, 216, 230, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  padding-bottom: 0.5rem; /* Tighter spacing */
+  padding-bottom: 0.5rem;
 }
 
 .top-header {
@@ -37,12 +38,12 @@ body {
   border-radius: 50%;
 }
 
-/* Hero section with transparent background for gradient */
+/* Hero section */
 .hero {
   background: transparent;
   text-align: center;
   margin: 0;
-  padding: 1rem 1rem 0.5rem 1rem; /* Less padding all around */
+  padding: 1rem 1rem 0.5rem 1rem;
   margin-top: -1px;
 }
 
@@ -57,7 +58,7 @@ body {
   display: flex;
   align-items: center;
   max-width: 350px;
-  margin: 0.5rem auto 0 auto; /* Tighter top margin, no bottom margin */
+  margin: 0.5rem auto 0 auto;
   background: #fff;
   border-radius: 9999px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -114,11 +115,9 @@ body {
   font-family: "Zain", sans-serif;
   font-size: 23px;
   margin: 0.5rem auto 0 auto;
-
-  letter-spacing: 0;   /* or try: 0 if too spaced */
-  word-spacing: 0;     /* or try: 0 if there's visible gap */
+  letter-spacing: 0;
+  word-spacing: 0;
 }
-
 
 /* Cards section */
 .card-list {
@@ -147,5 +146,50 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+}
+
+/* Bootstrap carousel container styling */
+.carousel-section {
+  background-color: #f0f0f0; /* Light grey */
+  padding: 1rem 0;
+}
+
+/* Full-width Bootstrap carousel */
+.carousel {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 0; /* Remove border radius for full stretch */
+  overflow: hidden;
+}
+
+/* Ensure the carousel image stretches fully */
+.carousel-inner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+
+/* Responsive adjustments for iPhone 12 Pro and similar */
+@media (max-width: 480px) {
+  .carousel {
+    max-width: 390px;
+  }
+
+  .carousel-inner img {
+    height: 220px;
+  }
+}
+
+/* Webpage responsive */
+@media (min-width: 481px) and (max-width: 767px) {
+  .carousel {
+    max-width: 480px;
+  }
+
+  .carousel-inner img {
+    height: 260px;
   }
 }

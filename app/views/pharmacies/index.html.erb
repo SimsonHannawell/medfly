@@ -25,11 +25,9 @@
 <div class="pharmacy-grid">
   <% @pharmacies.each do |pharmacy| %>
     <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
-      <div class="pharmacy-image-wrapper">
-        <img src="https://via.placeholder.com/350x200" alt="<%= pharmacy.name %>" class="pharmacy-image">
-        <div class="delivery-badge"><%= estimate_time(pharmacy) %></div>
+      <div class="card-image">
+         <%= cl_image_tag pharmacy.images.first.key, height: 300, width: 400, crop: :fill %>
       </div>
-
       <div class="pharmacy-details">
         <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
 
@@ -38,7 +36,7 @@
             <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
           </span>
           <span class="review-count" id="review-count-<%= pharmacy.id %>">
-            <%= pharmacy.reviews.count %> reviews)
+            (<%= pharmacy.reviews.count %> reviews)
           </span>
         </div>
 
@@ -72,6 +70,8 @@
       </div>
 
 <% end %>
+
+
 <!-- Modal JS -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {

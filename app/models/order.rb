@@ -2,6 +2,8 @@ class Order < ApplicationRecord
   belongs_to :user
   belongs_to :basket
 
+  has_many :order_items
+
   after_create :schedule_delivery_mark
 
   private
@@ -10,4 +12,3 @@ class Order < ApplicationRecord
     MarkOrderDeliveredJob.set(wait: 10.seconds).perform_later(self.id)
   end
 end
-
