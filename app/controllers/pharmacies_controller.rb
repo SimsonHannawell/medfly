@@ -4,7 +4,7 @@ class PharmaciesController < ApplicationController
   def authorize_regular_user!
     redirect_to pharmacist_dashboard_path if current_user&.pharmacist?
   end
-
+  # bootstrap modal / create and if else statement / params has to be changed to city
     def index
     if params[:search].present?
       puts "Search params: #{params[:search]}"  # <-- Add here for debugging input
