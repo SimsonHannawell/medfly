@@ -27,7 +27,7 @@ bob = User.create!(
   pharmacist?: true
 )
 
-file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+file = URI.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpvPsX2QaxsAxFBsQbMX86oFq-QxBHw1sXxg&s").open
 bob.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 
 alice = User.create!(
@@ -38,7 +38,7 @@ alice = User.create!(
   pharmacist?: false
 )
 
-file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+file = URI.parse("https://img.freepik.com/premium-vector/drawing-old-woman-with-big-smile-her-face_481747-91243.jpg").open
 alice.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 
 puts "creating pharmacies"
@@ -78,20 +78,60 @@ p3.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 puts "creating products"
 
 pr1 = Product.create!(
-  name: "Aspirin",
+  name: "Aspirin Gastro-Resistant",
   description: "Pain reliever and anti-inflammatory."
 )
 
-file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
+file = URI.parse("https://eliveragroup.co.uk/cdn/shop/files/aspirin-500mg-x-10-tablets-uk-2.jpg?v=1716237739&width=1445").open
 pr1.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 
 pr2 = Product.create!(
-  name: "Cough Syrup",
+  name: "Benylin Dry & Tickly Cough Syrup 150ml",
+  description: "Relieves tickly cough and soothes throat."
+)
+
+file = URI.parse("https://m.media-amazon.com/images/I/71j54nhwEkL._AC_UF894,1000_QL80_.jpg").open
+pr2.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr3 = Product.create!(
+  name: "Aspirin 500mg x 10 tablets",
+  description: "Pain reliever and anti-inflammatory."
+)
+
+file = URI.parse("https://eliveragroup.co.uk/cdn/shop/files/aspirin-500mg-x-10-tablets-uk-2.jpg?v=1716237739&width=1445").open
+pr3.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr4 = Product.create!(
+  name: "Covonia Chesty Cough Sugar-Free",
   description: "Relieves cough and soothes throat."
 )
 
-file = URI.parse("https://hopwoodspharmacy.co.uk/wp-content/uploads/2021/04/shop-front-scaled.jpg").open
-pr2.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+file = URI.parse("https://d2i5j94z9qxt5a.cloudfront.net/eyJidWNrZXQiOiJ3ZWxkcmlja3MtY2RuIiwia2V5IjoicHJvZHVjdHMvNzA0Ny8ycm5jRG1tanVZZXFpZzZGS2IyUUlQNlVZU2diT2g4V0VTdEIwSlVSLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjAwLCJoZWlnaHQiOjYwMCwiZml0IjoiY29udGFpbiIsImJhY2tncm91bmQiOnsiciI6MjU1LCJnIjoyNTUsImIiOjI1NSwiYWxwaGEiOjB9fSwid2VicCI6eyJxdWFsaXR5Ijo4MH19fQ==").open
+pr4.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr5 = Product.create!(
+  name: "Piriteze allergy tablets 7 tablets",
+  description: "Relieves allergy symptoms such as sneezing and runny nose."
+)
+
+file = URI.parse("https://lloydspharmacy.com/cdn/shop/files/5000347000799_T595_2_430x.progressive.jpg?v=1711369458").open
+pr5.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr6 = Product.create!(
+  name: "Fusion allergy cooling mask (1 mask)",
+  description: "Cooling mask for allergy relief."
+)
+
+file = URI.parse("https://lloydspharmacy.com/cdn/shop/files/6706618_01_1d1d4f89-b6a1-4c0f-9c4c-ce5d763b9bfd_430x.progressive.jpg?v=1711028747").open
+pr6.images.attach(io: file, filename: "nes.png", content_type: "image/png")
+
+pr7 = Product.create!(
+  name: "Nitrofurantoin 100mg 6 tablets",
+  description: "Antibiotic for urinary tract infections."
+)
+
+file = URI.parse("https://onlinedoctor.lloydspharmacy.com/image/156518/16x9/695/390/e4ac6733e0b1dcddc38c85292363085d/mG/nitrofurantoin---picture.jpg").open
+pr7.images.attach(io: file, filename: "nes.png", content_type: "image/png")
 
 puts "creating pharmacy products"
 
