@@ -12,15 +12,7 @@ Rails.application.routes.draw do
   # User account page
   get "/users/my_account", to: "users#account", as: :my_account
 
-
-
-
- # config/routes.rb
-
-
   resources :pharmacy_items, only: [:new, :edit, :destroy]
-
-
 
   # Regular user-facing features
 

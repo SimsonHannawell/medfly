@@ -1,3 +1,4 @@
+<%= render "shared/navbar" %>
 <style>
   body {
     background-color: #f9fafb;
@@ -133,20 +134,18 @@
         <p>Available: <%= pp.quantity %> in stock</p>
       </div>
 
-      <%= form_with url: pharmacy_basket_items_path(@pharmacy), method: :post, local: true do |f| %>
-        <div class="qty-form">
-          <%= number_field_tag :quantity, 1, min: 1, max: pp.quantity, class: "qty-input" %>
-          <%= hidden_field_tag :pharmacy_product_id, pp.id %>
-        </div>
-        <%= f.submit "Add to Basket", class: "add-btn" %>
-      <% end %>
+<%= form_with url: baskets_path, method: :post, local: true do |f| %>
+  <div class="qty-form">
+    <%= number_field_tag :quantity, 1, min: 1, max: pp.quantity, class: "qty-input" %>
+    <%= hidden_field_tag :pharmacy_product_id, pp.id %>
+    <%= hidden_field_tag :pharmacy_id, @pharmacy.id %>
+  </div>
+  <%= f.submit "Add to Basket", class: "add-btn" %>
+<% end %>
+
     </div>
   <% end %>
 </div>
 
-<% if current_user&.basket&.basket_items&.any? %>
-  <% subtotal = current_user.basket.basket_items.sum { |item| item.pharmacy_product.price * item.quantity } + 10 %>
-  <div class="basket-bar">
-    <span>Subtotal: £<%= sprintf('%.2f', subtotal) %> (incl. £10 delivery)</span>
-    <%= link_to "Go to Basket", basket_path(current_user.basket), class: "btn" %>
+    <%= link_to "Go to Basket", basket_path, class: "btn" %>
   </div>

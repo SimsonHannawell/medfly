@@ -1,10 +1,6 @@
 <!-- Wrap top-header and hero inside .top-section -->
 <div class="top-section">
-  <!-- Top bar with logo and user icon -->
-  <header class="top-header">
-    <img src="<%= asset_path('medfly_logo.jpg') %>" alt="MedFly Logo" class="logo">
-    <div class="user-icon"></div>
-  </header>
+<%= render "shared/navbar" %>
 
   <!-- Homepage Hero Section -->
   <section class="hero">
@@ -34,4 +30,3 @@
   <button class="carousel-btn prev">‹</button>
   <button class="carousel-btn next">›</button>
 </div>
-
