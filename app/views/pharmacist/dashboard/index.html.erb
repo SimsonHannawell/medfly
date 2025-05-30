@@ -1,3 +1,26 @@
 <h1>Pharmacist Dashboard</h1>
 <p>Welcome, <%= current_user.name %>!</p>
-<p><%= link_to "Manage Pharmacies", pharmacist_pharmacies_path %></p>
+<%= link_to "+ Add New Pharmacy", new_pharmacist_pharmacy_path, class: "btn btn-primary" %>
+
+
+<% @pharmacies.each do |pharmacy| %>
+  <div class="pharmacy-card">
+    <h3><%= pharmacy.name %></h3>
+    <p><%= pharmacy.location %></p>
+    <p><%= pharmacy.description %></p>
+
+    <h4>Products:</h4>
+    <ul>
+      <% pharmacy.pharmacy_products.each do |pp| %>
+        <li>
+          <strong><%= pp.product.name %></strong> -
+          <%= pp.product.description %> —
+          Quantity: <%= pp.quantity %>,
+          Price: £<%= pp.price %>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= link_to "Manage Pharmacy", pharmacist_pharmacies_path(pharmacy), class: "btn" %>
+  </div>
+<% end %>
