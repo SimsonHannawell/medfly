@@ -17,19 +17,7 @@ Rails.application.routes.draw do
 
  # config/routes.rb
 
-  get "pharmacy/menu", to: "pharmacy#menu"
-  get "pharmacy/item", to: "pharmacy#item"
-  get "pharmacy/discount", to: "pharmacy#discount"
-  get "pharmacy/search", to: "pharmacy#search"
-  get "pharmacy/my_profile", to: "pharmacy#my_profile"
-  get "pharmacy/recieved_orders", to: "pharmacy#recieved_orders"
-  get "pharmacy/warnings", to: "pharmacy#warnings"
-  get 'orders/my_orders', to: 'orders#my_orders', as: 'my_orders'
-
-
   resources :pharmacy_items, only: [:new, :edit, :destroy]
-
-
 
   # Regular user-facing features
 
