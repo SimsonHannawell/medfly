@@ -40,4 +40,3 @@ class Pharmacist::PharmaciesController < Pharmacist::BaseController
     params.require(:pharmacy).permit(:name, :address, :phone_number) # add your fields here
   end
 end
-

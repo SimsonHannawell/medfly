@@ -1,36 +1,67 @@
-<h1>Your Orders</h1>
+<%= render "shared/bottom_navbar" %>
 
-<div class="my-account-link" style="margin-bottom: 1em;">
-  <%= link_to "Go to My Account", my_account_path, class: "btn btn-secondary" %>
-</div>
+<div class="container py-4">
+  <h1 class="text-primary mb-4 text-center fw-bold">Your Orders</h1>
 
-<%= form_with url: orders_path, method: :get, local: true, class: "filter-form" do %>
-  <div>
-    <label>Status:</label>
-    <%= select_tag :status, options_for_select(["All", "Delivered", "Pending"], params[:status]), include_blank: false %>
+  <div class="mb-4 text-center">
+    <%= link_to "Go to My Account", my_account_path, class: "btn btn-outline-secondary" %>
   </div>
 
-  <div>
-    <label>Sort by:</label>
-    <%= select_tag :sort, options_for_select([
-      ["Newest First", "newest"],
-      ["Oldest First", "oldest"]
-    ], params[:sort]) %>
-  </div>
+  <%= form_with url: orders_path, method: :get, local: true, class: "row g-3 mb-4 align-items-end justify-content-center" do %>
+    <div class="col-md-auto">
+      <label class="form-label fw-semibold">Status:</label>
+      <%= select_tag :status, options_for_select(["All", "Delivered", "Pending"], params[:status]),
+                     include_blank: false, class: "form-select" %>
+    </div>
 
-  <%= submit_tag "Apply", class: "btn" %>
-<% end %>
+    <div class="col-md-auto">
+      <label class="form-label fw-semibold">Sort by:</label>
+      <%= select_tag :sort, options_for_select([
+        ["Newest First", "newest"],
+        ["Oldest First", "oldest"]
+      ], params[:sort]), class: "form-select" %>
+    </div>
 
-<!-- List the orders -->
-<% @orders.each do |order| %>
-  <div class="order-card">
-    <p><strong>Order #<%= order.id %></strong></p>
-    <p>Status: <%= order.delivered? ? "Delivered" : "Pending" %></p>
+    <div class="col-md-auto">
+      <%= submit_tag "Apply", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 
-    <% order.basket.basket_items.each do |item| %>
-      <div class="item">
-        <p><%= item.product.name %> – Qty: <%= item.quantity %></p>
+  <% if @orders.any? %>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @orders.each do |order| %>
+      <div class="col">
+        <div class="card shadow-sm h-100 clickable-card">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Order #<%= order.id %></h5>
+            <p class="card-subtitle mb-2 text-muted">
+              Status: <strong><%= order.delivered? ? "Delivered" : "Pending" %></strong>
+            </p>
+            <ul class="list-unstyled small mb-0">
+              <% order.basket.basket_items.each do |item| %>
+                <li>
+                  <%= item.product.name %> – Qty: <%= item.quantity %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>
+<% else %>
+  <div class="alert alert-info text-center mt-4">
+    You haven’t placed any orders yet.
+  </div>
 <% end %>
+
+</div>
+
+<!-- Optional extra styling -->
+<style>
+  .clickable-card:hover {
+    transform: scale(1.015);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.08);
+  }
+</style>

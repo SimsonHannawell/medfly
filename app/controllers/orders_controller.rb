@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :show, :new, :create, :confirm, :my_orders]
+  before_action :authenticate_user!
 
   def index
     base_scope = current_user.orders.includes(basket: { basket_items: :product })
@@ -10,7 +10,6 @@ class OrdersController < ApplicationController
     @user = current_user
     @active_order = @user.orders.find_by(status: 'active')
     @previous_orders = @user.orders.where.not(status: 'active').order(created_at: :desc)
-    # Exclude active order from previous orders
     base_scope = @user.orders.where.not(id: @active_order&.id).includes(basket: { basket_items: :product })
     @orders = OrderFilterSorter.new(base_scope, params).call
   end
@@ -20,17 +19,24 @@ class OrdersController < ApplicationController
     @order_items = @order.order_items.includes(:product)
   end
 
-  def new
-    @order = current_user.orders.new
-    @basket_items = current_user.basket.basket_items.includes(:product) if current_user.basket
-  end
-
   def create
+    basket = current_user.orders.find_by(delivered?: false)&.basket
+
+    if basket.nil? || basket.basket_items.empty?
+      redirect_to pharmacies_path, alert: 'No active basket to place order.'
+      return
+    end
+
     @order = current_user.orders.new(order_params)
-    @order.basket_items = current_user.basket.basket_items if current_user.basket
+    @order.basket = basket
 
     if @order.save
-      current_user.basket.basket_items.destroy_all if current_user.basket
+      # Mark order as delivered? or update status accordingly
+      @order.update(delivered?: true, status: 'active')
+
+      # Destroy basket as order placed
+      basket.destroy
+
       redirect_to confirm_order_path(@order), notice: 'Order placed successfully.'
     else
       render :new, alert: 'Failed to place order.'

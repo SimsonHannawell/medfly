@@ -2,7 +2,7 @@ class PharmaciesController < ApplicationController
   before_action :authorize_regular_user!
 
   def authorize_regular_user!
-    redirect_to pharmacist_dashboard_path if current_user&.pharmacist?
+    redirect_to pharmacist_root_path if current_user&.pharmacist?
   end
   # bootstrap modal / create and if else statement / params has to be changed to city
     def index
@@ -27,7 +27,6 @@ class PharmaciesController < ApplicationController
   end
 
   def show
-    # no changes here
     @pharmacy = Pharmacy.find(params[:id])
     @products = @pharmacy.products
   end

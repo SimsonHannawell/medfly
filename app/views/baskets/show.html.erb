@@ -1,3 +1,5 @@
+<%= render "shared/bottom_navbar" %>
+<%= render "shared/navbar" %>
 <!-- Add Google Fonts -->
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
@@ -172,7 +174,7 @@
       <%= hidden_field_tag :basket_id, @basket.id %>
 
       <div class="order-section">
-        <%= f.submit "Place Order", class: "btn-primary" %>
+        <%= link_to "Place Order", confirm_order_path, class: "btn-primary text-decoration-none" %>
       </div>
     <% end %>
   <% end %>
