@@ -1,12 +1,20 @@
-.pharmacy-card {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin: 1rem 0;
+// .pharmacy-card {
+//   display: flex;
+//   flex-direction: column;
+//   background: #fff;
+//   border-radius: 10px;
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+//   overflow: hidden;
+//   margin: 1rem 0;
+// }
+
+.pharmacy-grid {
+  a {
+    text-decoration: none;
+    color: black;
+  }
 }
+
 
 .pharmacy-image-wrapper {
   position: relative;
