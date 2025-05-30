@@ -103,6 +103,41 @@ PharmacyProduct.create!(
 )
 
 PharmacyProduct.create!(
+  pharmacy_id: Pharmacy.first.id,
+  product_id: Product.second.id,
+  quantity: 100,
+  price: 5
+)
+
+PharmacyProduct.create!(
+  pharmacy_id: Pharmacy.first.id,
+  product_id: Product.third.id,
+  quantity: 100,
+  price: 5
+)
+
+PharmacyProduct.create!(
+  pharmacy_id: Pharmacy.first.id,
+  product_id: Product.fourth.id,
+  quantity: 100,
+  price: 5
+)
+
+PharmacyProduct.create!(
+  pharmacy_id: Pharmacy.first.id,
+  product_id: Product.fifth.id,
+  quantity: 100,
+  price: 5
+)
+
+PharmacyProduct.create!(
+  pharmacy_id: Pharmacy.first.id,
+  product_id: Product.sixth.id,
+  quantity: 100,
+  price: 5
+)
+
+PharmacyProduct.create!(
   pharmacy_id: Pharmacy.last.id,
   product_id: Product.last.id,
   quantity: 50,
