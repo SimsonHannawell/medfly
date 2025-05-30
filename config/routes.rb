@@ -12,9 +12,6 @@ Rails.application.routes.draw do
   # User account page
   get "/users/my_account", to: "users#account", as: :my_account
 
-
-
-
  # config/routes.rb
 
   resources :pharmacy_items, only: [:new, :edit, :destroy]
@@ -23,26 +20,24 @@ Rails.application.routes.draw do
 
   resources :pharmacies, only: [:index, :show] do
     resources :basket_items, only: [:create, :update, :destroy]
-     resources :reviews, only: [:new, :create]
+    resources :reviews, only: [:new, :create]
   end
 
-  resources :baskets, only: [:create, :update, :show, :destroy] do
+  resources :baskets, only: [:show, :update, :destroy] do
     resources :orders, only: [:create, :show]
   end
 
   resources :orders, only: [:index] do
     member do
-      get :confirm   # /orders/:id/confirm
+      get :confirm
     end
   end
 
   resources :users, only: [:edit, :update]
   resources :favourites, only: [:create, :index]
 
-  # Pharmacist backend namespace
   namespace :pharmacist do
     root to: "dashboard#index"
-
     resources :pharmacies, only: [:new, :edit, :create, :update, :destroy] do
       resources :pharmacy_products, only: [:create, :update, :destroy]
     end
