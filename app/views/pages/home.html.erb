@@ -1,4 +1,89 @@
 <!-- Top Section: Logo + User Icon + Hero -->
+<div data-controller="hide-header">
+  <header class="top-header" data-hide-header-target="header">
+    <div class="app-title-container">
+      <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
+      <div class="app-name">MedFly</div>
+    </div>
+
+    <div class="user-icon"></div>
+
+    <div class="search-bar">
+      <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
+      <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form" } do %>
+        <%= text_field_tag :search, params[:search], placeholder: "Find pharmacies by city...", class: "search-input" %>
+        <%= submit_tag "Search", class: "search-btn" %>
+      <% end %>
+    </div>
+  </header>
+
+  <!-- Spacer must match .top-header height -->
+  <div class="top-to-carousel-spacer"></div> 
+</div>
+
+
+<!-- Spacer with matching gradient background -->
+<!-- <div class="top-to-carousel-spacer"></div> -->
+
+<!-- Carousel & Health Tips -->
+
+<div class="carousel-health-container flex-grow-1 d-flex flex-column justify-content-center">
+  <!-- Top Image Carousel -->
+  <div id="droneCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="3000">
+        <%= image_tag "Picture1-medfly.png", class: "d-block w-100", alt: "Slide 1" %>
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <%= image_tag "Picture2.jpg", class: "d-block w-100", alt: "Slide 2" %>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#droneCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#droneCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Health Tips Section (Cards Layout) -->
+  <section class="health-tips-section">
+    <h2 class="tips-heading">Health Tips</h2>
+    <div class="health-cards-container">
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("stay_hydrated.png") %>');"></div>
+        <div class="health-card-caption">Stay Hydrated</div>
+      </div>
+
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("take_medications.png") %>');"></div>
+        <div class="health-card-caption">Take Medications</div>
+      </div>
+
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("regular_checkups.png") %>');"></div>
+        <div class="health-card-caption">Regular Checkups</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<% if false %>
+<!-- Top Section: Logo + User Icon + Hero -->
 <div class="top-section">
   <header class="top-header">
     <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
@@ -80,3 +165,5 @@
     <span>Profile</span>
   </a>
 </nav>
+<% end %>
+
