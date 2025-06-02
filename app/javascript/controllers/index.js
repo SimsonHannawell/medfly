@@ -2,3 +2,5 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
+import HideHeaderController from "./hide_header_controller"
+application.register("hide-header", HideHeaderController)

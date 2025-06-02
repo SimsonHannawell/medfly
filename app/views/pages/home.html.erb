@@ -1,42 +1,136 @@
 <!-- Top Section: Logo + User Icon + Hero -->
-<div class="top-section">
-  <header class="top-header">
-    <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
-    
-    <!-- Placeholder User Icon -->
-    <div class="user-icon"></div>
-  </header>
+<div data-controller="hide-header">
+  <header class="top-header" data-hide-header-target="header" style="position: relative; z-index: 10; padding-bottom: 0.4rem;">
 
-  <section class="hero">
-    <h1>MedFly - Fast Relief <br> Right to Your Door</h1>
-
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
-      <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form" } do %>
-        <%= text_field_tag :search, params[:search], placeholder: "Enter city...", class: "search-input" %>
-        <%= submit_tag "Search", class: "search-btn" %>
-      <% end %>
+    <div class="app-title-container">
+      <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
+      <div class="app-name">MedFly</div>
     </div>
-  </section>
 
-  <!-- Trusted Message -->
-  <section class="trusted">
-    <p>Trusted by pharmacies and clinics<br>for fast, secure medication delivery</p>
-  </section>
+    <!-- <div class="user-icon"></div> -->
+
+    <!-- Wrap search bar and filter button in a Stimulus controller container -->
+    <div class="container" style="padding-top: 0;" data-controller="filter-toggle">
+      <div class="d-flex align-items-center">
+
+        <!-- Search bar with location icon, capped width -->
+        <div data-filter-toggle-target="searchBar" class="search-bar d-flex align-items-center" style="flex-grow: 1;">
+          <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
+          
+          <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form d-flex align-items-center w-100" } do %>
+            <%= text_field_tag :search, params[:search], placeholder: "Enter your location", class: "search-input flex-grow-1", style: "min-width: 0; font-size: 0.9rem; padding: 6px 10px; border-radius: 20px 0 0 20px;" %>
+            <%= submit_tag "Search", class: "search-btn", style: "font-size: 0.9rem; padding: 6px 12px; border-radius: 0 20px 20px 0;" %>
+          <% end %>
+        </div>
+
+        <!-- Hamburger icon right next to search bar -->
+        <button type="button" 
+                class="btn ms-2 filter-button" 
+                data-filter-toggle-target="hamburger"
+                data-bs-toggle="collapse" 
+                data-bs-target="#filterPanel" 
+                aria-expanded="false" 
+                aria-controls="filterPanel" 
+                data-action="click->filter-toggle#toggle"
+                style="font-size: 1.8rem; padding: 0.375rem 0.75rem; min-width: 48px; height: 38px;">
+          <i class="bi bi-list"></i>
+        </button>
+
+      </div>
+
+      <!-- Collapsible filter panel -->
+      <div class="collapse mt-2" id="filterPanel" data-filter-toggle-target="filtersForm">
+        <div class="card card-body">
+          <%= form_with url: pharmacies_path, method: :get, local: true do %>
+
+            <!-- Product -->
+            <div class="mb-2">
+              <%= label_tag :product, "Product" %>
+              <%= text_field_tag :product, params[:product], class: "form-control", placeholder: "Search product name..." %>
+            </div>
+
+            <!-- Illness -->
+            <div class="mb-2">
+              <%= label_tag :illness, "Illness / Condition" %>
+              <%= select_tag :illness, options_for_select(["Any", "Cold", "Flu", "Allergy", "Pain"], params[:illness]), class: "form-select" %>
+            </div>
+
+            <!-- Brand -->
+            <div class="mb-2">
+              <%= label_tag :brand, "Brand" %>
+              <%= select_tag :brand, options_for_select(["Any", "Pfizer", "GSK", "Cipla", "Novartis"], params[:brand]), class: "form-select" %>
+            </div>
+
+            <!-- Pharmacy Type -->
+            <div class="mb-2">
+              <%= label_tag :type, "Pharmacy Type" %>
+              <%= select_tag :type, options_for_select(["Any", "24/7", "Hospital", "Independent"], params[:type]), class: "form-select" %>
+            </div>
+
+            <!-- Form (Dosage Form) -->
+            <div class="mb-2">
+              <%= label_tag :form, "Dosage Form" %>
+              <div>
+                <% ["Tablet", "Capsule", "Syrup", "Cream", "Injection", "Drops"].each do |form_type| %>
+                  <div class="form-check">
+                    <%= check_box_tag "form_types[]", form_type, Array(params[:form_types]).include?(form_type), class: "form-check-input", id: "form_#{form_type}" %>
+                    <%= label_tag "form_#{form_type}", form_type, class: "form-check-label" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Price Range -->
+            <div class="mb-2 d-flex gap-2">
+              <div style="flex: 1;">
+                <%= label_tag :min_price, "Min Price" %>
+                <%= number_field_tag :min_price, params[:min_price], class: "form-control", min: 0, placeholder: "£0" %>
+              </div>
+              <div style="flex: 1;">
+                <%= label_tag :max_price, "Max Price" %>
+                <%= number_field_tag :max_price, params[:max_price], class: "form-control", min: 0, placeholder: "£150" %>
+              </div>
+            </div>
+
+            <!-- Prescription Required -->
+            <div class="mb-2">
+              <%= label_tag :prescription, "Prescription Required" %><br>
+              <% [["Any", ""], ["Yes", "yes"], ["No", "no"]].each do |label, value| %>
+                <div class="form-check form-check-inline">
+                  <%= radio_button_tag :prescription, value, params[:prescription] == value, class: "form-check-input", id: "prescription_#{value}" %>
+                  <%= label_tag "prescription_#{value}", label, class: "form-check-label" %>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Open Now -->
+            <div class="form-check mb-2">
+              <%= check_box_tag :open_now, "1", params[:open_now].present?, class: "form-check-input", id: "openNowCheck" %>
+              <%= label_tag :openNowCheck, "Open Now", class: "form-check-label" %>
+            </div>
+
+            <!-- Apply Filters Button -->
+            <%= submit_tag "Apply Filters", class: "btn btn-success" %>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
 </div>
 
+
 <!-- Carousel & Health Tips -->
-<div class="carousel-health-container flex-grow-1 d-flex flex-column justify-content-center">
-  
-  <!-- Image Carousel -->
+
+<div class="carousel-health-container flex-grow-1 d-flex flex-column justify-content-center" style="margin-top: 0.5rem;">
+  <!-- Top Image Carousel -->
   <div id="droneCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="3000">
         <%= image_tag "Picture1-medfly.png", class: "d-block w-100", alt: "Slide 1" %>
       </div>
       <div class="carousel-item" data-bs-interval="3000">
-        <%= image_tag "Picture2.png", class: "d-block w-100", alt: "Slide 2" %>
+        <%= image_tag "Picture2.jpg", class: "d-block w-100", alt: "Slide 2" %>
       </div>
     </div>
 
@@ -50,33 +144,25 @@
     </button>
   </div>
 
-  <!-- Health Tips -->
-  <div class="health-tips-section">
+  <!-- Health Tips Section (Cards Layout) -->
+  <section class="health-tips-section">
     <h2 class="tips-heading">Health Tips</h2>
-    <div class="health-tips-scroll">
-      <%= image_tag "stay_hydrated.png", alt: "Stay Hydrated", class: "health-tip-img" %>
-      <%= image_tag "take_medications.png", alt: "Take Medications", class: "health-tip-img" %>
-      <%= image_tag "regular_checkups.png", alt: "Regular Checkups", class: "health-tip-img" %>
+    <div class="health-cards-container">
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("hydrated.jpg") %>');"></div>
+        <div class="health-card-caption">Stay Hydrated</div>
+      </div>
+
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("take_medications.png") %>');"></div>
+        <div class="health-card-caption">Take Medications</div>
+      </div>
+
+      <div class="health-card">
+        <div class="health-card-img" style="background-image: url('<%= asset_path("regular_checkups.png") %>');"></div>
+        <div class="health-card-caption">Regular Checkups</div>
+      </div>
     </div>
-  </div>
+  </section>
 </div>
 
-<!-- Bottom Navbar -->
-<nav class="bottom-navbar">
-  <a href="/" class="nav-item">
-    <i class="ph ph-house-simple ph-bold"></i>
-    <span>Home</span>
-  </a>
-  <a href="/pharmacies" class="nav-item">
-    <i class="ph ph-magnifying-glass ph-bold"></i>
-    <span>Search</span>
-  </a>
-  <a href="/favourites" class="nav-item">
-    <i class="ph ph-heart ph-bold"></i>
-    <span>Favourites</span>
-  </a>
-  <a href="/users/my_account" class="nav-item">
-    <i class="ph ph-user-circle ph-bold"></i>
-    <span>Profile</span>
-  </a>
-</nav>
