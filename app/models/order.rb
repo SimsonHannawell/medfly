@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :user
   belongs_to :basket
+  belongs_to :pharmacy
 
   has_many :order_items
 

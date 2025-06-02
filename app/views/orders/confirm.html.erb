@@ -54,11 +54,6 @@
       font-size: 0.95rem;
     }
 
-    .small {
-      font-size: 0.85rem;
-      color: #666;
-    }
-
     .footer {
       margin-top: 2rem;
       font-size: 0.85rem;
@@ -89,7 +84,7 @@
     </p>
 
     <div class="section">
-      <strong>Order Number:</strong> #<%= @order.id %>
+      <strong>Order Number:</strong> #<%= @order.id %><br>
       <strong>Order Date:</strong> <%= @order.created_at.strftime("%B %-d, %Y") %>
     </div>
 
@@ -99,13 +94,23 @@
     </div>
 
     <div class="section">
-      <strong>Items Ordered:</strong>
-      <% @order.basket.basket_items.includes(:product).each do |item| %>
-        <div class="item-card">
-          <p><%= item.quantity %> x <%= item.product.name %></p>
-          <textarea placeholder="Enter pharmacy name"></textarea>
-        </div>
-      <% end %>
+      <div class="item-card">
+        <strong>Items Ordered:</strong>
+        <% total_price = 0 %>
+        <% @order.basket.basket_items.includes(:product).each do |item| %>
+          <% pharmacy_product = PharmacyProduct.find_by(pharmacy_id: @order.pharmacy_id, product_id: item.product_id) %>
+          <% unit_price = pharmacy_product&.price || 0 %>
+          <% item_total = unit_price * item.quantity %>
+          <% total_price += item_total %>
+          <p><%= item.quantity %> x <%= item.product.name %> = <%= number_to_currency(item_total) %></p>
+        <% end %>
+
+        <strong>Plus delivery charge:</strong>
+        <p><%= number_to_currency(10) %></p>
+
+        <strong>Total Payment:</strong>
+        <p><%= number_to_currency(total_price + 10) %></p>
+      </div>
     </div>
 
     <div class="section">

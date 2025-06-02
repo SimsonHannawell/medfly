@@ -45,6 +45,12 @@ class OrdersController < ApplicationController
 
   def confirm
     @order = current_user.orders.find(params[:id])
+    @basket = @order.basket
+    @basket_items = @basket.basket_items.includes(:product)
+     @total_price = @basket_items.sum do |item|
+    pharmacy_product = PharmacyProduct.find_by(pharmacy_id: @basket.pharmacy_id, product_id: item.product_id)
+    (pharmacy_product&.price || 0) * item.quantity
+    end
   end
 
   private

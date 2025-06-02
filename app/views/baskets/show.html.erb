@@ -1,4 +1,5 @@
 <%= render "shared/bottom_navbar" %>
+
 <!-- Add Google Fonts -->
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
@@ -21,7 +22,7 @@
     color: #333;
   }
 
-  .basket-card {
+  .card {
     background: #fff;
     border-radius: 10px;
     padding: 24px;
@@ -60,36 +61,16 @@
 
   tfoot td {
     font-weight: 700;
-    font-size: 1.15em;
+    font-size: 1.1em;
     padding-top: 16px;
     border-top: 2px solid #ddd;
     text-align: right;
   }
 
-  label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #555;
-  }
-
-  input[readonly], textarea[readonly] {
-    width: 100%;
-    padding: 10px 14px;
-    background-color: #f3f4f6;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    color: #555;
-    resize: none;
-    font-size: 1em;
-  }
-
-  textarea[readonly] {
-    min-height: 80px;
-  }
-
-  form .form-group {
-    margin-bottom: 20px;
+  .footer {
+    font-size: 0.85rem;
+    color: #444;
+    margin-top: 40px;
   }
 
   .btn-primary {
@@ -101,80 +82,83 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%;
-    max-width: 250px;
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
   }
 
   .btn-primary:hover {
     background-color: #1d4ed8;
   }
 
-  .order-section {
-    text-align: center;
-    margin-top: 30px;
+  .summary-label {
+    font-weight: 600;
+    margin-top: 1rem;
+    display: block;
   }
 </style>
 
 <div class="container">
-  <h1>Your Basket</h1>
+  <h1>Order Confirmation</h1>
 
-  <% if @basket_items.empty? %>
-    <p>Your basket is empty.</p>
-  <% else %>
-    <div class="basket-card">
-      <table>
-        <thead>
+  <div class="card">
+    <strong>Hi <%= current_user.name || "there" %>,</strong>
+    <p>Thank you for your purchase. Your order has been received and is now being processed.</p>
+
+    <p class="summary-label">Order #: <%= @order.id %></p>
+    <p class="summary-label">Order Date: <%= @order.created_at.strftime("%B %-d, %Y") %></p>
+    <p class="summary-label">Estimated Delivery: <%= (@order.created_at + 20.minutes).strftime("%B %-d, %Y") %></p>
+  </div>
+
+  <div class="card">
+    <h2>Shipping Details</h2>
+    <p><strong>Name:</strong> <%= current_user.name %></p>
+    <p><strong>Email:</strong> <%= current_user.email %></p>
+    <p><strong>Address:</strong> <%= current_user.address %></p>
+  </div>
+
+  <div class="card">
+    <h2>Items Ordered</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th style="text-align:center;">Quantity</th>
+          <th style="text-align:right;">Price (each)</th>
+          <th style="text-align:right;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% total = 0 %>
+        <% @order.basket.basket_items.each do |item| %>
+          <% price = PharmacyProduct.find_by(pharmacy_id: @order.pharmacy_id, product_id: item.product_id)&.price || 0 %>
+          <% quantity = item.quantity || 1 %>
+          <% item_total = price * quantity %>
+          <% total += item_total %>
           <tr>
-            <th>Product</th>
-            <th style="text-align:center;">Quantity</th>
-            <th style="text-align:right;">Price (each)</th>
-            <th style="text-align:right;">Total</th>
+            <td><%= item.product.name %></td>
+            <td style="text-align:center;"><%= quantity %></td>
+            <td style="text-align:right;">£<%= '%.2f' % price %></td>
+            <td style="text-align:right;">£<%= '%.2f' % item_total %></td>
           </tr>
-        </thead>
-        <tbody>
-          <% @basket_items.each do |item| %>
-            <% price = PharmacyProduct.find_by(pharmacy_id: @basket.pharmacy_id, product_id: item.product_id)&.price || 0 %>
-            <tr>
-              <td><%= item.product.name %></td>
-              <td style="text-align:center;"><%= item.quantity || 1 %></td>
-              <td style="text-align:right;">£<%= price %></td>
-              <td style="text-align:right;">£<%= price * (item.quantity || 1) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" style="text-align:right;">Drone Delivery Charge:</td>
-            <td style="text-align:right;">£10.00</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="text-align:right;">Total:</td>
-            <td style="text-align:right;">£<%= '%.2f' % (@total_price + 10) %></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Drone Delivery Charge</td>
+          <td style="text-align:right;">£10.00</td>
+        </tr>
+        <tr>
+          <td colspan="3">Total Payment</td>
+          <td style="text-align:right;">£<%= '%.2f' % (total + 10) %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-    <h2>Your Details</h2>
-    <%= form_with url: orders_path, method: :post do |f| %>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" value="<%= current_user.name %>" readonly />
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" value="<%= current_user.email %>" readonly />
-      </div>
-      <div class="form-group">
-        <label>Address</label>
-        <textarea readonly><%= current_user.address %></textarea>
-      </div>
-
-      <%= hidden_field_tag :basket_id, @basket.id %>
-
-      <div class="order-section">
-        <%= link_to "Place Order", confirm_order_path, class: "btn-primary text-decoration-none" %>
-      </div>
-    <% end %>
-  <% end %>
+  <div class="footer">
+    <p>You’ll receive another message once your order ships with tracking details.</p>
+    <p>Thank you for shopping with MedFly!</p>
+    <%= link_to "Back to My Account", my_account_path, class: "btn-primary" %>
+  </div>
 </div>
