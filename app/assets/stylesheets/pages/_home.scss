@@ -1,262 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 
-// @import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
-// @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
-// /* General styles */
-// body {
-//   font-family: Arial, sans-serif;
-//   margin: 0;
-//   background: #f5f5f5;
-//   padding-bottom: 60px;
-// }
-
-// .top-section {
-//   background: linear-gradient(0deg, rgba(173, 216, 230, 1) 0%, rgba(255, 255, 255, 1) 100%);
-//   padding-bottom: 0.5rem;
-// }
-
-// .top-header {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 1rem;
+.top-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 200px;
 //   background: transparent;
-// }
+// //   background: linear-gradient(to top,#d4e1e4, #93e7fa);
+  background: linear-gradient(to top,#d4e1e4, #f9fca6);
+  box-shadow: 0 4px 15px rgba(0, 68, 102, 0.25);
+  z-index: 1000;
+  user-select: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-// .medfly-logo,
-// .user-icon {
-//   width: 60px;
-//   height: 60px;
-// }
+.top-header.hide-header {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-// .user-icon {
-//   background: #f6d9d9;
-//   border-radius: 50%;
-//   border: 2px dashed #ccc;
-//   display: inline-block;
-// }
+.app-title-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 60px;
+}
 
-// /* Hero section */
-// .hero {
-//   background: transparent;
-//   text-align: center;
-//   padding: 1rem 1rem 0.5rem;
-//   margin-top: -1px;
-// }
+.medfly-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-left: 8px;
+  margin-top: 6px; /* shifts the logo slightly down */
+}
 
-// .hero h1 {
-//   font-size: 40px;
-//   margin: 0;
-//   font-family: "Zain", sans-serif;
-// }
+.app-name {
+  position: absolute;
+  left: 45%; /* move slightly left from center */
+  top: 20px;
+  transform: translateX(-50%);
+  font-family: "Cookie", cursive;
+  font-weight: 500;
+  font-size: 55px;
+  font-style: italic;
+  margin: 0;
+  color: #004466;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+  white-space: nowrap;
+  line-height: 60px;
+  background: transparent;
+  z-index: 1000;
+  user-select: none;
+}
 
-// /* Search bar */
-// .search-bar {
-//   display: flex;
-//   align-items: center;
-//   max-width: 350px;
-//   margin: 0.5rem auto;
-//   background: #fff;
-//   border-radius: 9999px;
-//   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-//   border: 1px solid #ccc;
-//   overflow: hidden;
-// }
+.user-icon {
+  background: #f6d9d9;
+  border-radius: 50%;
+  border: 2px dashed #ccc;
+  display: inline-block;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  z-index: 1100;
+}
 
-// .location-icon {
-//   width: 24px;
-//   height: 24px;
-//   margin-left: 12px;
-//   margin-right: 8px;
-// }
+.hero {
+  background: transparent;
+  text-align: center;
+  padding: 1rem 1rem 0.5rem;
+  margin-top: -1px;
+}
 
-// .search-form {
-//   display: flex;
-//   flex: 1;
-// }
+.hero h1 {
+  font-size: 40px;
+  margin: 0;
+  font-family: "Zain", sans-serif;
+}
 
-// .search-input {
-//   border: none;
-//   outline: none;
-//   flex: 1;
-//   padding: 0.5rem;
-//   font-size: 1rem;
-//   background: transparent;
-// }
+.search-bar {
+  display: flex;
+  align-items: center;
+  max-width: 420px;
+  margin: 0.5rem auto;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  overflow: hidden;
+  position: relative;
+  top: 45px;
+  min-height: 60px;
+  transition: box-shadow 0.3s ease;
+}
 
-// .search-btn {
-//   background: #4a90e2;
-//   border: none;
-//   color: white;
-//   padding: 0.5rem 1rem;
-//   border-radius: 0 9999px 9999px 0;
-//   cursor: pointer;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   transition: background-color 0.3s ease;
-// }
+.filter-button{
+    position: absolute;
+    right: 15px;
+    top: 50px;
+}
 
-// .search-btn:hover {
-//   background: #4a1db4;
-// }
+.search-input::placeholder {
+  font-size: 1.1rem; /* slightly bigger than default */
+  color: #666;       /* optional: a softer color for placeholder */
+  font-weight: 500;  /* optional: make it a bit bolder */
+}
 
-// /* Trusted section */
-// .trusted {
-//   text-align: center;
-//   font-weight: bold;
-//   font-style: italic;
-//   font-family: "Zain", sans-serif;
-//   font-size: 23px;
-//   margin: 0.5rem auto;
-// }
+.search-bar:focus-within,
+.search-bar:hover {
+  box-shadow: 0 6px 12px rgba(207, 174, 234, 0.15);
+}
 
-// /* Carousel Section */
-// .h-100 {
-//   min-height: 100vh;
-// }
+.location-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 12px;
+  margin-right: 8px;
+}
 
-// .d-flex {
-//   display: flex !important;
-// }
+.search-form {
+  display: flex;
+  flex: 1;
+}
 
-// .flex-column {
-//   flex-direction: column !important;
-// }
+.search-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: transparent;
+}
 
-// .justify-content-center {
-//   justify-content: center !important;
-// }
+.search-btn {
+  background: #4a1db4;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 9999px 9999px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  height: 60px;
+}
 
-// .carousel {
-//   width: 100%;
-//   max-width: 100%;
-//   margin: 0 auto;
-//   overflow: hidden;
-// }
+.search-btn:hover {
+  background: #a696cc;
+}
 
-// .carousel-inner {
-//   width: 100%;
-// }
+.h-100 {
+  min-height: 100vh;
+}
 
-// .carousel-inner img {
-//   width: 100%;
-//   height: auto;
-//   display: block;
-//   object-fit: cover;
-// }
+.d-flex {
+  display: flex !important;
+}
 
-// /* Mobile (iPhone 12 Pro and below) */
-// @media (max-width: 480px) {
-//   .carousel-inner img {
-//     height: 220px;
-//   }
-// }
+.flex-column {
+  flex-direction: column !important;
+}
 
-// /* Tablet */
-// @media (min-width: 481px) and (max-width: 767px) {
-//   .carousel-inner img {
-//     height: 280px;
-//   }
-// }
+.justify-content-center {
+  justify-content: center !important;
+}
 
-// /* Desktop */
-// @media (min-width: 768px) {
-//   .carousel-inner img {
-//     max-height: 500px;
-//     object-fit: contain;
-//   }
-// }
+.carousel {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  padding-top: 2rem; /* adjust the value to move content down */
+}
 
-// /* Health Tips Section */
-// .health-tips-section {
-//   background: linear-gradient(0deg, rgba(173, 216, 230, 1) 0%, rgba(255, 255, 255, 1) 100%);
-//   padding: 1rem;
-//   text-align: center;
-// }
+.carousel-inner {
+  width: 100%;
+}
 
-// .tips-heading {
-//   font-size: 30px;
-//   font-family: "Zain", sans-serif;
-//   font-weight: bold;
-//   margin-bottom: 1rem;
-// }
+.carousel-inner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: brightness(0.85);
+}
 
-// .health-tips-scroll {
-//   display: flex;
-//   overflow-x: auto;
-//   scroll-snap-type: x mandatory;
-//   -webkit-overflow-scrolling: touch;
-//   gap: 1rem;
-//   padding: 1rem;
-//   scroll-padding-left: 1rem;
-//   scroll-behavior: smooth;
-// }
+.health-tip-img {
+  margin-top: -18px;
+}
 
-// .health-tip-img {
-//   flex: 0 0 auto;
-//   height: 220px;
-//   width: auto;
-//   max-width: 100%;
-//   object-fit: cover;
-//   border-radius: 12px;
-//   scroll-snap-align: center;
-//   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-//   user-select: none;
-// }
+@media (max-width: 767px) {
+  .carousel-inner img {
+    max-height: none;
+  }
+}
 
-// @media (max-width: 600px) {
-//   .health-tip-img {
-//     flex: 0 0 100%;
-//     width: 100%;
-//     height: 220px;
-//   }
-// }
+@media (min-width: 768px) {
+  .carousel-inner img {
+    max-height: 500px;
+    object-fit: contain;
+  }
+}
 
-// .bottom-navbar {
-//   position: fixed;
-//   bottom: 0;
-//   width: 100%;
-//   background: #fff;
-//   border-top: 1px solid #ccc;
-//   display: flex;
-//   justify-content: space-around;
-//   align-items: center;
-//   height: 60px;
-//   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-//   z-index: 999;
-//   overflow: visible; /* Ensure no clipping */
-// }
+.health-tips-section {
+  min-height: calc(100vh - 200px - 70px); /* viewport minus header and footer heights */
+  padding-bottom: 70px; /* height of the fixed bottom navbar */
+  padding-top: 2rem; /* adjust the value to move content down */
+  overflow-y: auto;
+  background: linear-gradient(0deg, rgb(132, 154, 161) 0%, rgb(229, 218, 218) 100%);
+//   background: linear-gradient(to top,#85a0a5, #d4e1e4);
+  text-align: center;
+  box-sizing: border-box;
+}
 
-// .nav-item {
-//   flex-grow: 1;
-//   text-align: center;
-//   text-decoration: none;
-//   color: #333;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: flex-start; /* Stack icon + text from top */
-//   min-width: 60px;
-//   height: 60px; /* Fix height to prevent collapse */
-//   padding-top: 6px; /* Space from top */
-// }
+.health-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 90px;
+  padding-top: 2rem; /* adjust the value to move content down */
+}
 
-// .nav-item i {
-//   font-size: 22px;
-//   margin-bottom: 2px;
-//   line-height: 1;
-// }
+.tips-heading{
+    font-size: 30px;
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+}
 
-// .nav-item span {
-//   font-size: 13px;
-//   white-space: nowrap; /* Prevent wrapping */
-//   overflow: visible; /* Make sure text isn’t clipped */
-//   text-overflow: clip;
-//   max-width: 100%;
-//   display: block;
-//   color: #000 !important; /* Force visible color */
-//   font-weight: 600;
-//   min-height: 18px; /* Reserve space for text */
-// }
+.health-card {
+  background: linear-gradient(to top, #d4e1e4, #f9fca6);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90vw;
+  max-width: 380px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
 
+.health-card:hover {
+  transform: translateY(-4px);
+}
+
+.health-card-img {
+  width: 100%;
+  height: 220px;
+  background-size: cover;
+  background-position: top center;
+  border-radius: 12px 12px 0 0;
+  filter: brightness(0.85);
+}
+
+.health-card-caption {
+  font-family: "Zain", sans-serif;
+  padding: 0.75rem;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.top-to-carousel-spacer {
+  height: 200px;
+  background:linear-gradient(0deg, rgb(143, 155, 159) 0%, rgb(159, 147, 147) 100%);
+}
