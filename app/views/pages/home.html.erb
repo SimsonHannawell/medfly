@@ -1,10 +1,16 @@
-<!-- Wrap top-header and hero inside .top-section -->
+<!-- Top Section: Logo + User Icon + Hero -->
 <div class="top-section">
-  <!-- Homepage Hero Section -->
-  <section class="hero">
-    <h1>MedFly – Fast Relief <br> Right to Your Door</h1>
+  <header class="top-header">
+    <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
+    
+    <!-- Placeholder User Icon -->
+    <div class="user-icon"></div>
+  </header>
 
-    <!-- 🚀 Search bar added to the homepage! -->
+  <section class="hero">
+    <h1>MedFly - Fast Relief <br> Right to Your Door</h1>
+
+    <!-- Search Bar -->
     <div class="search-bar">
       <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
       <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form" } do %>
@@ -13,13 +19,18 @@
       <% end %>
     </div>
   </section>
+
+  <!-- Trusted Message -->
   <section class="trusted">
-  <p>Trusted by pharmacies and clinics<br>for fast, secure medication delivery</p>
-</section>
+    <p>Trusted by pharmacies and clinics<br>for fast, secure medication delivery</p>
+  </section>
 </div>
 
-<div class="h-100 d-flex flex-column justify-content-center">
-  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" >
+<!-- Carousel & Health Tips -->
+<div class="carousel-health-container flex-grow-1 d-flex flex-column justify-content-center">
+  
+  <!-- Image Carousel -->
+  <div id="droneCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="3000">
         <%= image_tag "Picture1-medfly.png", class: "d-block w-100", alt: "Slide 1" %>
@@ -29,16 +40,28 @@
       </div>
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#droneCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#droneCarousel" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+
+  <!-- Health Tips -->
+  <div class="health-tips-section">
+    <h2 class="tips-heading">Health Tips</h2>
+    <div class="health-tips-scroll">
+      <%= image_tag "stay_hydrated.png", alt: "Stay Hydrated", class: "health-tip-img" %>
+      <%= image_tag "take_medications.png", alt: "Take Medications", class: "health-tip-img" %>
+      <%= image_tag "regular_checkups.png", alt: "Regular Checkups", class: "health-tip-img" %>
+    </div>
+  </div>
 </div>
+
+<!-- Bottom Navbar -->
 <nav class="bottom-navbar">
   <a href="/" class="nav-item">
     <i class="ph ph-house-simple ph-bold"></i>
@@ -52,9 +75,8 @@
     <i class="ph ph-heart ph-bold"></i>
     <span>Favourites</span>
   </a>
-  <a href="users/my_account" class="nav-item">
+  <a href="/users/my_account" class="nav-item">
     <i class="ph ph-user-circle ph-bold"></i>
     <span>Profile</span>
   </a>
 </nav>
-

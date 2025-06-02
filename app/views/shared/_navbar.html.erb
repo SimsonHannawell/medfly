@@ -1,0 +1,42 @@
+<!-- Wrap top-header and hero inside .top-section -->
+<div class="top-section">
+  <!-- Top bar with logo and user icon -->
+  <header class="top-header">
+    <%= link_to root_path do %>
+      <img src="<%= asset_path('medfly_logo.jpg') %>" alt="MedFly Logo" class="logo">
+    <% end %>
+    <% if user_signed_in? %>
+      <div class="user-icon" id="userIcon" style="cursor:pointer; position:relative;"></div>
+      <!-- User Dropdown Modal -->
+      <div id="userDropdown" style="display:none; position:absolute; right:0; top:60px; background:#fff; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.12); min-width:180px; z-index:1000;">
+        <ul style="list-style:none; margin:0; padding:0;">
+          <li style="padding:12px 20px; color:#888; font-size:0.95em;">Signed in as <strong><%= current_user.email %></strong></li>
+          <li><%= link_to "My Account", my_account_path, class: "dropdown-link", style: "display:block; padding:12px 20px; color:#222; text-decoration:none;" %></li>
+          <li><%= link_to "My Orders", orders_path, class: "dropdown-link", style: "display:block; padding:12px 20px; color:#222; text-decoration:none;" %></li>
+          <li><%= link_to "My Favourites", favourites_path, class: "dropdown-link", style: "display:block; padding:12px 20px; color:#222; text-decoration:none;" %></li>
+          <li>
+            <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-link", style: "display:block; padding:12px 20px; color:#e11d48; text-decoration:none;" %>
+          </li>
+        </ul>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const userIcon = document.getElementById("userIcon");
+          const dropdown = document.getElementById("userDropdown");
+          document.addEventListener("click", function(e) {
+            if (userIcon && userIcon.contains(e.target)) {
+              dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            } else if (dropdown && !dropdown.contains(e.target)) {
+              dropdown.style.display = "none";
+            }
+          });
+        });
+      </script>
+    <% else %>
+      <div style="margin-left:auto;">
+        <%= link_to "Sign In", new_user_session_path, class: "btn btn-primary", style: "margin-right:10px;" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-outline-primary" %>
+      </div>
+    <% end %>
+  </header>
+</div>
