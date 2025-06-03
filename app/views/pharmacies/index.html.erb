@@ -1,5 +1,6 @@
 <%= render "shared/bottom_navbar" %>
-<!-- 🚀 Added city search form below the heading -->
+
+<!-- 🚀 City search form -->
 <div class="search-bar">
   <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
   <%= form_with url: pharmacies_path, method: :get, html: { class: "search-form" } do %>
@@ -8,47 +9,46 @@
   <% end %>
 </div>
 
-
-
-
-<!-- ✅ Added notice for when no pharmacies are found -->
+<!-- ✅ No pharmacies notice -->
 <% if @pharmacies.empty? %>
   <p>No pharmacies found in this area. Please try another city.</p>
 <% else %>
 
 
-<h1>Pharmacies Near You</h1>
-<h2><%= pluralize(@pharmacies.count, "Result") %></h2>
+  <h1 class="page-title">Pharmacies Near You</h1>
+  <h2 class="results-count"><%= pluralize(@pharmacies.count, "Result") %></h2>
 
-<div class="pharmacy-grid">
-  <% @pharmacies.each do |pharmacy| %>
-    <%= link_to pharmacy_path(pharmacy) do  %>
-    <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
-      <div class="card-image">
-         <%= cl_image_tag pharmacy.images.first.key, height: 300, width: 400, crop: :fill %>
-      </div>
-      <div class="pharmacy-details">
-        <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
-        <% if params[:search].present? %>
-          <span><%= pharmacy.distance.floor %> miles from you </span>
+
+  <div class="pharmacy-grid">
+    <% @pharmacies.each do |pharmacy| %>
+      <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
+        <%= link_to pharmacy_path(pharmacy), class: "pharmacy-link" do %>
+          <div class="card-image">
+            <%= cl_image_tag pharmacy.images.first.key, height: 220, width: 360, crop: :fill, class: "pharmacy-img" %>
+          </div>
+          <div class="pharmacy-details">
+            <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
+            <% if params[:search].present? %>
+              <span><%= pharmacy.distance.floor %> miles from you </span>
+            <% end %>
+            <div class="pharmacy-meta">
+              <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
+                <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
+              </span>
+              <span class="review-count" id="review-count-<%= pharmacy.id %>">
+                (<%= pharmacy.reviews.count %> reviews)
+              </span>
+            </div>
+            <p class="pharmacy-description">
+              <%= pharmacy.description.truncate(90) %>
+            </p>
+          </div>
         <% end %>
-        <div class="pharmacy-meta">
-          <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
-            <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
-          </span>
-          <span class="review-count" id="review-count-<%= pharmacy.id %>">
-            (<%= pharmacy.reviews.count %> reviews)
-          </span>
-        </div>
-
-        <p class="pharmacy-description">
-          <%= pharmacy.description.truncate(90) %>
-        </p>
       </div>
-      <% end %>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 <% end %>
+
 
 
 <!-- Modal JS -->
