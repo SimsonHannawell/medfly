@@ -1,0 +1,8 @@
+<%= turbo_stream.replace dom_id(@basket_item) do %>
+  <%= render partial: "basket_items/item", locals: { item: @basket_item } %>
+<% end %>
+
+<%= turbo_stream.replace "basket-total" do %>
+  <%= render partial: "baskets/total", locals: { total_price: @total_price } %>
+<% end %>
+
