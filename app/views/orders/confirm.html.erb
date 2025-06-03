@@ -101,14 +101,32 @@
     <div class="section">
       <strong>Items Ordered:</strong>
       <% @order.basket.basket_items.includes(:product).each do |item| %>
-        <div class="item-card">
-          <p><%= item.quantity %> x <%= item.product.name %></p>
+       <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
+        <div class="item-card d-flex justify-content-between">
+          <div>
+            <p><%= item.quantity %> x <%= item.product.name %></p>
+          </div>
+          <div>
+            <p>£<%= '%.2f' % ((pharmacy_product.price || 0) * item.quantity) %></p>
+          </div>
         </div>
       <% end %>
+      <div class="item-card d-flex justify-content-between">
+        <div>
+          <p>Delivery:</p>
+        </div>
+        <div>
+          <p>£10</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section ">
+      <strong>Total Price: £<%=@total_price + 10%></strong>
     </div>
 
     <div class="section">
-      <strong>Estimated delivery:</strong> <%= (@order.created_at + 20.minutes).strftime("%B %-d, %Y") %>
+      <strong>Estimated delivery:</strong> <%= (@order.created_at + 20.minutes).strftime("%I:%M %p | %-d, %B") %>
     </div>
 
     <div class="footer">
