@@ -1,0 +1,23 @@
+<turbo-frame id="basket-item-<%= item.id %>">
+  <tr>
+    <td><%= item.product&.name || "Unknown product" %></td>
+
+    <td>
+      <div class="quantity-wrapper">
+        <button type="button" class="qty-btn" data-action="click->basket#decrement" aria-label="Decrease quantity">−</button>
+        <%= form_with model: item, url: basket_item_path(item), method: :patch, data: { controller: "basket", action: "submit->basket#submit" }, local: false do |f| %>
+          <%= f.number_field :quantity, value: item.quantity, min: 1, class: "quantity-input", data: { action: "input->basket#updateQuantity" } %>
+        <% end %>
+        <button type="button" class="qty-btn" data-action="click->basket#increment" aria-label="Increase quantity">+</button>
+      </div>
+    </td>
+    <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
+    <td style="text-align:right;">£<%= '%.2f' % (pharmacy_product.price || 0) %></td>
+
+    <td style="text-align:right;" id="total-<%= item.id %>">£<%= '%.2f' % ((pharmacy_product.price || 0) * item.quantity) %></td>
+
+    <td>
+      <%= link_to "Delete", basket_item_path(item), method: :delete, data: { turbo_confirm: "Remove item?" }, class: "delete-icon" %>
+    </td>
+  </tr>
+</turbo-frame>
