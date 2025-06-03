@@ -32,6 +32,6 @@ class Pharmacist::PharmacyProductsController < Pharmacist::BaseController
   end
 
   def pharmacy_product_params
-    params.require(:pharmacy_product).permit(:name, :description, :price, :stock) # adjust per your model
+    params.require(:pharmacy_product).permit(:name, :description, :price, :quantity) # adjust per your model
   end
 end

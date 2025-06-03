@@ -19,4 +19,12 @@ end
     # For account update (optional)
     devise_parameter_sanitizer.permit(:account_update, keys: [:pharmacist?, :name, :address])
   end
+
+  def after_sign_in_path_for(resource)
+    if current_user.pharmacist?
+      pharmacist_root_path
+    else
+      root_path
+    end
+  end
 end

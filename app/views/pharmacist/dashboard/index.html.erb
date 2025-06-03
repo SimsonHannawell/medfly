@@ -1,27 +1,137 @@
 <%= render "shared/bottom_navbar" %>
-<h1>Pharmacist Dashboard</h1>
+
+<div class="container1" style="background-color: #f0f8ff;">
+  <header class="top-header" data-hide-header-target="header" style="position: relative; z-index: 10; padding-bottom: 0.4rem;">
+
+    <div class="app-title-container">
+      <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
+      <div class="app-name">MedFly</div>
+    </div>
+    <br>
+
+<h1 style="color: royalblue;">Pharmacist Dashboard</h1>
 <p>Welcome, <%= current_user.name %>!</p>
 <%= link_to "+ Add New Pharmacy", new_pharmacist_pharmacy_path, class: "btn btn-primary" %>
 
 
-<% @pharmacies.each do |pharmacy| %>
-  <div class="pharmacy-card">
-    <h3><%= pharmacy.name %></h3>
-    <p><%= pharmacy.location %></p>
-    <p><%= pharmacy.description %></p>
 
-    <h4>Products:</h4>
-    <ul>
-      <% pharmacy.pharmacy_products.each do |pp| %>
-        <li>
-          <strong><%= pp.product.name %></strong> -
-          <%= pp.product.description %> —
-          Quantity: <%= pp.quantity %>,
-          Price: £<%= pp.price %>
-        </li>
-      <% end %>
-    </ul>
+<div class="pharmacist-grid">
+  <% @pharmacies.each do |pharmacy| %>
 
-    <%= link_to "Manage Pharmacy", pharmacist_pharmacies_path(pharmacy), class: "btn" %>
+  <div class="pharmacist-card" id="pharmacist-card-<%= pharmacy.id %>">
+    <%= link_to edit_pharmacist_pharmacy_path(pharmacy) do  %>
+
+        <div class ="card-top-info">
+          <h2 class="pharmacist-name"><%= pharmacy.name %></h2><br>
+          <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
+            <%= '⭐' * average_rating(pharmacy).to_i %>
+          </span>
+          <span class="review-count" id="review-count-<%= pharmacy.id %>">
+            (<%= pharmacy.reviews.count %> reviews)
+          </span>
+
+        </div>
+
+      <div class="pharmacist-img">
+         <%= cl_image_tag pharmacy.images.first.key, height: 300, width: 400, crop: :fill %>
+      </div>
+
+      <div class="pharmacist-details">
+
+        <div class="pharmacist-meta">
+
+        </div>
+
+    </div>
+
+    <% end %>
   </div>
-<% end %>
+  <% end %>
+</div>
+
+
+    <%# <%= link_to "Manage Pharmacy", pharmacist_pharmacies_path(pharmacy), class: "btn" %>
+  </div>
+
+<style>
+
+  .card-top-info{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+}
+
+.pharmacist-grid{
+  background-color: #f0f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 16px;
+}
+
+/* Card link */
+.pharmacist-grid a {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Individual card */
+.pharmacist-card {
+  width: 100%;
+  background-color:rgb(249, 250, 192);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.pharmacist-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Image wrapper */
+.pharmacist-image-wrapper {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+/* Pharmacy image */
+.pharmacist-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #eee;
+}
+
+/* Card content */
+.pharmacist-info {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Pharmacy name */
+.pharmacist-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #003366;
+  margin: 0;
+}
+
+
+/* Description */
+.pharmacist-description {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 5px;
+}
+</style>
