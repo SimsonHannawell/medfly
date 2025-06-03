@@ -29,6 +29,7 @@ class PharmaciesController < ApplicationController
   def show
     @pharmacy = Pharmacy.find(params[:id])
     @products = @pharmacy.products
+    @basket_item = BasketItem.new
   end
 
   private

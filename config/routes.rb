@@ -36,6 +36,12 @@ Rails.application.routes.draw do
   resources :users, only: [:edit, :update]
   resources :favourites, only: [:create, :index]
 
+  resources :basket_items, only: [:destroy] do
+    member do
+      patch :update_quantity
+    end
+  end
+
   namespace :pharmacist do
     root to: "dashboard#index"
     resources :pharmacies, only: [:new, :edit, :create, :update, :destroy] do

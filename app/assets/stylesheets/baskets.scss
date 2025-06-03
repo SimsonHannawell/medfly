@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+td, th {
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qty-btn {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+}
+
+.delete-icon {
+  font-size: 18px;
+  color: red;
+  cursor: pointer;
+}

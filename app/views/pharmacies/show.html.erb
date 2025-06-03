@@ -43,17 +43,11 @@
 
                   <!-- Quantity and Add to Basket -->
                   <div class="mt-auto d-flex justify-content-center align-items-center gap-2">
-                    <input type="number" min="1" value="1"
-                          class="form-control form-control-sm quantity-input"
-                          style="width: 70px;"
-                          id="quantity_<%= product.id %>">
-
-                    <button type="button"
-                            class="btn btn-success btn-sm add-to-basket-btn"
-                            data-product-id="<%= product.id %>"
-                            data-pharmacy-id="<%= @pharmacy.id %>">
-                      Add to Basket
-                    </button>
+                    <%= simple_form_for [@pharmacy, @basket_item] do |f| %>
+                    <%= f.input :quantity %>
+                    <%= f.input :product_id, as: :hidden, input_html: { value: product.id, class: "form-control form-control-sm quantity-input"} %>
+                    <%= f.submit "Add to Basket", class: "btn btn-success btn-sm add-to-basket-btn" %>
+                    <% end %>
                   </div>
                 </div>
               </div>
@@ -92,65 +86,6 @@
   </div>
   <a id="go-to-basket-link" href="/baskets/1" class="btn btn-dark">Go to Basket</a>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const csrfToken = document.querySelector("meta[name='csrf-token']").content;
-    const stickyBasketTotalElem = document.getElementById("sticky-basket-total");
-
-    document.querySelectorAll(".add-to-basket-btn").forEach(button => {
-      button.addEventListener("click", async () => {
-        const productId = button.dataset.productId;
-        const pharmacyId = button.dataset.pharmacyId;
-        const quantityInput = document.getElementById(`quantity_${productId}`);
-        let quantity = parseInt(quantityInput?.value, 10);
-        if (!quantity || quantity < 1) quantity = 1;
-
-        try {
-          const response = await fetch(`/pharmacies/${pharmacyId}/basket_items`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRF-Token": csrfToken
-            },
-            body: JSON.stringify({
-              product_id: productId,
-              quantity: quantity
-            })
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            alert("Item added to basket!");
-            quantityInput.value = 1;
-
-            if (stickyBasketTotalElem && data.total_price !== undefined) {
-              stickyBasketTotalElem.textContent = `£${(parseFloat(data.total_price) + 10).toFixed(2)}`;
-            }
-
-            // Show sticky basket and update link
-            const stickyBasket = document.getElementById("sticky-basket-summary");
-            stickyBasket.style.display = "flex";
-
-            const basketLink = document.getElementById("go-to-basket-link");
-            if (basketLink && data.basket_id) {
-              basketLink.href = `/baskets/${data.basket_id}`;
-            }
-
-          } else {
-            const errorData = await response.json();
-            alert("Failed to add item to basket: " + (errorData.error || "Unknown error"));
-          }
-        } catch (error) {
-          alert("Error adding item to basket.");
-          console.error(error);
-        }
-      });
-    });
-  });
-
-
-</script>
 
 <!-- CSS -->
 <style>
