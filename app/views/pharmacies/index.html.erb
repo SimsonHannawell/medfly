@@ -29,7 +29,9 @@
       </div>
       <div class="pharmacy-details">
         <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
-
+        <% if params[:search].present? %>
+          <span><%= pharmacy.distance.floor %> miles from you </span>
+        <% end %>
         <div class="pharmacy-meta">
           <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
             <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
