@@ -1,47 +1,56 @@
 class BasketsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_basket_item, only: [:update, :destroy]
 
-  def show
-    @basket = current_user_active_basket
+def show
+  @basket = Basket.find(params[:id])
+  @pharmacy = @basket.pharmacy
+  @basket_items = @basket.basket_items
 
-    if @basket.nil?
-      redirect_to pharmacies_path, alert: 'No active basket found.'
-    else
-      @basket_items = @basket.basket_items.includes(:product)
-      @total_price = @basket_items.sum do |item|
-        pharmacy_product = PharmacyProduct.find_by(pharmacy_id: @basket.pharmacy_id, product_id: item.product_id)
-        (pharmacy_product&.price || 0) * (item.quantity || 1)
-      end
+   @total_price = @basket.basket_items.sum do |item|
+      product_price(item)
     end
-  end
 
-  def update
-    @basket = current_user_active_basket
-    if @basket&.update(basket_params)
-      redirect_to basket_path(@basket), notice: 'Basket updated successfully.'
+end
+
+
+def update
+    if @basket_item.update(basket_item_params)
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("basket-item-#{@basket_item.id}", partial: "basket_items/item", locals: { item: @basket_item }) }
+        format.html { redirect_to basket_path(current_user_active_basket), notice: "Quantity updated." }
+      end
     else
-      redirect_to basket_path(@basket), alert: 'Failed to update basket.'
+      redirect_to basket_path(current_user_active_basket), alert: "Failed to update item."
     end
   end
 
   def destroy
-    @basket = current_user_active_basket
-    if @basket&.destroy
-      redirect_to pharmacies_path, notice: 'Basket cleared successfully.'
-    else
-      redirect_to basket_path(@basket), alert: 'Failed to clear basket.'
+    @basket_item.destroy
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("basket-item-#{@basket_item.id}") }
+      format.html { redirect_to basket_path(current_user_active_basket), notice: "Item removed." }
     end
   end
 
   private
 
-  def basket_params
-    params.require(:basket).permit(:pharmacy_id)
+  def set_basket_item
+    @basket_item = BasketItem.find(params[:id])
+  end
+
+  def basket_item_params
+    params.require(:basket_item).permit(:quantity)
   end
 
   def current_user_active_basket
-    # Find current user's undelivered order's basket
     order = current_user.orders.find_by(delivered?: false)
     order&.basket
+  end
+
+   def product_price(item)
+
+    @pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product)
+    @pharmacy_product.price * item.quantity
   end
 end

@@ -1,7 +1,8 @@
 require 'open-uri'
 
-puts "Clearing database..."
+puts "Clearing database..."#
 
+Order.destroy_all
 Basket.destroy_all
 BasketItem.destroy_all
 PharmacyProduct.destroy_all
@@ -16,6 +17,14 @@ bob = User.create!(
   email: "bob@gmail.com",
   password: "password",
   address: "Oxford Street, London",
+  pharmacist?: true
+)
+
+john = User.create!(
+  name: "John Doe",
+  email: "johndoe@gmail.com",
+  password: "password",
+  address: "123 Main St, London",
   pharmacist?: true
 )
 
@@ -64,6 +73,107 @@ pharmacy3 = Pharmacy.create!(
 
 pharmacy3_image = URI.open("https://visionshopfitters.co.uk/wp-content/uploads/2019/11/Clarks-Pharmacy-Signage-And-Shopfront-design-1800x1200.jpg")
 pharmacy3.images.attach(io: pharmacy3_image, filename: "pharmacy3.png", content_type: "image/png")
+
+pharmacy4 = Pharmacy.create!(
+  name: "Central Pharmacy",
+  location: "Church St, New Quay SA45 9NX",
+  description: "Providing quality healthcare services.",
+  user: john
+)
+
+pharmacy4_image = URI.open("https://lh3.googleusercontent.com/p/AF1QipNlY8_OM0whOwZfe5xxKzPCaA2nlis6fwYI_TjD=w141-h118-n-k-no-nu")
+pharmacy4.images.attach(io: pharmacy4_image, filename: "pharmacy4.png", content_type: "image/png")
+
+pharmacy5 = Pharmacy.create!(
+  name: "Fferyllfa D. Powys Davies Pharmacy ",
+  location: "26 High St, Blaenau Ffestiniog LL41 3AA",
+  description: "Caring for your health in Leeds with a wide range of products.",
+  user: john
+)
+
+pharmacy5_image = URI.open("https://lh3.googleusercontent.com/p/AF1QipODlN1k21AvkgX7JMx-8Hh2WiX7KVBGqtYkPdVq=s680-w680-h510-rw")
+pharmacy5.images.attach(io: pharmacy5_image, filename: "pharmacy5.png", content_type: "image/png")
+
+pharmacy6 = Pharmacy.create!(
+  name: "Cohens Chemist",
+  location: "Liverpool, 30 Argyle St, Liverpool L1 5DL",
+  description: "Your trusted pharmacy in Liverpool for all your health needs.",
+  user: john
+)
+
+pharmacy6_image = URI.open("https://www.cohenschemist.co.uk/wp-content/uploads/2022/01/cohens_chemist.png")
+pharmacy6.images.attach(io: pharmacy6_image, filename: "pharmacy6.png", content_type: "image/png")
+
+pharmacy7 = Pharmacy.create!(
+  name: "Kensington Pharmacy",
+  location: "155-157 Edge Ln, Edge Hill, Liverpool L7 2PF",
+  description: "Kensington Pharmacy is a family-run business that has been serving the community for over 20 years.",
+  user: john
+)
+
+pharmacy7_image = URI.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxMWgcdCnQIwCvWnghn4ehameGyLIaaEwzBg&s")
+pharmacy7.images.attach(io: pharmacy7_image, filename: "pharmacy7.png", content_type: "image/png")
+
+pharmacy8 = Pharmacy.create!(
+  name: "Woolton Late Night Pharmacy",
+  location: "267 Hunts Cross Ave, Liverpool L25 9ND",
+  description: "Woolton Late Night Pharmacy is a family-run business that has been serving the community for over 20 years.",
+  user: john
+)
+
+pharmacy8_image = URI.open("https://s3-media0.fl.yelpcdn.com/bphoto/TfRWFfLLjoHhVSQuhDahOA/348s.jpg")
+pharmacy8.images.attach(io: pharmacy8_image, filename: "pharmacy8.png", content_type: "image/png")
+
+pharamcy9 = Pharmacy.create!(
+  name: "Manchester Pharmacy and Health Clinic",
+  location: "578 Stockport Rd, Longsight, Manchester M13 0RQ",
+  description: "Manchester Pharmacy and Health Clinic is a family-run business that has been serving the community for over 20 years.",
+  user: bob
+)
+
+pharamcy9_image = URI.open("https://everestpharmacy.co.uk/wp-content/uploads/2021/06/Untitled-design-2021-07-13T114749.686.png")
+pharamcy9.images.attach(io: pharamcy9_image, filename: "pharmacy9.png", content_type: "image/png")
+
+pharmacy10 = Pharmacy.create!(
+  name: "Cameolord Pharmacy",
+  location: "16 Oxford St, Manchester M1 5AE",
+  description: "Cameolord Pharmacy is a family-run business that has been serving the community for over 20 years.",
+  user: bob
+)
+
+pharmacy10_image = URI.open("https://whichbiz.co.uk/wp-content/uploads/2024/04/1960cf3e-c359-4fde-a200-b308d135f27d_image_jpeg.webp")
+pharmacy10.images.attach(io: pharmacy10_image, filename: "pharmacy10.png", content_type: "image/png")
+
+pharmacy11 = Pharmacy.create!(
+  name: "Ladywood Pharmacy",
+  location: "16 King Edwards Rd, Birmingham B1 2PZ",
+  description: "Ladywood Pharmacy is a family-run business that has been serving the community for over 20 years.",
+  user: bob
+)
+
+pharmacy11_image = URI.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkRP4C3TSWPHQ7zdRmPV7fSWJBzj_23fa50g&s")
+pharmacy11.images.attach(io: pharmacy11_image, filename: "pharmacy11.png", content_type: "image/png")
+
+pharmacy12 = Pharmacy.create!(
+  name: "Hyatt Pharmacy",
+  location: "49 Bristol Rd, Birmingham B5 7TU",
+  description: "Hyatt Pharmacy is a family-run business that has been serving the community for over 20 years.",
+  user: bob
+)
+
+pharmacy12_image = URI.open("https://pbs.twimg.com/media/CkDL5IDWEAA3gGJ?format=jpg&name=large")
+pharmacy12.images.attach(io: pharmacy12_image, filename: "pharmacy12.png", content_type: "image/png")
+
+pharmacy13 = Pharmacy.create!(
+  name: "Stag Chemist",
+  location: "230 Stoney Ln, Balsall Heath, Birmingham B12 8AN",
+  description: "Stag Chemist is a family-run business that has been serving the community for over 20 years.",
+  user: bob
+)
+
+pharmacy13_image = URI.open("https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrhDzREIA-WpQS3D3RbQhxE3ycui9tIzSVoIN_Ucro6L9NXHjJv_llIGvITxYotNtV45P5HogIGwi0Hg-u__HvEoC9O8ByVb1G-5iOkJVeyYNrtj37Ei2AsJiikSDd6mhawBeTk=s680-w680-h510-rw")
+pharmacy13.images.attach(io: pharmacy13_image, filename: "pharmacy13.png", content_type: "image/png")
+
 
 puts "Creating products..."
 

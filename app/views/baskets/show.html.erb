@@ -2,118 +2,152 @@
 <!-- Add Google Fonts -->
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f9fafb;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding-bottom: 90px; /* padding so sticky button doesn't overlap */
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .basket-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      overflow-x: auto; /* allow horizontal scroll on smaller screens */
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      min-width: 600px; /* minimum width so bin icon doesn't overflow */
+    }
+    thead th {
+      text-align: left;
+      color: #555;
+      font-weight: 600;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #ddd;
+    }
+    tbody tr {
+      background-color: #fefefe;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease;
+    }
+    tbody tr:hover {
+      background-color: #f0f7ff;
+    }
+    tbody td {
+      padding: 14px 12px;
+      color: #444;
+      vertical-align: middle;
+    }
+    tfoot td {
+      font-weight: 700;
+      font-size: 1.15em;
+      padding-top: 16px;
+      border-top: 2px solid #ddd;
+      text-align: right;
+    }
+    .quantity-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+    input[type=number] {
+      width: 60px;
+      padding: 6px 8px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      text-align: center;
+      -moz-appearance: textfield; /* remove number arrows on Firefox */
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none; /* remove number arrows on Chrome/Safari */
+      margin: 0;
+    }
+    .delete-icon {
+      font-size: 18px;
+      color: #d9534f;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+      user-select: none;
+    }
+    .delete-icon:hover {
+      background-color: #f8d7da;
+    }
+    .user-details {
+      background: #fff;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .user-details div {
+      margin-bottom: 12px;
+      color: #555;
+    }
+    .user-details label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+      color: #666;
+    }
+    .user-details .value {
+      background-color: #f3f4f6;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 1em;
+      white-space: pre-wrap;
+      user-select: none;
+    }
+    .sticky-order-btn {
+      position: fixed;
+      bottom: 60px; /* above bottom navbar */
+      left: 0;
+      width: 100%;
+      padding: 12px 20px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .btn-primary {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 16px 0;
+      font-size: 1.2em;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 500px;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+    }
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
 </head>
-
-<style>
-  body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f9fafb;
-    margin: 0;
-    padding: 20px;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: auto;
-  }
-
-  h1, h2 {
-    color: #333;
-  }
-
-  .basket-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 24px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 12px;
-  }
-
-  thead th {
-    text-align: left;
-    color: #555;
-    font-weight: 600;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #ddd;
-  }
-
-  tbody tr {
-    background-color: #fefefe;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    transition: background-color 0.3s ease;
-  }
-
-  tbody tr:hover {
-    background-color: #f0f7ff;
-  }
-
-  tbody td {
-    padding: 14px 12px;
-    color: #444;
-  }
-
-  tfoot td {
-    font-weight: 700;
-    font-size: 1.15em;
-    padding-top: 16px;
-    border-top: 2px solid #ddd;
-    text-align: right;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #555;
-  }
-
-  input[readonly], textarea[readonly] {
-    width: 100%;
-    padding: 10px 14px;
-    background-color: #f3f4f6;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    color: #555;
-    resize: none;
-    font-size: 1em;
-  }
-
-  textarea[readonly] {
-    min-height: 80px;
-  }
-
-  form .form-group {
-    margin-bottom: 20px;
-  }
-
-  .btn-primary {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    font-size: 1.1em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    max-width: 250px;
-  }
-
-  .btn-primary:hover {
-    background-color: #1d4ed8;
-  }
-
-  .order-section {
-    text-align: center;
-    margin-top: 30px;
-  }
-</style>
 
 <div class="container">
   <h1>Your Basket</h1>
@@ -129,52 +163,34 @@
             <th style="text-align:center;">Quantity</th>
             <th style="text-align:right;">Price (each)</th>
             <th style="text-align:right;">Total</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <% @basket_items.each do |item| %>
-            <% price = PharmacyProduct.find_by(pharmacy_id: @basket.pharmacy_id, product_id: item.product_id)&.price || 0 %>
-            <tr>
-              <td><%= item.product.name %></td>
-              <td style="text-align:center;"><%= item.quantity || 1 %></td>
-              <td style="text-align:right;">£<%= price %></td>
-              <td style="text-align:right;">£<%= price * (item.quantity || 1) %></td>
-            </tr>
-          <% end %>
+          <%= render partial: "basket_items/item", collection: @basket_items, as: :item %>
         </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" style="text-align:right;">Drone Delivery Charge:</td>
-            <td style="text-align:right;">£10.00</td>
-          </tr>
-          <tr>
-            <td colspan="3" style="text-align:right;">Total:</td>
-            <td style="text-align:right;">£<%= '%.2f' % (@total_price + 10) %></td>
-          </tr>
-        </tfoot>
+        <%= render partial: "baskets/total", locals: { total_price: @total_price } %>
       </table>
     </div>
 
     <h2>Your Details</h2>
-    <%= form_with url: orders_path, method: :post do |f| %>
-      <div class="form-group">
+    <div class="user-details">
+      <div>
         <label>Name</label>
-        <input type="text" value="<%= current_user.name %>" readonly />
+        <div class="value"><%= current_user.name %></div>
       </div>
-      <div class="form-group">
+      <div>
         <label>Email</label>
-        <input type="email" value="<%= current_user.email %>" readonly />
+        <div class="value"><%= current_user.email %></div>
       </div>
-      <div class="form-group">
+      <div>
         <label>Address</label>
-        <textarea readonly><%= current_user.address %></textarea>
+        <div class="value"><%= current_user.address %></div>
       </div>
-
-      <%= hidden_field_tag :basket_id, @basket.id %>
-
-      <div class="order-section">
-        <%= link_to "Place Order", confirm_order_path, class: "btn-primary text-decoration-none" %>
-      </div>
-    <% end %>
+    </div>
   <% end %>
+</div>
+
+<div class="sticky-order-btn">
+  <%= link_to "Place Order", confirm_order_path, class: "btn-primary" %>
 </div>
