@@ -7,129 +7,159 @@
 //   overflow: hidden;
 //   margin: 1rem 0;
 // }
+body {
+  background-color: #e6f0ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-/* Grid container */
+/* Grid wrapper */
 .pharmacy-grid {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 24px 16px;
+  padding: 16px;
 }
 
-/* Card link */
-.pharmacy-grid a {
+/* Card wrapper */
+.pharmacy-card {
+  width: 95%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #cce0ff; /* 🟦 Soft blue border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Hover effect */
+.pharmacy-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  background-color: #f8fbff;
+  border-color: #3399ff; /* 🟦 Stronger blue border on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+/* Clickable link styling */
+.pharmacy-link {
+  display: block;
   text-decoration: none;
   color: inherit;
-  width: 100%;
-  max-width: 420px;
 }
 
-/* Individual card */
-.pharmacy-card {
+/* Image section */
+.card-image {
   width: 100%;
-  background-color: white;
-  border-radius: 12px;
+  height: 200px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #e3e7ee;
+  border-bottom: 1px solid #eee;
 }
 
-.pharmacy-card:hover {
-  transform: translateY(-5px);
-}
-
-/* Image wrapper */
-.pharmacy-image-wrapper {
-  width: 100%;
-  height: 220px;
-  overflow: hidden;
-}
-
-/* Pharmacy image */
 .pharmacy-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  border-bottom: 1px solid #eee;
 }
 
-/* Delivery badge */
-.delivery-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  color: #003366;
-}
-
-/* Card content */
-.pharmacy-info {
-  padding: 1rem;
+/* Content */
+.pharmacy-details {
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
-/* Pharmacy name */
 .pharmacy-name {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.15rem;
+  font-weight: 600;
   color: #003366;
   margin: 0;
 }
 
-/* Rating */
-.pharmacy-rating {
+.pharmacy-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.9rem;
+  color: #888;
+}
+
+.pharmacy-rating {
   color: #f4c150;
 }
 
-/* Review count */
 .review-count {
   font-size: 0.85rem;
-  color: #555;
+  color: #666;
 }
 
-/* Description */
 .pharmacy-description {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #444;
+  margin-top: 4px;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
-/* Actions area */
-.pharmacy-actions {
-  margin-top: 1rem;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.pharmacy-card:active {
+  background-color: #e0f7f4;
+  transform: scale(0.98);
+  border-color: #20c997;
 }
 
-/* Buttons */
+.search-bar {
+  position: relative; /* If needed */
+  z-index: 10;         /* Keeps it above other elements if overlapping */
+  margin-bottom: 80px; /* Pushes content below it */
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 16px 0 4px 16px; // top, right, bottom, left
+  color: #000; // or #1a1a1a for a softer black
+}
+
+
+.results-count {
+  color: #5a2fc2;         // Deep purple
+  font-weight: 600;
+  font-size: 1.4rem;      // Slightly larger text
+  margin: 12px 0 0 16px;  // Top margin + left padding to shift it right
+}
+/* Optional: buttons if used */
+.continue-btn,
+.review-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+}
+
 .continue-btn {
   background-color: #007bff;
   color: white;
-  padding: 6px 14px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
+  border: none;
 }
 
 .review-btn {
   background-color: #28a745;
   color: white;
-  padding: 6px 14px;
-  border-radius: 4px;
   border: none;
-  cursor: pointer;
-  font-weight: 500;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 375px) {
+  .pharmacy-name {
+    font-size: 1rem;
+  }
+
+  .pharmacy-description {
+    font-size: 0.88rem;
+  }
 }
