@@ -7,14 +7,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css', integrity: '...', crossorigin: 'anonymous' %>
   <style>
+    body {
+      background-color: #e6f2ff; /* light blue */
+    }
     .star {
       color: gold;
       font-size: 1.2rem;
       user-select: none;
     }
+    /* Clean profile pic styling - no border, no oval */
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px; /* subtle rounded corners */
+      background-color: #ccc; /* grey background for default */
+      display: block;
+      margin: 0 auto 0.5rem auto;
+    }
+    /* "Add profile picture" label */
+    .add-profile-pic {
+      display: block;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-bottom: 1rem;
+    }
+    /* Margin bottom for payment card to create space from bottom */
+    .payment-card {
+      margin-bottom: 3rem;
+    }
   </style>
 </head>
-<body class="bg-light">
+<body>
 
   <div class="container d-flex flex-column align-items-center py-5" style="min-height: 100vh; gap: 2rem;">
 
@@ -24,13 +51,26 @@
 
         <h1 class="h4 mb-4 text-dark">My Account</h1>
 
+        <%# Profile Picture %>
+        <% if current_user.avatar.attached? %>
+          <%= image_tag current_user.avatar.variant(resize_to_fill: [100, 100]), alt: "Profile Picture", class: "profile-pic" %>
+        <% else %>
+          <div class="profile-pic"></div>
+          <label for="user_avatar" class="add-profile-pic">Add profile picture</label>
+        <% end %>
+
         <% if flash[:notice] %>
           <div class="alert alert-success"><%= flash[:notice] %></div>
         <% elsif flash[:alert] %>
           <div class="alert alert-danger"><%= flash[:alert] %></div>
         <% end %>
 
-        <%= form_with(model: current_user, url: user_path(current_user), method: :patch, local: true) do |form| %>
+        <%= form_with(model: current_user, url: user_path(current_user), method: :patch, local: true, html: { multipart: true }) do |form| %>
+          <div class="mb-3 text-start">
+            <%= form.label :avatar, "Profile Picture", class: "form-label fw-bold text-muted" %>
+            <%= form.file_field :avatar, id: "user_avatar", class: "form-control" %>
+          </div>
+
           <div class="mb-3 text-start">
             <%= form.label :name, class: "form-label fw-bold text-muted" %>
             <%= form.text_field :name, class: "form-control text-center", required: true %>
@@ -51,12 +91,10 @@
           </div>
         <% end %>
 
-        <div class="d-grid gap-2">
-
-        <%unless current_user.pharmacist?%>
-          <%= link_to "My Orders", orders_path(current_user), class: "btn btn-outline-secondary" %>
-          <%end%>
-
+        <div class="d-grid gap-2 mb-3">
+          <% unless current_user.pharmacist? %>
+            <%= link_to "My Orders", orders_path(current_user), class: "btn btn-outline-secondary" %>
+          <% end %>
           <%= button_to "Sign Out", destroy_user_session_path, method: :delete,
               data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to sign out?" },
               class: "btn btn-danger" %>
@@ -64,9 +102,58 @@
       </div>
     </div>
 
-  <%unless current_user.pharmacist?%>
+    <% unless current_user.pharmacist? %>
 
-    <!-- User Reviews Card -->
+    <!-- My Cards Section -->
+    <div class="card w-100 payment-card" style="max-width: 480px;">
+      <div class="card-body">
+        <h2 class="h5 text-center mb-4">My Cards</h2>
+        <% if current_user.payments.any? %>
+          <% current_user.payments.each do |card| %>
+            <div class="d-flex justify-content-between align-items-center border rounded p-3 mb-3">
+              <div>
+                <p class="mb-0"><strong>Card Number:</strong> **** **** **** <%= card.card_number.to_s[-4..] %></p>
+                <p class="mb-0"><strong>Expiry Date:</strong> <%= card.expiry_date %></p>
+              </div>
+              <div>
+                <%= button_to "Delete", payment_path(card), method: :delete,
+                      data: { confirm: "Are you sure you want to delete this card?" },
+                      class: "btn btn-danger btn-sm" %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-muted text-center mb-0">No saved cards.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Payment Card Add Form -->
+    <div class="card w-100 payment-card" style="max-width: 480px;">
+      <div class="card-body">
+        <h2 class="h5 text-center mb-4">Add New Card</h2>
+        <%= form_with url: payments_path, method: :post, local: true do |f| %>
+          <div class="mb-3">
+            <%= f.label :card_number, "Card Number", class: "form-label" %>
+            <%= f.number_field :card_number, class: "form-control", required: true, maxlength: 16, minlength: 16 %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :expiry_date, "Expiry Date (MMYY)", class: "form-label" %>
+            <%= f.number_field :expiry_date, class: "form-control", required: true, maxlength: 4, minlength: 4 %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :CVC, "CVC", class: "form-label" %>
+            <%= f.number_field :CVC, class: "form-control", required: true, maxlength: 3, minlength: 3 %>
+          </div>
+
+          <%= f.submit "Add Card", class: "btn btn-primary w-100" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- User Reviews Card (Below Payments) -->
     <div class="card w-100" style="max-width: 480px;">
       <div class="card-body">
         <h2 class="h5 text-center mb-4">My Reviews</h2>
@@ -93,7 +180,7 @@
       </div>
     </div>
 
-<%end %>
+    <% end %>
 
   </div>
 
