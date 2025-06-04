@@ -44,10 +44,19 @@ class OrdersController < ApplicationController
   end
 
   def confirm
-    @order = current_user.orders.find(params[:id])
+    @order = Order.find(params[:id])
+    @pharmacy = @order.basket.pharmacy
+    @total_price = @order.basket.basket_items.sum do |item|
+      product_price(item)
+    end
   end
 
   private
+
+  def product_price(item)
+    @pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product)
+    @pharmacy_product.price * item.quantity
+  end
 
   def order_params
     params.require(:order).permit(:shipping_address, :billing_address, :payment_method)
