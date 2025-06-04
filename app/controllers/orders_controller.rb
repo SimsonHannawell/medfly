@@ -20,7 +20,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    raise
     @basket = Basket.find(params[:basket_id])
     @order = Order.new
     @order.basket = @basket
