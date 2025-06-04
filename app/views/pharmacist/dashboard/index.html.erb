@@ -1,14 +1,8 @@
 <%= render "shared/bottom_navbar" %>
 
 <div class="container1" style="background-color: #f0f8ff;">
-  <header class="top-header" data-hide-header-target="header" style="position: relative; z-index: 10; padding-bottom: 0.4rem;">
 
-    <div class="app-title-container">
-      <%= image_tag "medfly-logo.png", alt: "MedFly Logo", class: "medfly-logo" %>
-      <div class="app-name">MedFly</div>
-    </div>
-    <br>
-
+<br>
 <h1 style="color: royalblue;">Pharmacist Dashboard</h1>
 <p>Welcome, <%= current_user.name %>!</p>
 <%= link_to "+ Add New Pharmacy", new_pharmacist_pharmacy_path, class: "btn btn-primary" %>

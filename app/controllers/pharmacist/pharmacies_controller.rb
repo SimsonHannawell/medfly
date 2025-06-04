@@ -16,7 +16,6 @@ class Pharmacist::PharmaciesController < Pharmacist::BaseController
 
   def edit
     @pharmacy = current_user.pharmacies.find(params[:id])
-
   end
 
   def update
