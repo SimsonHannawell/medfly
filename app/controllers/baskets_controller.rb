@@ -6,6 +6,7 @@ def show
   @basket = Basket.find(params[:id])
   @pharmacy = @basket.pharmacy
   @basket_items = @basket.basket_items
+  @order = Order.new
 
    @total_price = @basket.basket_items.sum do |item|
       product_price(item)

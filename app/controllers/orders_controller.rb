@@ -20,36 +20,30 @@ class OrdersController < ApplicationController
   end
 
   def create
-    basket = current_user.baskets.last
-
-    if basket.nil? || basket.basket_items.empty?
-      redirect_to pharmacies_path, alert: 'No active basket to place order.'
-      return
-    end
-
-    @order = current_user.orders.new(order_params)
-    @order.basket = basket
+    @basket = Basket.find(params[:basket_id])
+    @order = Order.new
+    @order.basket = @basket
+    @order.user = current_user
 
     if @order.save
-      # Mark order as delivered? or update status accordingly
-      @order.update(delivered?: true, status: 'active')
-
-      # Destroy basket as order placed
-      basket.destroy
-
       redirect_to confirm_order_path(@order), notice: 'Order placed successfully.'
     else
-      render :new, alert: 'Failed to place order.'
+      render "baskets/show", alert: 'Failed to place order.'
     end
   end
 
   def confirm
-    @order = current_user.orders.find(params[:id])
+    @order = Order.find(params[:id])
+    @pharmacy = @order.basket.pharmacy
+    @total_price = @order.basket.basket_items.sum do |item|
+      product_price(item)
+    end
   end
 
-  private
 
-  def order_params
-    params.require(:order).permit(:shipping_address, :billing_address, :payment_method)
+  def product_price(item)
+    @pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product)
+    @pharmacy_product.price * item.quantity
   end
+
 end
