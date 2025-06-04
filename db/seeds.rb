@@ -22,11 +22,7 @@ bob = User.create!(
 
 john = User.create!(
   name: "John Doe",
-<<<<<<< HEAD
-  email: "johndoe@gmail.com",
-=======
   email: "john@gmail.com",
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   password: "password",
   address: "123 Main St, London",
   pharmacist?: true
@@ -136,24 +132,15 @@ pharmacy8 = Pharmacy.create!(
 pharmacy8_image = URI.open("https://s3-media0.fl.yelpcdn.com/bphoto/TfRWFfLLjoHhVSQuhDahOA/348s.jpg")
 pharmacy8.images.attach(io: pharmacy8_image, filename: "pharmacy8.png", content_type: "image/png")
 
-<<<<<<< HEAD
-pharamcy9 = Pharmacy.create!(
-=======
 pharmacy9 = Pharmacy.create!(
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   name: "Manchester Pharmacy and Health Clinic",
   location: "578 Stockport Rd, Longsight, Manchester M13 0RQ",
   description: "Manchester Pharmacy and Health Clinic is a family-run business that has been serving the community for over 20 years.",
   user: bob
 )
 
-<<<<<<< HEAD
-pharamcy9_image = URI.open("https://everestpharmacy.co.uk/wp-content/uploads/2021/06/Untitled-design-2021-07-13T114749.686.png")
-pharamcy9.images.attach(io: pharamcy9_image, filename: "pharmacy9.png", content_type: "image/png")
-=======
 pharmacy9_image = URI.open("https://everestpharmacy.co.uk/wp-content/uploads/2021/06/Untitled-design-2021-07-13T114749.686.png")
 pharmacy9.images.attach(io: pharmacy9_image, filename: "pharmacy9.png", content_type: "image/png")
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 
 pharmacy10 = Pharmacy.create!(
   name: "Cameolord Pharmacy",

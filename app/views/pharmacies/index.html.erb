@@ -45,32 +45,8 @@
           </div>
         <% end %>
       </div>
-<<<<<<< HEAD
-      <div class="pharmacy-details">
-        <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
-        <% if params[:search].present? %>
-          <span><%= pharmacy.distance.floor %> miles from you </span>
-        <% end %>
-        <div class="pharmacy-meta">
-          <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
-            <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
-          </span>
-          <span class="review-count" id="review-count-<%= pharmacy.id %>">
-            (<%= pharmacy.reviews.count %> reviews)
-          </span>
-        </div>
-
-        <p class="pharmacy-description">
-          <%= pharmacy.description.truncate(90) %>
-        </p>
-      </div>
-      <% end %>
-  <% end %>
-</div>
-=======
     <% end %>
   </div>
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 <% end %>
 
 

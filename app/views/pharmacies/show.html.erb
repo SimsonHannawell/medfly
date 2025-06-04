@@ -40,14 +40,6 @@
 
                   <p class="card-text"><%= product.description %></p>
 
-<<<<<<< HEAD
-                  <!-- Quantity and Add to Basket -->
-                  <div class="mt-auto d-flex justify-content-center align-items-center gap-2">
-                    <%= simple_form_for [@pharmacy, @basket_item] do |f| %>
-                    <%= f.input :quantity %>
-                    <%= f.input :product_id, as: :hidden, input_html: { value: product.id, class: "form-control form-control-sm quantity-input"} %>
-                    <%= f.submit "Add to Basket", class: "btn btn-success btn-sm add-to-basket-btn" %>
-=======
                   <!-- Quantity, Price and Add to Basket in one row -->
                   <div class="mt-auto d-flex justify-content-center align-items-center gap-2 flex-wrap">
                     <%= simple_form_for [@pharmacy, @basket_item], html: { class: "d-flex align-items-center gap-2 flex-wrap mb-0" } do |f| %>
@@ -59,7 +51,6 @@
                       <% end %>
 
                       <%= f.submit "Add to Basket", class: "btn btn-success btn-sm" %>
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
                     <% end %>
                   </div>
 
@@ -90,8 +81,6 @@
   </div>
 </div>
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -123,7 +112,6 @@
 
 
 
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 <!-- CSS -->
 <style>
   .card:hover {
