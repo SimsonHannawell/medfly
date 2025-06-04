@@ -28,7 +28,6 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0 12px;
-      min-width: 600px; /* minimum width so bin icon doesn't overflow */
     }
     thead th {
       text-align: left;
@@ -159,8 +158,6 @@
         <thead>
           <tr>
             <th>Product</th>
-            <th style="text-align:center;">Quantity</th>
-            <th style="text-align:right;">Price (each)</th>
             <th style="text-align:right;">Total</th>
             <th></th>
           </tr>
@@ -191,11 +188,9 @@
 </div>
 
 <div class="sticky-order-btn">
-  <%= form_with url: basket_orders_path(@basket), method: :post, local: true do |f| %>
+  <%= simple_form_for [@basket, @order] do |f| %>
     <%= f.submit "Place Order", class: "btn-primary" %>
   <% end %>
 </div>
 
-<div class="sticky-order-btn">
-  <%= link_to "Place Order", confirm_order_path, class: "btn-primary" %>
-</div>
+
