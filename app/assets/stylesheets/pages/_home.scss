@@ -224,11 +224,7 @@ html, body {
   display: block;
   object-fit: contain;
   image-rendering: auto;
-<<<<<<< HEAD
-  filter: brightness(0.85);
-=======
   filter: brightness(1);
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 .health-tip-img {
@@ -253,11 +249,7 @@ html, body {
   padding-bottom: 70px; /* height of the fixed bottom navbar */
   padding-top: 2rem; /* adjust the value to move content down */
   overflow-y: auto;
-<<<<<<< HEAD
-  background: linear-gradient(0deg, rgb(132, 154, 161) 0%, rgb(229, 218, 218) 100%);
-=======
   background-color: #f0f8ff;
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 //   background: linear-gradient(to top,#85a0a5, #d4e1e4);
   text-align: center;
   box-sizing: border-box;
@@ -281,11 +273,7 @@ html, body {
 }
 
 .health-card {
-<<<<<<< HEAD
-  background: linear-gradient(to top, #d4e1e4, #f9fca6);
-=======
   background-color: #f0f8ff;
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 90vw;
@@ -318,9 +306,5 @@ html, body {
 
 .top-to-carousel-spacer {
   height: 200px;
-<<<<<<< HEAD
-  background:linear-gradient(0deg, rgb(143, 155, 159) 0%, rgb(159, 147, 147) 100%);
-=======
   background-color: #f0f8ff;
->>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
