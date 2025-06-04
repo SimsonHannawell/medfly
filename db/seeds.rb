@@ -345,10 +345,16 @@ BasketItem.create!(basket: basket, product: product_records[0], quantity: 2)
 
 puts "Creating order..."
 
-# Order.create!(
-#   user: alice,
-#   basket: basket,
-#   delivered?: false
-# )
+ Order.create!(
+   user: alice,
+   basket: basket,
+   delivered?: false
+ )
+
+ Order.create!(
+   user: alice,
+   basket: basket,
+   delivered?: true
+ )
 
 puts "Seeding complete ✅"
