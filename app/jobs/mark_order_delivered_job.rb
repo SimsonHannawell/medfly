@@ -6,6 +6,6 @@ class MarkOrderDeliveredJob < ApplicationJob
     order = Order.find_by(id: order_id)
     return unless order && !order.delivered?
 
-    order.update(delivered: true)
+    order.update(delivered?: true)
   end
 end

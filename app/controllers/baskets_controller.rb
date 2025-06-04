@@ -8,10 +8,12 @@ def show
   @basket_items = @basket.basket_items
   @order = Order.new
 
-   @total_price = @basket.basket_items.sum do |item|
-      product_price(item)
-    end
+  @total_price = @basket.basket_items.sum do |item|
+    product_price(item)
+  end
 
+  @delivery_price = 10
+  
 end
 
 
