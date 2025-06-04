@@ -20,6 +20,7 @@ class OrdersController < ApplicationController
   end
 
   def create
+    raise
     @basket = Basket.find(params[:basket_id])
     @order = Order.new
     @order.basket = @basket
@@ -33,8 +34,17 @@ class OrdersController < ApplicationController
   end
 
   def confirm
-    @order = current_user.orders.find(params[:id])
+    @order = Order.find(params[:id])
+    @pharmacy = @order.basket.pharmacy
+    @total_price = @order.basket.basket_items.sum do |item|
+      product_price(item)
+    end
   end
 
+
+  def product_price(item)
+    @pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product)
+    @pharmacy_product.price * item.quantity
+  end
 
 end
