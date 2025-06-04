@@ -50,3 +50,5 @@ def destroy
   end
   before_action :authenticate_user!, only: [:create, :update, :destroy]
 end
+
+end
