@@ -7,54 +7,32 @@
     <%= link_to "Go to My Account", my_account_path, class: "btn btn-outline-secondary" %>
   </div>
 
-  <%= form_with url: orders_path, method: :get, local: true, class: "row g-3 mb-4 align-items-end justify-content-center" do %>
-    <div class="col-md-auto">
-      <label class="form-label fw-semibold">Status:</label>
-      <%= select_tag :status, options_for_select(["All", "Delivered", "Pending"], params[:status]),
-                     include_blank: false, class: "form-select" %>
-    </div>
-
-    <div class="col-md-auto">
-      <label class="form-label fw-semibold">Sort by:</label>
-      <%= select_tag :sort, options_for_select([
-        ["Newest First", "newest"],
-        ["Oldest First", "oldest"]
-      ], params[:sort]), class: "form-select" %>
-    </div>
-
-    <div class="col-md-auto">
-      <%= submit_tag "Apply", class: "btn btn-primary" %>
-    </div>
-  <% end %>
-
   <% if @orders.any? %>
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    <% @orders.each do |order| %>
-      <div class="col">
-        <div class="card shadow-sm h-100 clickable-card">
-          <div class="card-body">
-            <h5 class="card-title text-primary">Order #<%= order.id %></h5>
-            <p class="card-subtitle mb-2 text-muted">
-              Status: <strong><%= order.delivered? ? "Delivered" : "Pending" %></strong>
-            </p>
-            <ul class="list-unstyled small mb-0">
-              <% order.basket.basket_items.each do |item| %>
-                <li>
-                  <%= item.product.name %> – Qty: <%= item.quantity %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
+    <% pending_orders = @orders.select { |order| !order.delivered? } %>
+    <% delivered_orders = @orders.select { |order| order.delivered? } %>
+
+    <% if pending_orders.any? %>
+      <h2 class="text-warning text-center mb-3">Pending Orders</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+        <% pending_orders.each do |order| %>
+          <%= render partial: "order_card", locals: { order: order } %>
+        <% end %>
       </div>
     <% end %>
-  </div>
-<% else %>
-  <div class="alert alert-info text-center mt-4">
-    You haven’t placed any orders yet.
-  </div>
-<% end %>
 
+    <% if delivered_orders.any? %>
+      <h2 class="text-success text-center mb-3">Delivered Orders</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <% delivered_orders.each do |order| %>
+          <%= render partial: "order_card", locals: { order: order } %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-info text-center mt-4">
+      You haven’t placed any orders yet.
+    </div>
+  <% end %>
 </div>
 
 <!-- Optional extra styling -->
@@ -64,4 +42,9 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.08);
   }
+
+  .clickable-card {
+  cursor: pointer;
+}
+
 </style>
