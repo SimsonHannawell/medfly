@@ -1,0 +1,385 @@
+<%= render "shared/bottom_navbar" %>
+
+<style>
+  /* Container */
+  .container1 {
+    padding: 16px;
+    background-color: #f0f8ff;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  h3 {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.125rem;
+  }
+
+  /* Pharmacy details form container */
+  .pharmacy-details {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    margin-bottom: 24px;
+  }
+
+  /* Form grid */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Buttons */
+  .btn {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: inline-block;
+    text-align: center;
+  }
+  .btn-primary {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+  }
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+  }
+  .btn-outline-success {
+    background-color: transparent;
+    color: #198754;
+    border-color: #198754;
+  }
+  .btn-outline-success:hover {
+    background-color: #198754;
+    color: white;
+  }
+  .btn-outline-primary {
+    background-color: transparent;
+    color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+  .btn-success {
+    background-color: #198754;
+    color: white;
+    border-color: #198754;
+  }
+  .btn-success:hover {
+    background-color: #146c43;
+    border-color: #146c43;
+  }
+
+  /* Flex container for section heading and button */
+  .flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  /* Product grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Product card */
+  .product-card {
+    background: white;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.2s ease;
+  }
+  .product-card:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  }
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .product-description {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    color: #444;
+  }
+
+  /* Modal background */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+  }
+  .modal.show {
+    display: block;
+  }
+
+  /* Modal dialog */
+  .modal-dialog {
+    background-color: white;
+    margin: auto;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 480px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    position: relative;
+  }
+
+  /* Modal header */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* Modal body */
+  .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* Form input styles */
+  .simple_form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .simple_form label {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .simple_form input[type="text"],
+  .simple_form input[type="number"],
+  .simple_form textarea,
+  .simple_form select,
+  .simple_form input[type="file"] {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .simple_form textarea {
+    resize: vertical;
+  }
+.delete-icon-form {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  padding: 4px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.delete-icon {
+  color: #dc3545;
+  stroke: #dc3545;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.delete-icon:hover {
+  background: #dc3545;
+  stroke: white;
+  transform: scale(1.15);
+}
+
+/* Optional tooltip style for consistent look (uses browser title tooltip by default) */
+.delete-icon-form[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+
+</style>
+
+<div class="container1">
+
+  <h1>Manage My Pharmacy</h1>
+
+  <%= simple_form_for [:pharmacist, @pharmacy] do |f| %>
+    <div class="pharmacy-details">
+      <h2>Pharmacy Details</h2>
+      <div class="form-grid">
+        <%= f.input :name %>
+        <%= f.input :location %>
+        <%= f.input :description, as: :text, input_html: { rows: 4 } %>
+      </div>
+      <div style="margin-top:16px;">
+        <%= f.button :submit, "Update Pharmacy", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="flex-between">
+    <h2>My Products</h2>
+    <button type="button" class="btn btn-outline-success" onclick="openModal('addProductModal')">Add New Product</button>
+  </div>
+
+  <div class="products-grid">
+    <% @pharmacy.pharmacy_products.includes(:product).each_with_index do |pharmacy_product, index| %>
+      <% product = pharmacy_product.product %>
+        <div class="product-card" style="position: relative;">
+  <!-- Delete icon top-right -->
+  <%= button_to pharmacist_pharmacy_pharmacy_product_path(@pharmacy, pharmacy_product), method: :delete,
+        data: { turbo_confirm: "Are you sure you want to delete this product?" },
+        class: "delete-icon-form", title: "Delete product" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" class="delete-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m5 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+      <line x1="10" y1="11" x2="10" y2="17"></line>
+      <line x1="14" y1="11" x2="14" y2="17"></line>
+    </svg>
+  <% end %>
+
+  <% if product.images.attached? %>
+    <%= cl_image_tag product.images.first.key, transformation: [{ width: 300, height: 200, crop: "fill" }], class: "product-image" %>
+  <% else %>
+    <%= image_tag "https://via.placeholder.com/300x200?text=No+Image", class: "product-image" %>
+  <% end %>
+
+  <h3><%= product.name %></h3>
+  <p class="product-description"><%= truncate(product.description, length: 60) %></p>
+
+  <button type="button" class="btn btn-outline-primary w-full" onclick="openModal('editProductModal<%= index %>')">Edit</button>
+</div>
+
+
+      <!-- Modal for editing product -->
+      <div id="editProductModal<%= index %>" class="modal">
+        <div class="modal-dialog">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Product: <%= product.name %></h5>
+            <button type="button" class="btn-close" onclick="closeModal('editProductModal<%= index %>')" aria-label="Close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for [:pharmacist, @pharmacy, pharmacy_product], html: { multipart: true } do |f| %>
+              <%= f.association :product, collection: [product], input_html: { disabled: true } %>
+              <%= f.input :price, label: "Price (£)" %>
+              <%= f.input :quantity %>
+              <%= f.input :images, as: :file, input_html: { multiple: true }, label: "Upload Images" %>
+              <div style="margin-top:12px;">
+                <%= f.button :submit, "Update", class: "btn btn-success" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Modal for adding new product -->
+  <div id="addProductModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Product</h5>
+        <button type="button" class="btn-close" onclick="closeModal('addProductModal')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for [:pharmacist, @pharmacy, PharmacyProduct.new], html: { multipart: true } do |f| %>
+          <%= f.association :product, collection: Product.all, prompt: "Select existing product" %>
+          <%= f.input :price, label: "Price (£)" %>
+          <%= f.input :quantity %>
+          <%= f.input :images, as: :file, input_html: { multiple: true }, label: "Upload Images" %>
+          <div style="margin-top:12px;">
+            <%= f.button :submit, "Add Product", class: "btn btn-success" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('show');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  // Optional: close modal when clicking outside dialog
+  window.onclick = function(event) {
+      document.querySelectorAll('.modal.show').forEach(modal => {
+        if (event.target === modal) {
+          modal.classList.remove('show');
+        }
+      });
+    }
+</script>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'pharmacist/index'
+  get 'pharmacist/show'
 
   # Devise user authentication
   devise_for :users

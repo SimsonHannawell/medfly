@@ -15,14 +15,16 @@ class Pharmacist::PharmaciesController < Pharmacist::BaseController
   end
 
   def edit
+    @pharmacy = current_user.pharmacies.find(params[:id])
   end
 
   def update
-    if @pharmacy.update(pharmacy_params)
-      redirect_to pharmacist_root_path, notice: "Pharmacy updated successfully."
-    else
-      render :edit
-    end
+     @pharmacy = current_user.pharmacies.find(params[:id])
+  if @pharmacy.update(pharmacy_params)
+    redirect_to edit_pharmacist_pharmacy_path(@pharmacy), notice: "Updated successfully"
+  else
+    render :edit
+  end
   end
 
   def destroy
@@ -37,6 +39,6 @@ class Pharmacist::PharmaciesController < Pharmacist::BaseController
   end
 
   def pharmacy_params
-    params.require(:pharmacy).permit(:name, :address, :phone_number) # add your fields here
-  end
+  params.require(:pharmacy).permit(:name, :location, :description)
+end
 end

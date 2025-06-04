@@ -8,18 +8,19 @@
   </div>
 
   <div class="text-center mb-4">
-    <%= link_to 'Write a review' ,  new_pharmacy_review_path(@pharmacy) %>
+    <%= link_to 'Write a review', new_pharmacy_review_path(@pharmacy), class: "showreview" %>
   </div>
+
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <button class="nav-link active" id="nav-products-tab" data-bs-toggle="tab" data-bs-target="#nav-products" type="button" role="tab" aria-controls="nav-products" aria-selected="true">Products</button>
-      <button class="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews" aria-selected="false">Reviews
-      </button>
+      <button class="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab" aria-controls="nav-reviews" aria-selected="false">Reviews</button>
     </div>
   </nav>
+
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-products" role="tabpanel" aria-labelledby="nav-products-tab">
-       <% if @products.any? %>
+      <% if @products.any? %>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <% @products.each do |product| %>
             <div class="col d-flex">
@@ -35,20 +36,33 @@
                 <div class="card-body text-center flex-grow-1 d-flex flex-column">
                   <h5 class="card-title text-primary"><%= product.name %></h5>
 
-                  <% # Find price from pharmacy_products for this pharmacy and product %>
                   <% pharmacy_product = PharmacyProduct.find_by(pharmacy_id: @pharmacy.id, product_id: product.id) %>
-
 
                   <p class="card-text"><%= product.description %></p>
 
+<<<<<<< HEAD
                   <!-- Quantity and Add to Basket -->
                   <div class="mt-auto d-flex justify-content-center align-items-center gap-2">
                     <%= simple_form_for [@pharmacy, @basket_item] do |f| %>
                     <%= f.input :quantity %>
                     <%= f.input :product_id, as: :hidden, input_html: { value: product.id, class: "form-control form-control-sm quantity-input"} %>
                     <%= f.submit "Add to Basket", class: "btn btn-success btn-sm add-to-basket-btn" %>
+=======
+                  <!-- Quantity, Price and Add to Basket in one row -->
+                  <div class="mt-auto d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                    <%= simple_form_for [@pharmacy, @basket_item], html: { class: "d-flex align-items-center gap-2 flex-wrap mb-0" } do |f| %>
+                      <%= f.input :quantity, label: false, input_html: { class: "form-control form-control-sm", style: "width: 70px;" } %>
+                      <%= f.input :product_id, as: :hidden, input_html: { value: product.id } %>
+
+                      <% if pharmacy_product&.price.present? %>
+                        <span class="text-success fw-bold">£<%= number_with_precision(pharmacy_product.price, precision: 2) %></span>
+                      <% end %>
+
+                      <%= f.submit "Add to Basket", class: "btn btn-success btn-sm" %>
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
                     <% end %>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -60,33 +74,56 @@
         </div>
       <% end %>
     </div>
+
     <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
-          <% if @pharmacy.reviews.empty? %>
-            <div class="alert alert-info text-center mt-4">
-              No reviews yet. Be the first to leave a review!
-            </div>
-          <% else %>
-              <%  @pharmacy.reviews.each do |review| %>
-              <p> <%= review.rating %> stars</p>
-              <p><%= review.description %></p>
-          <% end %>
+      <% if @pharmacy.reviews.empty? %>
+        <div class="alert alert-info text-center mt-4">
+          No reviews yet. Be the first to leave a review!
+        </div>
+      <% else %>
+        <% @pharmacy.reviews.each do |review| %>
+          <p><%= review.rating %> stars</p>
+          <p><%= review.description %></p>
+        <% end %>
       <% end %>
     </div>
   </div>
-
-
-<!-- Sticky Basket: Always render, start hidden -->
-<div id="sticky-basket-summary"
-     class="fixed-bottom bg-white border-top shadow-lg py-3 px-4 d-flex justify-content-between align-items-center"
-     style="z-index: 9999; bottom: 64px; display: none;">
-  <div>
-    <p class="mb-0 fw-semibold">
-      Delivery + Basket Total: <span id="sticky-basket-total">£0.00</span> (includes £10 drone delivery 🚁)
-    </p>
-  </div>
-  <a id="go-to-basket-link" href="/baskets/1" class="btn btn-dark">Go to Basket</a>
 </div>
 
+<<<<<<< HEAD
+=======
+
+
+
+<a id="sticky-basket-icon"
+   href="/baskets/1"
+   aria-label="View Basket"
+   class="position-fixed shadow-lg"
+   style="
+     bottom: 80px;
+     right: 20px;
+     z-index: 9999;
+     width: 64px;
+     height: 64px;
+     background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+     color: white;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+   "
+   onmouseover="this.style.transform='scale(1.1)'"
+   onmouseout="this.style.transform='scale(1)'">
+   <i class="fas fa-shopping-basket fa-lg"></i>
+</a>
+
+
+
+
+
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 <!-- CSS -->
 <style>
   .card:hover {
@@ -98,6 +135,26 @@
   .card-title {
     font-size: 1.1rem;
   }
+
+  .showreview {
+  display: inline-block;
+  background-color: #5a2fc2; // Matching the purple accent
+  color: color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #4b24a8;
+  }
+
+  &:active {
+    background-color: #3c1c89;
+  }
+}
+
 
   #sticky-basket-summary {
     backdrop-filter: blur(6px);

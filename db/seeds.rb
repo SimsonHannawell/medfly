@@ -22,7 +22,11 @@ bob = User.create!(
 
 john = User.create!(
   name: "John Doe",
+<<<<<<< HEAD
   email: "johndoe@gmail.com",
+=======
+  email: "john@gmail.com",
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   password: "password",
   address: "123 Main St, London",
   pharmacist?: true
@@ -41,6 +45,14 @@ alice = User.create!(
 
 alice_avatar = URI.open("https://img.freepik.com/premium-vector/drawing-old-woman-with-big-smile-her-face_481747-91243.jpg")
 alice.images.attach(io: alice_avatar, filename: "alice.png", content_type: "image/png")
+
+Alan = User.create!(
+  name: "Alan Johnson",
+  email: "alan@gmail.com",
+  password: "password",
+  address: "456 Elm St, Manchester",
+  pharmacist?: false
+)
 
 puts "Creating pharmacies..."
 
@@ -124,15 +136,24 @@ pharmacy8 = Pharmacy.create!(
 pharmacy8_image = URI.open("https://s3-media0.fl.yelpcdn.com/bphoto/TfRWFfLLjoHhVSQuhDahOA/348s.jpg")
 pharmacy8.images.attach(io: pharmacy8_image, filename: "pharmacy8.png", content_type: "image/png")
 
+<<<<<<< HEAD
 pharamcy9 = Pharmacy.create!(
+=======
+pharmacy9 = Pharmacy.create!(
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   name: "Manchester Pharmacy and Health Clinic",
   location: "578 Stockport Rd, Longsight, Manchester M13 0RQ",
   description: "Manchester Pharmacy and Health Clinic is a family-run business that has been serving the community for over 20 years.",
   user: bob
 )
 
+<<<<<<< HEAD
 pharamcy9_image = URI.open("https://everestpharmacy.co.uk/wp-content/uploads/2021/06/Untitled-design-2021-07-13T114749.686.png")
 pharamcy9.images.attach(io: pharamcy9_image, filename: "pharmacy9.png", content_type: "image/png")
+=======
+pharmacy9_image = URI.open("https://everestpharmacy.co.uk/wp-content/uploads/2021/06/Untitled-design-2021-07-13T114749.686.png")
+pharmacy9.images.attach(io: pharmacy9_image, filename: "pharmacy9.png", content_type: "image/png")
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 
 pharmacy10 = Pharmacy.create!(
   name: "Cameolord Pharmacy",
@@ -233,10 +254,98 @@ product_records[0..5].each do |product|
     price: 5
   )
 end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy2,
+    product: product,
+    quantity: 100,
+    price: 4
+  )
+end
 
-# Attach product 7 to pharmacy3
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy3,
+    product: product,
+    quantity: 100,
+    price: 3.5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy4,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy5,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy6,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy7,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy8,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy9,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy10,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy11,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+product_records[0..5].each do |product|
+  PharmacyProduct.create!(
+    pharmacy: pharmacy12,
+    product: product,
+    quantity: 100,
+    price: 5
+  )
+end
+# Attach product 7 to pharmacy13
 PharmacyProduct.create!(
-  pharmacy: pharmacy3,
+  pharmacy: pharmacy13,
   product: product_records[6],
   quantity: 50,
   price: 10
@@ -249,10 +358,10 @@ BasketItem.create!(basket: basket, product: product_records[0], quantity: 2)
 
 puts "Creating order..."
 
-Order.create!(
-  user: alice,
-  basket: basket,
-  delivered?: false
-)
+# Order.create!(
+#   user: alice,
+#   basket: basket,
+#   delivered?: false
+# )
 
 puts "Seeding complete ✅"

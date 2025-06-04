@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    basket = current_user.orders.find_by(delivered?: false)&.basket
+    basket = current_user.baskets.last
 
     if basket.nil? || basket.basket_items.empty?
       redirect_to pharmacies_path, alert: 'No active basket to place order.'

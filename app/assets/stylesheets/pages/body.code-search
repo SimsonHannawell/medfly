@@ -1,0 +1,180 @@
+# Query: body
+# ContextLines: 1
+
+42 results - 18 files
+
+app/assets/stylesheets/config/_bootstrap_variables.scss:
+   7  // General style
+   8: $font-family-sans-serif: $body-font;
+   9  $headings-font-family:   $headers-font;
+  10: $body-bg:                $light-gray;
+  11  $font-size-base:         1rem;
+
+  13  // Colors
+  14: $body-color: $gray;
+  15  $primary:    $blue;
+
+app/assets/stylesheets/config/_fonts.scss:
+  3  
+  4: // Define fonts for body and headers
+  5: $body-font: "Work Sans", "Helvetica", "sans-serif";
+  6  $headers-font: "Nunito", "Helvetica", "sans-serif";
+
+app/assets/stylesheets/pages/_home.scss:
+  3  
+  4: html, body {
+  5    margin: 0;
+
+app/views/baskets/show.html.erb:
+    5    <style>
+    6:     body {
+    7        font-family: 'Roboto', sans-serif;
+
+   40      }
+   41:     tbody tr {
+   42        background-color: #f0f8ff;
+
+   45      }
+   46:     tbody tr:hover {
+   47        background-color: #f0f8ff;
+   48      }
+   49:     tbody td {
+   50        padding: 14px 12px;
+
+  168          </thead>
+  169:         <tbody>
+  170            <%= render partial: "basket_items/item", collection: @basket_items, as: :item %>
+  171:         </tbody>
+  172          <%= render partial: "baskets/total", locals: { total_price: @total_price } %>
+
+app/views/devise/registrations/new.html.erb:
+  3  <style>
+  4:   body {
+  5      background-color: #f0f8ff;
+
+app/views/devise/sessions/new.html.erb:
+  3  <style>
+  4:   body {
+  5      background-color: #f0f8ff;
+
+app/views/layouts/application.html.erb:
+  15  
+  16:   <body class="min-vh-100 d-flex flex-column">
+  17      <%= yield %>
+
+  19      <%= render "shared/bottom_navbar" %>
+  20:   </body>
+  21  </html>
+
+app/views/layouts/mailer.html.erb:
+   9  
+  10:   <body>
+  11      <%= yield %>
+  12:   </body>
+  13  </html>
+
+app/views/orders/confirm.html.erb:
+    8    <style>
+    9:     body {
+   10        font-family: system-ui, sans-serif;
+
+   83  </head>
+   84: <body>
+   85    <div class="container">
+
+  120    </div>
+  121: </body>
+  122  </html>
+
+app/views/orders/index.html.erb:
+  34          <div class="card shadow-sm h-100 clickable-card">
+  35:           <div class="card-body">
+  36              <h5 class="card-title text-primary">Order #<%= order.id %></h5>
+
+app/views/pages/home.html.erb:
+  42        <div class="collapse mt-2" id="filterPanel" data-filter-toggle-target="filtersForm">
+  43:         <div class="card card-body">
+  44            <%= form_with url: pharmacies_path, method: :get, local: true do %>
+
+app/views/pharmacies/show.html.erb:
+  34  
+  35:                 <div class="card-body text-center flex-grow-1 d-flex flex-column">
+  36                    <h5 class="card-title text-primary"><%= product.name %></h5>
+
+app/views/pharmacist/index.html.erb:
+   52  </head>
+   53: <body>
+   54  
+
+   62          </div>
+   63:         <div class="card-body">
+   64            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+   75          </div>
+   76:         <div class="card-body">
+   77            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+   88          </div>
+   89:         <div class="card-body">
+   90            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+  103          </div>
+  104:         <div class="card-body">
+  105            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+  116          </div>
+  117:         <div class="card-body">
+  118            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+  129          </div>
+  130:         <div class="card-body">
+  131            <textarea class="form-control mb-3" placeholder="Enter description..." rows="3"></textarea>
+
+  144  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  145: </body>
+  146  </html>
+
+app/views/pharmacist/pharmacies/new.html.erb:
+  6  <style>
+  7:   body {
+  8      background-color: #f0f8ff;
+
+app/views/users/account.html.erb:
+   8    <style>
+   9:     body {
+  10        font-family: system-ui, sans-serif;
+
+  62  </head>
+  63: <body>
+  64    <div class="container">
+
+  82    </div>
+  83: </body>
+  84  </html>
+
+public/404.html:
+  56  
+  57: <body class="rails-default-error-page">
+  58    <!-- This file lives in public/404.html -->
+
+  65    </div>
+  66: </body>
+  67  </html>
+
+public/422.html:
+  56  
+  57: <body class="rails-default-error-page">
+  58    <!-- This file lives in public/422.html -->
+
+  65    </div>
+  66: </body>
+  67  </html>
+
+public/500.html:
+  56  
+  57: <body class="rails-default-error-page">
+  58    <!-- This file lives in public/500.html -->
+
+  64    </div>
+  65: </body>
+  66  </html>

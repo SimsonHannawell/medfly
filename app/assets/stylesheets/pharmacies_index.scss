@@ -7,14 +7,41 @@
 //   overflow: hidden;
 //   margin: 1rem 0;
 // }
+body {
+  background-color: #e6f0ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+<<<<<<< HEAD
 /* Grid container */
 .pharmacy-grid {
+=======
+/* Grid wrapper */
+.pharmacy-grid {
+  background-color: #f0f8ff;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
+<<<<<<< HEAD
   padding: 24px 16px;
+=======
+  padding: 16px;
+}
+
+/* Card wrapper */
+.pharmacy-card {
+  width: 95%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+
+  border: 2px solid #cce0ff; /* 🟦 Soft blue border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 /* Card link */
@@ -25,6 +52,7 @@
   max-width: 420px;
 }
 
+<<<<<<< HEAD
 /* Individual card */
 .pharmacy-card {
   width: 100%;
@@ -47,6 +75,30 @@
   width: 100%;
   height: 220px;
   overflow: hidden;
+=======
+/* Hover effect */
+.pharmacy-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  background-color: #f8fbff;
+  border-color: #3399ff; /* 🟦 Stronger blue border on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+/* Clickable link styling */
+.pharmacy-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Image section */
+.card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 /* Pharmacy image */
@@ -58,6 +110,7 @@
   border-bottom: 1px solid #eee;
 }
 
+<<<<<<< HEAD
 /* Delivery badge */
 .delivery-badge {
   position: absolute;
@@ -78,6 +131,29 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+=======
+/* Content */
+.pharmacy-details {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pharmacy-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #003366;
+  margin: 0;
+}
+
+.pharmacy-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #888;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 /* Pharmacy name */
@@ -90,6 +166,7 @@
 
 /* Rating */
 .pharmacy-rating {
+<<<<<<< HEAD
   font-size: 0.9rem;
   color: #f4c150;
 }
@@ -112,24 +189,93 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+=======
+  color: #f4c150;
+}
+
+.review-count {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.pharmacy-description {
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 4px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.pharmacy-card:active {
+  background-color: #e0f7f4;
+  transform: scale(0.98);
+  border-color: #20c997;
+}
+
+.search-bar {
+  position: relative; /* If needed */
+  z-index: 10;         /* Keeps it above other elements if overlapping */
+  margin-bottom: 80px; /* Pushes content below it */
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 16px 0 4px 16px; // top, right, bottom, left
+  color: #000; // or #1a1a1a for a softer black
+}
+
+
+.results-count {
+  color: #5a2fc2;         // Deep purple
+  font-weight: 600;
+  font-size: 1.4rem;      // Slightly larger text
+  margin: 12px 0 0 16px;  // Top margin + left padding to shift it right
+}
+/* Optional: buttons if used */
+.continue-btn,
+.review-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 /* Buttons */
 .continue-btn {
   background-color: #007bff;
   color: white;
+<<<<<<< HEAD
   padding: 6px 14px;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 500;
+=======
+  border: none;
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }
 
 .review-btn {
   background-color: #28a745;
   color: white;
-  padding: 6px 14px;
-  border-radius: 4px;
   border: none;
+<<<<<<< HEAD
   cursor: pointer;
   font-weight: 500;
+=======
+}
+
+/* Mobile responsiveness */
+@media (max-width: 375px) {
+  .pharmacy-name {
+    font-size: 1rem;
+  }
+
+  .pharmacy-description {
+    font-size: 0.88rem;
+  }
+>>>>>>> 0a8bf63839e9fd9aba9c42ca38c8a593f039522f
 }

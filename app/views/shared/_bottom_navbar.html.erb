@@ -9,10 +9,11 @@
     <span>Search</span>
   <% end %>
 
-  <%= link_to favourites_path, class: "nav-item" do %>
-    <i class="ph ph-heart ph-bold"></i>
-    <span>Favourites</span>
+  <%= link_to "/baskets/1", class: "nav-item" do %>
+    <i class="ph ph-shopping-cart ph-bold"></i>
+    <span>Basket</span>
   <% end %>
+
 
   <%= link_to my_account_path, class: "nav-item" do %>
     <i class="ph ph-user-circle ph-bold"></i>
