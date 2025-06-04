@@ -192,7 +192,7 @@
 </div>
 
 <div class="sticky-order-btn">
-  <%= form_with url: basket_orders_path(@basket), method: :post, local: true do |f| %>
+  <%= simple_form_for [@basket, @order] do |f| %>
     <%= f.submit "Place Order", class: "btn-primary" %>
   <% end %>
 </div>
