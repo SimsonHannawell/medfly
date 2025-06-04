@@ -1,0 +1,19 @@
+<div class="col">
+  <%= link_to confirm_order_path(order), class: "text-decoration-none text-dark" do %>
+    <div class="card shadow-sm clickable-card">
+      <div class="card-body">
+        <h5 class="card-title text-primary">Order #<%= order.id %></h5>
+        <p class="card-subtitle mb-2 text-muted">
+          Status: <strong><%= order.delivered? ? "Delivered" : "Pending" %></strong>
+        </p>
+        <ul class="list-unstyled small mb-0">
+          <% order.basket.basket_items.each do |item| %>
+            <li>
+              <%= item.product.name %> – Qty: <%= item.quantity %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+</div>
