@@ -35,6 +35,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :payments
+
+
   resources :users, only: [:edit, :update]
   resources :favourites, only: [:create, :index]
 
