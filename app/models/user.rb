@@ -12,6 +12,12 @@ class User < ApplicationRecord
   has_many :pharmacies, dependent: :destroy
 
   has_one :basket, through: :order
+  #new lines added below by simson
+  has_one_attached :avatar
+  belongs_to :payment, optional: true
+
+  has_many :payments, dependent: :destroy
+###################################
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
