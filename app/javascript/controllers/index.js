@@ -11,3 +11,6 @@ eagerLoadControllersFrom("controllers", application)
 // Register others if you want
 import HideHeaderController from "./hide_header_controller"
 application.register("hide-header", HideHeaderController)
+
+import BasketController from "./basket_controller";
+application.register("basket", BasketController)

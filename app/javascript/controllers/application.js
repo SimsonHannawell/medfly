@@ -1,5 +1,4 @@
 import { Application } from "@hotwired/stimulus"
-import BasketController from "./controllers/basket_controller";
 
 const application = Application.start();
 
