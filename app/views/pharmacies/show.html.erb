@@ -8,7 +8,9 @@
   </div>
 
   <div class="text-center mb-4">
-    <%= link_to 'Write a review', new_pharmacy_review_path(@pharmacy), class: "showreview" %>
+    <button type="button" class="btn btn-theme-blue" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+      Write a review
+    </button>
   </div>
 
   <nav>
@@ -109,11 +111,157 @@
 </a>
 
 
+<div class="modal fade" id="writeReviewModal" tabindex="-1" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="writeReviewModalLabel">Write a Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for [@pharmacy, @review], html: {class: "review-form"} do |f| %>
+          <div class="mb-3">
+            <%= f.input :rating, collection: 1..5, prompt: 'Select rating', input_html: {class: 'form-select'} %>
+          </div>
+          <div class="mb-3">
+            <%= f.input :description, as: :text, input_html: {class: 'form-control', rows: 4} %>
+          </div>
+          <div class="modal-footer">
+            <%= f.button :submit, class: "btn btn-theme-blue" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 
 <!-- CSS -->
 <style>
+  .btn-theme-blue {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  border-radius: 12px;
+  color: white !important;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  min-width: 110px;
+}
+.btn-theme-blue:hover,
+.btn-theme-blue:focus {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  box-shadow: 0 6px 14px rgba(0, 86, 179, 0.6);
+  outline: none;
+  color: white !important;
+}
+  /* Modal styles */
+.modal-dialog {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.btn-close {
+  filter: brightness(0.4);
+  transition: filter 0.3s ease;
+}
+.btn-close:hover {
+  filter: brightness(1);
+}
+
+/* Review form styles */
+.review-form .form-control,
+.review-form textarea {
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.1);
+  transition: box-shadow 0.3s ease;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+}
+
+.review-form .form-control:focus,
+.review-form textarea:focus {
+  box-shadow: 0 0 5px #28a745;
+  border-color: #28a745;
+  outline: none;
+}
+
+.review-form button[type="submit"] {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 110px;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-form button[type="submit"]:hover,
+.review-form button[type="submit"]:focus {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  box-shadow: 0 6px 14px rgba(0, 86, 179, 0.6);
+  outline: none;
+}
+
+/* Stars container */
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse; /* reverse order */
+  font-size: 2rem;
+  unicode-bidi: bidi-override;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #28a745;
+}
+
   .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
