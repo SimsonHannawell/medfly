@@ -1,6 +1,6 @@
 class BasketItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_pharmacy
+  # before_action :set_pharmacy
   before_action :set_basket_item, only: [:update, :destroy]
 
   def create
@@ -62,7 +62,7 @@ end
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to basket_path(@basket), notice: "Item removed" }
+      format.html { redirect_to basket_path(@basket), status: :see_other, notice: "Item removed" }
     end
   end
 
