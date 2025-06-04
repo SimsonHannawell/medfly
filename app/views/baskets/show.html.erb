@@ -192,6 +192,7 @@
 </div>
 
 <div class="sticky-order-btn">
-  <%= link_to "Place Order", confirm_order_path, class: "btn-primary" %>
+  <%= form_with url: basket_orders_path(@basket), method: :post, local: true do |f| %>
+    <%= f.submit "Place Order", class: "btn-primary" %>
+  <% end %>
 </div>
-

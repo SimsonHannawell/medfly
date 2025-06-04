@@ -7,7 +7,7 @@
   z-index: 1000;
   user-select: none;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  
+
   /* Change flex direction to row to line up logo and app name horizontally */
   display: flex;
   flex-direction: row;
@@ -34,7 +34,7 @@
 .app-name {
   position: absolute;
   left: 50%;
-  top: calc(50% + 5px);
+  top: calc(50%);
   transform: translate(calc(-50% - 20px), -50%);
   font-family: "Cookie", cursive;
   font-weight: 500;
