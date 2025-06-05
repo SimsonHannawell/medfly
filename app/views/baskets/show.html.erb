@@ -239,29 +239,30 @@
         <label>Name</label>
         <div class="value"><%= current_user.name %></div>
       </div>
-      <div>
-        <label>Email</label>
-        <div class="value"><%= current_user.email %></div>
-      </div>
+
       <div>
         <label>Address</label>
         <div class="value"><%= current_user.address %></div>
       </div>
 
-      <div class="mt-4"><h4>Card Details</h4></div>
       <div>
         <label>Card Number</label>
-        <div class="value"><% if current_user.card_number.present? %>
-            **** **** **** <%= current_user.card_number.last(4) %>
-          <% end %> </div>
+        <div class="value" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">
+          **** **** **** <%= current_user.card_number&.last(4) || "1234" %>
+        </div>
+      <div class="mb-3">
+      <label class="form-label fw-bold text-muted">Sort Code</label>
+      <div class="value text-truncate bg-light border rounded px-3 py-2" style="max-width: 100%; overflow: hidden; white-space: nowrap;">
+        <% if current_user.sort_code.present? %>
+          ****
+        <% else %>
+          <span class="text-muted">******</span>
+        <% end %>
       </div>
-      <div>
-        <label>Sort Code</label>
-        <div class="value"><%= current_user.sort_code %></div>
-      </div>
+</div>
       <div>
         <label>Expiry Date</label>
-        <div class="value"><%= current_user.expiry_date %></div>
+        <div class="value">12/25<%= current_user.expiry_date %></div>
       </div>
       <!-- Edit Button -->
     <div class="mt-3">
