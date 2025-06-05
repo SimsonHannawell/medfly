@@ -1,4 +1,4 @@
-<%= render "shared/bottom_navbar" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -57,12 +57,6 @@
         <% else %>
           <div class="profile-pic"></div>
           <label for="user_avatar" class="add-profile-pic">Add profile picture</label>
-        <% end %>
-
-        <% if flash[:notice] %>
-          <div class="alert alert-success"><%= flash[:notice] %></div>
-        <% elsif flash[:alert] %>
-          <div class="alert alert-danger"><%= flash[:alert] %></div>
         <% end %>
 
         <%= form_with(model: current_user, url: user_path(current_user), method: :patch, local: true, html: { multipart: true }) do |form| %>
