@@ -1,6 +1,5 @@
 class BasketItemsController < ApplicationController
   before_action :authenticate_user!
-  # before_action :set_pharmacy
   before_action :set_basket_item, only: [:update, :destroy]
 
   def create
@@ -35,7 +34,7 @@ class BasketItemsController < ApplicationController
       product_price(item)
     end
     if @basket_item.save
-      redirect_to basket_path(@basket), notice: "Item added to basket."
+      redirect_to pharmacy_path(@pharmacy), notice: "Item added to basket."
     else
       redirect_to pharmacy_path(@pharmacy), alert: "Failed to add item to basket."
     end
@@ -55,22 +54,20 @@ end
 
   def destroy
     @basket = @basket_item.basket
+    @pharmacy = @basket.pharmacy
     @basket_item.destroy
     @total_price = @basket.basket_items.sum do |item|
+      p item
       product_price(item)
     end
 
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream { redirect_to basket_path(@basket), status: :see_other, notice: "Item removed" }
       format.html { redirect_to basket_path(@basket), status: :see_other, notice: "Item removed" }
     end
   end
 
   private
-
-  def set_pharmacy
-    @pharmacy = Pharmacy.find(params[:pharmacy_id])
-  end
 
   def set_basket_item
     @basket_item = BasketItem.find(params[:id])

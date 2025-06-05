@@ -2,30 +2,29 @@ class BasketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_basket_item, only: [:update, :destroy]
 
-  def show
-    @basket = Basket.find(params[:id])
-    @pharmacy = @basket.pharmacy
-    @basket_items = @basket.basket_items
-    @order = Order.new
+def show
+  @basket = Basket.find(params[:id])
+  @pharmacy = @basket.pharmacy
+  @basket_items = @basket.basket_items
+  @order = Order.new
 
-    @total_price = @basket.basket_items.sum do |item|
-      product_price(item)
-    end
-
-    @delivery_price = 10
+  @total_price = @basket.basket_items.sum do |item|
+    product_price(item)
   end
 
-  def update
+  @delivery_price = 10
+  
+end
+
+
+def update
     if @basket_item.update(basket_item_params)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.replace("basket-item-#{@basket_item.id}", partial: "basket_items/item", locals: { item: @basket_item }) }
         format.html { redirect_to basket_path(current_user_active_basket), notice: "Quantity updated." }
       end
     else
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("basket-item-#{@basket_item.id}", partial: "basket_items/item", locals: { item: @basket_item }) }
-        format.html { redirect_to basket_path(current_user_active_basket), alert: "Failed to update item." }
-      end
+      redirect_to basket_path(current_user_active_basket), alert: "Failed to update item."
     end
   end
 
@@ -52,9 +51,9 @@ class BasketsController < ApplicationController
     order&.basket
   end
 
-  def product_price(item)
+   def product_price(item)
+
     @pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product)
     @pharmacy_product.price * item.quantity
   end
 end
-
