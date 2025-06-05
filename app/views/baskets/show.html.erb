@@ -1,5 +1,3 @@
-
-
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <style>
@@ -109,7 +107,8 @@
     }
     .user-details .value {
     display: block;       
-    width: 100%;          
+    width: 100%;
+    height: 45px;          
     max-width: 100%;      
     box-sizing: border-box; 
     background-color: #f3f4f6;
@@ -161,97 +160,157 @@
     .btn-primary:hover {
       background-color: #1d4ed8;
     }
+    .btn-theme-blue {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+    padding: 0.5rem 1.5rem;
+    border-radius: 12px;
+    color: white !important;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    min-width: 110px;
+    font-size: 1.2em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .value {
+  display: block;       
+  width: 100%;          
+  max-width: 100%;      
+  box-sizing: border-box; 
+  background-color: #f3f4f6;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 1em;
+  white-space: pre-wrap;
+  user-select: none;
+}
+
   </style>
 </head>
-
-
 <%= render "shared/bottom_navbar" %>
-  <div class="container">
-    <h1>Your Basket</h1>
 
-    <% if @basket_items.empty? %>
-      <p>Your basket is empty.</p>
-    <% else %>
-      <div class="basket-card">
-        <strong>Items in Basket:</strong>
+<div class="container">
+  <h1><%= current_user.name %>'s Basket</h1>
 
-        <% @basket_items.each do |item| %>
-          <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
-          <div class="item-card d-flex justify-content-between align-items-center">
-            <div>
-              <p><%= item.quantity %> x <%= item.product.name %></p>
-            </div>
-            <div class="d-flex align-items-center">
-              <p class="me-3">£<%= '%.2f' % ((pharmacy_product&.price || 0) * item.quantity) %></p>
-              <%= link_to "Delete", basket_item_path(item), data: { turbo_method: :delete, turbo_confirm: "Remove this item?" }, class: "delete-icon" %>
-            </div>
+  <% if @basket_items.empty? %>
+    <p>Your basket is empty.</p>
+  <% else %>
+    <div class="basket-card">
+      <strong>Items in Basket:</strong>
+
+      <% @basket_items.each do |item| %>
+        <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
+        <div class="item-card d-flex justify-content-between align-items-center">
+          <div>
+            <p><%= item.quantity %> x <%= item.product.name %></p>
           </div>
+          <div class="d-flex align-items-center">
+            <p class="me-3">£<%= '%.2f' % ((pharmacy_product&.price || 0) * item.quantity) %></p>
+            <%= link_to "Delete", basket_item_path(item), data: { turbo_method: :delete, turbo_confirm: "Remove this item?" }, class: "delete-icon" %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Price Summary -->
+      <div class="item-card d-flex justify-content-between">
+        <strong>Subtotal:</strong>
+        <strong>£<%= '%.2f' % (@total_price || 0) %></strong>
+      </div>
+
+      <div class="item-card d-flex justify-content-between">
+        <strong>Delivery:</strong>
+        <strong>£<%= '%.2f' % (@delivery_price || 0) %></strong>
+      </div>
+
+      <div class="item-card d-flex justify-content-between">
+        <strong>Total:</strong>
+        <strong>£<%= '%.2f' % ((@total_price || 0) + (@delivery_price || 0)) %></strong>
+      </div>
+    </div>
+
+    <h2>Your Profile</h2>
+    <div class="user-details">
+      <div>
+        <label>Name</label>
+        <div class="value"><%= current_user.name %></div>
+      </div>
+
+      <div>
+        <label>Address</label>
+        <div class="value"><%= current_user.address %></div>
+      </div>
+
+      <div>
+        <label>Card Number</label>
+        <div class="value" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">
+          **** **** **** <%= current_user.card_number&.last(4) || "1234" %>
+        </div>
+      <div class="mb-3">
+      <label class="form-label fw-bold text-muted">Sort Code</label>
+      <div class="value text-truncate bg-light border rounded px-3 py-2" style="max-width: 100%; overflow: hidden; white-space: nowrap;">
+        <% if current_user.sort_code.present? %>
+          ****
+        <% else %>
+          <span class="text-muted">******</span>
         <% end %>
+      </div>
+</div>
+      <div>
+        <label>Expiry Date</label>
+        <div class="value">12/25<%= current_user.expiry_date %></div>
+      </div>
+      <!-- Edit Button -->
+    <div class="mt-3">
+      <button type="button" class="btn btn-theme-blue" data-bs-toggle="modal" data-bs-target="#editUserCardModal">
+        Edit Details
+      </button>
+    </div>
+    </div>
 
-        <!-- Price Summary -->
-        <div class="item-card d-flex justify-content-between">
-          <strong>Subtotal:</strong>
-          <strong>£<%= '%.2f' % (@total_price || 0) %></strong>
-        </div>
+    
 
-        <div class="item-card d-flex justify-content-between">
-          <strong>Delivery:</strong>
-          <strong>£<%= '%.2f' % (@delivery_price || 0) %></strong>
-        </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editUserCardModal" tabindex="-1" aria-labelledby="editUserCardModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editUserCardModalLabel">Edit Your Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for current_user, url: user_registration_path, html: { method: :put } do |f| %>
+              <%= f.input :name %>
+              <%= f.input :email %>
+              <%= f.input :address %>
 
-        <div class="item-card d-flex justify-content-between">
-          <strong>Total:</strong>
-          <strong>£<%= '%.2f' % ((@total_price || 0) + (@delivery_price || 0)) %></strong>
+              <hr>
+              <h5>Card Details</h5>
+              <%= f.input :card_number, label: "Card Number" %>
+              <%= f.input :sort_code %>
+              <%= f.input :expiry_date, label: "Expiry Date (MM/YY)" %>
+
+              <div style="margin-top:12px;">
+                <%= f.button :submit, "Update", class: "btn btn-success btn-theme form-submit" %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
+    </div>
 
-     <h2>Your Details</h2>
-      <div class="user-details">
-        <div>
-          <label>Name</label>
-          <div class="value"><%= current_user.name %></div>
-        </div>
-        <div>
-          <label>Email</label>
-          <div class="value"><%= current_user.email %></div>
-        </div>
-        <div>
-          <label>Address</label>
-          <div class="value"><%= current_user.address %></div>
-        </div>
-      </div>
-
-      <h2>Card Details</h2>
-      <div class="user-details">
-        <div>
-          <label>Cardholder Name</label>
-          <div class="value"><%= @card&.cardholder_name.presence || "" %></div>
-        </div>
-        
-        <div>
-          <label>Card Number</label>
-          <div class="value"><%= @card ? ("**** **** **** " + @card.last4) : "" %></div>
-        </div>
-        
-        <div>
-          <label>Sort Code</label>
-          <div class="value"><%= @card&.sort_code || "" %></div>
-        </div>
-
-        <div>
-          <label>Expiry Date</label>
-          <div class="value"><%= @card&.expiry_date || "" %></div>
-        </div>
-      </div>
-
-    <% end %>
-  </div>
-
-  <div class="sticky-order-btn">
-    <%= simple_form_for [@basket, @order] do |f| %>
-      <%= f.submit "Place Order", class: "btn-primary" %>
-    <% end %>
-  </div>
+    <!-- Place Order -->
+    <div class="sticky-order-btn">
+      <%= simple_form_for [@basket, @order] do |f| %>
+        <%= f.submit "Place Order", class: "btn-primary" %>
+      <% end %>
+    </div>
+  <% end %> <!-- closes if @basket_items.empty? -->
+</div>
 
 <br>
 <br>
@@ -259,3 +318,4 @@
 <br>
 <br>
 <br>
+

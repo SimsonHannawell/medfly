@@ -7,18 +7,14 @@ class PharmaciesController < ApplicationController
   end
 
   def index
-      # Step 1: Start with all pharmacies or filter by location
-      if params[:search].present?
-        # Try to geocode the search term (e.g. a city name)
-        city_coords = Geocoder.search(params[:search]).first&.coordinates
+    # Step 1: Start with all pharmacies or filter by location
+    if params[:search].present?
+      # Try to geocode the search term (e.g. a city name)
+      city_coords = Geocoder.search(params[:search]).first&.coordinates
 
-        if city_coords
-          # Find pharmacies within 20 miles of the geocoded coordinates
-          @pharmacies = Pharmacy.near(city_coords, 20)
-        else
-          # Fallback: use text-based search on location
-          @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%")
-        end
+      if city_coords
+        # Find pharmacies within 50 miles of the geocoded coordinates
+        @pharmacies = Pharmacy.near(city_coords, 50)
       else
         @pharmacies = Pharmacy.all
       end

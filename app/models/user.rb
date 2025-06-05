@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
   has_many :payments
   has_many :favourites, dependent: :destroy
   has_many :orders, dependent: :destroy
@@ -12,15 +13,17 @@ class User < ApplicationRecord
   has_many :pharmacies, dependent: :destroy
 
   has_one :basket, through: :order
-  #new lines added below by simson
+
+  # new lines added below by simson
   has_one_attached :avatar
   belongs_to :payment, optional: true
-
   has_many :payments, dependent: :destroy
-###################################
+
+  # virtual attributes (these do NOT require db columns)
+  attr_accessor :cardholder_name, :card_number, :sort_code, :expiry_date
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :address, presence: true
-
 end
+
