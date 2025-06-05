@@ -9,7 +9,7 @@
     <span>Search</span>
   <% end %>
 
-  <%= link_to current_user ? current_user.baskets.last : '#', class: "nav-item" do %>
+  <%= link_to current_user.present? ? basket_path(Basket.last) : '#', class: "nav-item" do %>
     <i class="ph ph-shopping-cart ph-bold"></i>
     <span>Basket</span>
   <% end %>

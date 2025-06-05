@@ -1,4 +1,4 @@
-<%= render "shared/bottom_navbar" %>
+
 
 <div class="container py-5" style="background-color: #f0f8ff;"> <!-- AliceBlue -->
 
@@ -84,7 +84,7 @@
 </div>
 
 <a id="sticky-basket-icon"
-   href="/baskets/1"
+   href="<%= current_user.present? ? basket_path(Basket.last) : '#' %>"
    aria-label="View Basket"
    class="position-fixed shadow-lg"
    style="

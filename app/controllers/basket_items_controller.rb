@@ -34,7 +34,7 @@ class BasketItemsController < ApplicationController
       product_price(item)
     end
     if @basket_item.save
-      redirect_to pharmacy_path(@pharmacy), notice: "Item added to basket."
+      redirect_to pharmacy_path(@pharmacy), alert: "Item added to basket."
     else
       redirect_to pharmacy_path(@pharmacy), alert: "Failed to add item to basket."
     end
