@@ -33,6 +33,23 @@
       color: #444;
     }
 
+    .gif-container {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .gif-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .gif-container figcaption {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
     .section {
       margin-bottom: 1.25rem;
     }
@@ -52,11 +69,6 @@
     .item-card p {
       margin: 0.25rem 0;
       font-size: 0.95rem;
-    }
-
-    .small {
-      font-size: 0.85rem;
-      color: #666;
     }
 
     .footer {
@@ -88,6 +100,13 @@
       Thank you for your purchase! We’re happy to confirm that we've received your order.
     </p>
 
+    <!-- Drone delivery GIF -->
+<div class="gif-container" style="text-align: center; margin-bottom: 1.5rem;">
+  <img src="https://spectrum.ieee.org/media-library/image.gif?id=51730047&quality=85&width=1000" alt="Medical Drone Delivery" style="max-width: 100%; height: auto; border-radius: 12px;" />
+  <figcaption style="font-size: 0.85rem; color: #555; margin-top: 0.5rem;">Your medical order is en route via drone delivery!</figcaption>
+</div>
+
+
     <div class="section">
       <strong>Order Number:</strong> #<%= @order.id %>
       <strong>Order Date:</strong> <%= @order.created_at.strftime("%B %-d, %Y") %>
@@ -101,7 +120,7 @@
     <div class="section">
       <strong>Items Ordered:</strong>
       <% @order.basket.basket_items.includes(:product).each do |item| %>
-       <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
+        <% pharmacy_product = PharmacyProduct.find_by(pharmacy: @pharmacy, product: item.product) %>
         <div class="item-card d-flex justify-content-between">
           <div>
             <p><%= item.quantity %> x <%= item.product.name %></p>
@@ -121,8 +140,8 @@
       </div>
     </div>
 
-    <div class="section ">
-      <strong>Total Price: £<%=@total_price + 10%></strong>
+    <div class="section">
+      <strong>Total Price: £<%= @total_price + 10 %></strong>
     </div>
 
     <div class="section">
