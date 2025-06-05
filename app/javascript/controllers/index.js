@@ -9,5 +9,11 @@ eagerLoadControllersFrom("controllers", application)
 // application.register("modal", ModalController)
 
 // Register others if you want
-import HideHeaderController from "./hide_header_controller"
-application.register("hide-header", HideHeaderController)
+// import HideHeaderController from "./hide_header_controller"
+// application.register("hide-header", HideHeaderController)
+
+// import BasketController from "./basket_controller";
+// application.register("basket", BasketController)
+
+// import map from "./map_controller"
+// application.register("map", map)

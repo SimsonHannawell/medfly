@@ -54,7 +54,7 @@ puts "Creating pharmacies..."
 
 pharmacy1 = Pharmacy.create!(
   name: "London Pharmacy",
-  location: "789 King St, London",
+  location: "789 King St, London, W6 9JU ",
   description: "Your one-stop shop for all your pharmaceutical needs.",
   user: bob
 )
@@ -104,7 +104,7 @@ pharmacy5.images.attach(io: pharmacy5_image, filename: "pharmacy5.png", content_
 
 pharmacy6 = Pharmacy.create!(
   name: "Cohens Chemist",
-  location: "Liverpool, 30 Argyle St, Liverpool L1 5DL",
+  location: "30 Argyle St, Liverpool L1 5DL",
   description: "Your trusted pharmacy in Liverpool for all your health needs.",
   user: john
 )
