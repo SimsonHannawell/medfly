@@ -11,13 +11,16 @@ class PharmaciesController < ApplicationController
     if params[:search].present?
       # Try to geocode the search term (e.g. a city name)
       city_coords = Geocoder.search(params[:search]).first&.coordinates
-
       if city_coords
         # Find pharmacies within 50 miles of the geocoded coordinates
         @pharmacies = Pharmacy.near(city_coords, 50)
       else
-        @pharmacies = Pharmacy.all
+        # Fallback: use text-based search on location
+        @pharmacies = Pharmacy.where("location ILIKE ?", "%#{params[:search]}%")
       end
+    else
+      @pharmacies = Pharmacy.all
+    end
 
       # Step 2: Filter by associated product name (if any)
       if params[:product].present?
@@ -69,16 +72,16 @@ class PharmaciesController < ApplicationController
       @pharmacies = @pharmacies.distinct.to_a
 
     # Build markers for Mapbox
-    @markers = @pharmacies.map do |pharmacy|
-    {
-      lat: pharmacy.latitude,
-      lng: pharmacy.longitude,
-      name: pharmacy.name,
-      location: pharmacy.location,
-      reviews: pharmacy.reviews.count,
-      info_window_html: render_to_string(partial: "info_window", locals: {pharmacy: pharmacy}),
-      marker_html: render_to_string(partial: "marker", locals: {pharmacy: pharmacy})
-    }
+      @markers = @pharmacies.map do |pharmacy|
+      {
+        lat: pharmacy.latitude,
+        lng: pharmacy.longitude,
+        name: pharmacy.name,
+        location: pharmacy.location,
+        reviews: pharmacy.reviews.count,
+        info_window_html: render_to_string(partial: "info_window", locals: {pharmacy: pharmacy}),
+        marker_html: render_to_string(partial: "marker", locals: {pharmacy: pharmacy})
+      }
     end
   end
 
