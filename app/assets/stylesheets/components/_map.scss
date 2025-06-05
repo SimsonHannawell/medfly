@@ -1,0 +1,50 @@
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: left;
+  font-family: "Open Sans", sans-serif;
+  padding: 10px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.mapboxgl-popup-content h5 {
+  margin-bottom: 0.25rem;
+}
+
+.mapboxgl-popup-content .btn {
+  margin-top: 0.5rem;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: #555;
+  background-color: #f8f9fa;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.pharmacy-map {
+  width: 100vw;
+  height: 80vh; // Adjust this if needed, try 100vh for full screen height
+  max-height: 800px; // Optional cap for larger screens
+  border-radius: 12px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+// Optional: For small devices, ensure proper sizing
+@media (max-width: 600px) {
+  .pharmacy-map {
+    height: 85vh;
+  }
+}
+

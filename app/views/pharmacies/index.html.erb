@@ -9,78 +9,61 @@
   <% end %>
 </div>
 
-<!-- ✅ No pharmacies notice -->
-<% if @pharmacies.empty? %>
-  <p>No pharmacies found in this area. Please try another city.</p>
-<% else %>
+<!-- Nav Tabs -->
+<ul class="nav nav-tabs mt-3" id="pharmacyTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab" aria-controls="list" aria-selected="true">List</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab" aria-controls="map" aria-selected="false">Map</button>
+  </li>
+</ul>
 
-
-  <h1 class="page-title">Pharmacies Near You</h1>
-  <h2 class="results-count"><%= pluralize(@pharmacies.count, "Result") %></h2>
-
-
-  <div class="pharmacy-grid">
-    <% @pharmacies.each do |pharmacy| %>
-      <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
-        <%= link_to pharmacy_path(pharmacy), class: "pharmacy-link" do %>
-          <div class="card-image">
-            <%= cl_image_tag pharmacy.images.first.key, height: 220, width: 360, crop: :fill, class: "pharmacy-img" %>
-          </div>
-          <div class="pharmacy-details">
-            <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
-            <% if params[:search].present? %>
-              <span><%= pharmacy.distance.floor %> miles from you </span>
+<div class="tab-content" id="pharmacyTabsContent">
+  <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+    <% if @pharmacies.empty? %>
+      <p>No pharmacies found in this area. Please try another city.</p>
+    <% else %>
+      <h1 class="page-title">Pharmacies Near You</h1>
+      <h2 class="results-count"><%= pluralize(@pharmacies.count, "Result") %></h2>
+      <div class="pharmacy-grid">
+        <% @pharmacies.each do |pharmacy| %>
+          <div class="pharmacy-card" id="pharmacy-card-<%= pharmacy.id %>">
+            <%= link_to pharmacy_path(pharmacy), class: "pharmacy-link" do %>
+              <div class="card-image">
+                <%= cl_image_tag pharmacy.images.first.key, height: 220, width: 360, crop: :fill, class: "pharmacy-img" if pharmacy.images.any? %>
+              </div>
+              <div class="pharmacy-details">
+                <h3 class="pharmacy-name"><%= pharmacy.name %></h3>
+                <% if pharmacy.try(:distance) %>
+                  <span><%= pharmacy.distance.round(1) %> miles from you</span>
+                <% end %>
+                <div class="pharmacy-meta">
+                  <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
+                    <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
+                  </span>
+                  <span class="review-count" id="review-count-<%= pharmacy.id %>">
+                    (<%= pharmacy.reviews.count %> reviews)
+                  </span>
+                </div>
+                <p class="pharmacy-description">
+                  <%= pharmacy.description.truncate(90) %>
+                </p>
+              </div>
             <% end %>
-            <div class="pharmacy-meta">
-              <span class="pharmacy-rating" id="pharmacy-rating-<%= pharmacy.id %>">
-                <%= render 'shared/star_rating', rating: average_rating(pharmacy) %>
-              </span>
-              <span class="review-count" id="review-count-<%= pharmacy.id %>">
-                (<%= pharmacy.reviews.count %> reviews)
-              </span>
-            </div>
-            <p class="pharmacy-description">
-              <%= pharmacy.description.truncate(90) %>
-            </p>
           </div>
         <% end %>
       </div>
     <% end %>
   </div>
-<% end %>
 
-
-
-<!-- Modal JS -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Modal handling (already works)
-    document.querySelectorAll(".review-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        const pharmacyId = button.getAttribute("data-pharmacy-id");
-        document.getElementById(`review-modal-${pharmacyId}`).style.display = "flex";
-      });
-    });
-
-    document.querySelectorAll(".close").forEach(closeBtn => {
-      closeBtn.addEventListener("click", () => {
-        const pharmacyId = closeBtn.getAttribute("data-pharmacy-id");
-        document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
-      });
-    });
-
-    // Handle form submissions
-    document.querySelectorAll(".js-review-form").forEach(form => {
-      form.addEventListener("ajax:success", (event) => {
-        const pharmacyId = form.dataset.pharmacy_id;
-        document.getElementById(`review-modal-${pharmacyId}`).style.display = "none";
-        alert("Thank you! Your review was submitted.");
-        // Optional: Refresh ratings via AJAX
-      });
-
-      form.addEventListener("ajax:error", () => {
-        alert("Something went wrong while submitting your review.");
-      });
-    });
-  });
-</script>
+  <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+  <div
+    id="mapbox"
+    data-controller="map"
+    data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+    data-map-markers-value="<%= @markers.to_json %>"
+    class="pharmacy-map"
+  ></div>
+  </div>
+</div>

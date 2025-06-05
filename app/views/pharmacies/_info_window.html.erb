@@ -1,0 +1,14 @@
+<div class="popup-content">
+  <h5 class="mb-1"><%= pharmacy.name %></h5>
+  <p class="text-muted"><%= pharmacy.description %></p>
+
+  <% if pharmacy.images.any? %>
+    <%= cl_image_tag pharmacy.images.first.key, height: 100, width: 160, crop: :fill, class: "img-thumbnail mb-2" %>
+  <% end %>
+
+  <% if pharmacy.reviews.any? %>
+    <p><strong>Reviews:</strong> <%= pharmacy.reviews.first.description.truncate(60) %></p>
+  <% end %>
+
+  <%= link_to "View Pharmacy", pharmacy_path(pharmacy), class: "btn btn-primary btn-sm" %>
+</div>
