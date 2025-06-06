@@ -68,19 +68,37 @@
       <% end %>
     </div>
 
-    <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+<div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+  <div class="card shadow-sm w-100 d-flex flex-column">
+    <div class="card-body text-center flex-grow-1 d-flex flex-column">
       <% if @pharmacy.reviews.empty? %>
         <div class="alert alert-info text-center mt-4">
           No reviews yet. Be the first to leave a review!
         </div>
       <% else %>
         <% @pharmacy.reviews.each do |review| %>
-          <p><%= review.rating %> stars</p>
-          <p><%= review.description %></p>
+          <div class="card mb-3 shadow-sm border-0 bg-white">
+            <div class="card-body text-start">
+              <div class="d-flex align-items-center mb-2" dir="ltr">
+                <div class="star-rating me-2 d-flex flex-row">
+                  <% review.rating.to_i.times do %>
+                    <i class="bi bi-star-fill text-warning"></i>
+                  <% end %>
+                  <% (5 - review.rating.to_i).times do %>
+                    <i class="bi bi-star text-muted"></i>
+                  <% end %>
+                </div>
+                <span class="text-muted small ms-2">Rated <%= review.rating %>/5</span>
+              </div>
+              <p class="card-text"><%= review.description %></p>
+            </div>
+          </div>
         <% end %>
       <% end %>
     </div>
   </div>
+</div>
+
 </div>
 
 <a id="sticky-basket-icon"
@@ -135,6 +153,17 @@
 
 <!-- CSS -->
 <style>
+  .star-rating i {
+  font-size: 1.2rem;
+}
+.card-text {
+  font-size: 1rem;
+  color: #444;
+}
+.card {
+  border-radius: 1rem;
+}
+
   .btn-theme-blue {
   background: linear-gradient(135deg, #007bff, #0056b3);
   border: none;
