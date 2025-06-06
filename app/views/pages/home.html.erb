@@ -1,47 +1,43 @@
 <!-- Top Section: Logo + User Icon + Hero -->
 <div data-controller="hide-header">
   <!-- Wrap search bar and filter button in a Stimulus controller container -->
-   <div class="container mt-3" style="padding-top: 0;" data-controller="filter-toggle">
-  <!-- Column layout to stack slogan and search bar -->
-  <div class="d-flex flex-column align-items-center w-100">
+  <div class="container mt-3" style="padding-top: 0;" data-controller="filter-toggle">
+    <!-- Column layout to stack slogan and search bar -->
+    <div class="d-flex flex-column align-items-center w-100">
 
-    <!-- Slogan -->
-    <div class="slogan text-center mb-3" style="font-size: 1.1rem; font-weight: 500; color: #333;">
-      <p class="slogan">App for medicine drone delivery services</p>
-    </div>
-
-    <!-- Row layout for the search bar -->
-    <div class="d-flex align-items-center w-100">
-
-      <!-- Search bar -->
-      <div data-filter-toggle-target="searchBar" class="search-bar d-flex align-items-center w-100 my-1"" style="flex-grow: 1;">
-        <img src="https://www.iconpacks.net/icons/2/free-location-icon-2955-thumb.png" alt="Location" class="location-icon" />
-
-        <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form d-flex align-items-center w-100" } do %>
-          <%= text_field_tag :search, params[:search], placeholder: "Enter your location", class: "search-input flex-grow-1", style: "min-width: 0; font-size: 0.9rem; padding: 6px 10px; border-radius: 20px 0 0 20px;" %>
-          <%= submit_tag "Search", class: "search-btn", style: "font-size: 0.9rem; padding: 6px 12px; border-radius: 0 20px 20px 0;" %>
-        <% end %>
+      <!-- Slogan -->
+      <div class="slogan text-center mb-3" style="font-size: 1.1rem; font-weight: 500; color: #333;">
+        <p class="slogan">App for medicine drone delivery services</p>
       </div>
 
-      <!-- Filter button is removed -->
+      <!-- Row layout for the search bar -->
+      <div class="d-flex align-items-center w-100">
+
+        <!-- Search bar -->
+        <div data-filter-toggle-target="searchBar" class="search-bar d-flex align-items-center w-100 my-1" style="flex-grow: 1;">
+          <img src="https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200890/location_icon_cmoetr.png" alt="Location" class="location-icon" />
+
+          <%= form_with url: pharmacies_path, method: :get, local: true, html: { class: "search-form d-flex align-items-center w-100" } do %>
+            <%= text_field_tag :search, params[:search], placeholder: "Enter your location", class: "search-input flex-grow-1", style: "min-width: 0; font-size: 0.9rem; padding: 6px 10px; border-radius: 20px 0 0 20px;" %>
+            <%= submit_tag "Search", class: "search-btn", style: "font-size: 0.9rem; padding: 6px 12px; border-radius: 0 20px 20px 0;" %>
+          <% end %>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
-
-
-
 <!-- Carousel & Health Tips -->
-
 <div class="carousel-health-container flex-grow-1 d-flex flex-column justify-content-center" style="margin-top: 0.5rem;">
   <!-- Top Image Carousel -->
   <div id="droneCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="3000">
-        <%= image_tag "Picture1-medfly.png", class: "d-block w-100", alt: "Slide 1" %>
+        <%= image_tag "https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200690/grandma_q6pdre.png", class: "d-block w-100", alt: "Slide 1" %>
       </div>
       <div class="carousel-item" data-bs-interval="3000">
-        <%= image_tag "Picture2.jpg", class: "d-block w-100", alt: "Slide 2" %>
+        <%= image_tag "https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200525/Picture2_2_hroqwr.jpg", class: "d-block w-100", alt: "Slide 2" %>
       </div>
     </div>
 
@@ -55,27 +51,27 @@
     </button>
   </div>
 
- <section class="health-tips-section">
+  <!-- Health Tips Section -->
+  <section class="health-tips-section">
     <h2 class="tips-heading">Health Tips</h2>
     <div class="health-cards-container">
       <div class="health-card">
-        <div class="health-card-img" style="background-image: url('<%= asset_path("hydrated.jpg") %>');"></div>
+        <div class="health-card-img" style="background-image: url('https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200406/hydrated_xcj8wl.jpg');"></div>
         <div class="health-card-caption">Stay Hydrated</div>
         <p class="health-card-fact">Even mild dehydration can affect your mood, energy, and memory.</p>
       </div>
 
       <div class="health-card">
-        <div class="health-card-img" style="background-image: url('<%= asset_path("take_medications.png") %>');"></div>
+        <div class="health-card-img" style="background-image: url('https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200372/take-medication_ymour2.png');"></div>
         <div class="health-card-caption">Take Medications</div>
         <p class="health-card-fact">Taking medication consistently reduces the risk of complications by up to 50%.</p>
       </div>
 
       <div class="health-card">
-        <div class="health-card-img" style="background-image: url('<%= asset_path("regular_checkups.png") %>');"></div>
+        <div class="health-card-img" style="background-image: url('https://res.cloudinary.com/dzpmd1gw1/image/upload/v1749200788/regular_checkups_cwidbj.png');"></div>
         <div class="health-card-caption">Regular Checkups</div>
         <p class="health-card-fact">Annual checkups can catch health issues early, often before symptoms appear.</p>
       </div>
     </div>
   </section>
-
 </div>
